@@ -12,6 +12,14 @@ README is the branch-local record that the review follow-up was handled by
 confirming the repository is still in placeholder state instead of leaving the
 failed review signal undocumented.
 
+## Assigned Branch Outcome
+
+As of 2026-03-16, branch
+`codex/cotor/unblock-the-affected-work-or-satisfy-the-failed-review-signal-69cb393c/codex`
+is validated as a placeholder-only repository. The unblock action for this
+follow-up is to make that status explicit so downstream review and validation
+do not assume missing implementation was silently skipped.
+
 ## Validation
 
 Run:
