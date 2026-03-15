@@ -25,6 +25,7 @@ This isolated branch contains the minimal follow-up artifact for the review cycl
 
 - Assigned branch outcome: documented and ready for CEO review
 - Assigned issue status: satisfied by this repository handoff artifact for another CEO decision cycle
+- Validation status: targeted README marker check is the intended proof point for this isolated branch handoff
 - Validation intent: confirm this worktree contains a complete handoff artifact and an explicit residual-risk note
 - Validation checkpoint: this handoff is complete once the README markers for CEO handoff, decision request, and residual risk are present together in this branch
 - Handoff completion: CEO decision-cycle handoff prepared on 2026-03-16 in this isolated branch
