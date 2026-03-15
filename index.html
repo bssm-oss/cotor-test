@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test | Simple Launch Page</title>
+    <style>
+      :root {
+        --bg: #f6efe7;
+        --panel: rgba(255, 252, 247, 0.82);
+        --text: #1f1a17;
+        --muted: #6b5f57;
+        --accent: #d25f35;
+        --accent-strong: #a63f1c;
+        --border: rgba(31, 26, 23, 0.12);
+        --shadow: 0 24px 60px rgba(72, 42, 24, 0.14);
+        --radius-xl: 28px;
+        --radius-lg: 18px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Avenir Next", "Pretendard", "Noto Sans KR", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(210, 95, 53, 0.16), transparent 30%),
+          radial-gradient(circle at bottom right, rgba(99, 170, 145, 0.18), transparent 28%),
+          var(--bg);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        width: min(calc(100% - 32px), var(--max-width));
+        margin: 0 auto;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        gap: var(--space-6);
+        align-items: center;
+        padding: var(--space-6) 0 var(--space-8);
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-5) 0;
+      }
+
+      .brand {
+        font-size: 1rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 var(--space-4);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.55);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      h1 {
+        margin: 0 0 var(--space-5);
+        font-size: clamp(2.8rem, 7vw, 5.8rem);
+        line-height: 0.94;
+        letter-spacing: -0.05em;
+      }
+
+      .lead {
+        max-width: 38rem;
+        margin: 0 0 var(--space-6);
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        line-height: 1.7;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-weight: 700;
+        transition:
+          transform 180ms ease,
+          background-color 180ms ease,
+          border-color 180ms ease,
+          color 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(210, 95, 53, 0.28);
+        outline-offset: 3px;
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: #fff8f2;
+        box-shadow: 0 14px 32px rgba(210, 95, 53, 0.26);
+      }
+
+      .button-primary:hover {
+        background: var(--accent-strong);
+        transform: translateY(-1px);
+      }
+
+      .button-secondary {
+        border-color: var(--border);
+        background: rgba(255, 255, 255, 0.55);
+      }
+
+      .button-secondary:hover {
+        border-color: rgba(31, 26, 23, 0.25);
+        background: rgba(255, 255, 255, 0.82);
+      }
+
+      .card {
+        position: relative;
+        overflow: hidden;
+        padding: var(--space-6);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: var(--radius-xl);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: auto -15% -45% auto;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(210, 95, 53, 0.16), transparent 72%);
+      }
+
+      .eyebrow {
+        margin: 0 0 var(--space-3);
+        color: var(--accent-strong);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+      }
+
+      .card h2 {
+        margin: 0 0 var(--space-4);
+        font-size: 1.6rem;
+      }
+
+      .card p {
+        margin: 0 0 var(--space-5);
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-3);
+      }
+
+      .stat {
+        padding: var(--space-4);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(31, 26, 23, 0.08);
+      }
+
+      .stat strong {
+        display: block;
+        margin-bottom: var(--space-2);
+        font-size: 1.4rem;
+      }
+
+      .stat span {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .footer {
+        padding-bottom: var(--space-6);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 860px) {
+        .hero {
+          grid-template-columns: 1fr;
+          padding-top: var(--space-3);
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand">test</div>
+        <div class="pill">small, usable, ready for review</div>
+      </header>
+
+      <main class="hero">
+        <section>
+          <h1>아무 웹사이트나가 아니라, 바로 보여줄 수 있는 첫 화면.</h1>
+          <p class="lead">
+            이 저장소에는 제품 표면이 없어서 가장 작은 완성형 결과물로 단일 랜딩 페이지를 추가했습니다.
+            지금은 메시지, 분위기, 행동 유도를 한 번에 보여주는 시작점 역할을 합니다.
+          </p>
+          <div class="actions">
+            <a class="button button-primary" href="#launch-note">결과 보기</a>
+            <a class="button button-secondary" href="mailto:ceo@test.local">다음 결정 요청</a>
+          </div>
+        </section>
+
+        <aside class="card" id="launch-note">
+          <p class="eyebrow">Launch Snapshot</p>
+          <h2>CEO decision cycle용 최소 결과물</h2>
+          <p>
+            목표는 복잡한 기능 추가가 아니라, 비어 있던 리포지토리에 즉시 확인 가능한 웹 결과물을 남기는
+            것이었습니다. 이 파일 하나만으로 브라우저 미리보기와 후속 방향 결정이 가능합니다.
+          </p>
+          <div class="stats">
+            <div class="stat">
+              <strong>1 file</strong>
+              <span>초기 진입면 추가</span>
+            </div>
+            <div class="stat">
+              <strong>Responsive</strong>
+              <span>모바일과 데스크톱 대응</span>
+            </div>
+            <div class="stat">
+              <strong>CTA ready</strong>
+              <span>다음 결정 흐름 연결</span>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <footer class="footer">
+        Single-file landing page for the next CEO review cycle.
+      </footer>
+    </div>
+  </body>
+</html>
