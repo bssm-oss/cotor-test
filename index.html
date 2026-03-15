@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test | Simple Website Draft</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6efe3;
+        --surface: rgba(255, 250, 242, 0.82);
+        --text: #1f1a17;
+        --muted: #5a4f47;
+        --accent: #d86f45;
+        --accent-dark: #9f4623;
+        --line: rgba(31, 26, 23, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(216, 111, 69, 0.28), transparent 30%),
+          radial-gradient(circle at bottom right, rgba(159, 70, 35, 0.18), transparent 25%),
+          linear-gradient(135deg, #f8f2e8 0%, #efe4d2 100%);
+      }
+
+      main {
+        width: min(960px, calc(100% - 32px));
+        margin: 0 auto;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 48px 0;
+      }
+
+      .panel {
+        width: 100%;
+        padding: 40px;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: var(--surface);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 24px 80px rgba(56, 36, 23, 0.12);
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        font-size: 0.85rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent-dark);
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 10ch;
+        font-size: clamp(3rem, 9vw, 5.8rem);
+        line-height: 0.95;
+      }
+
+      p {
+        max-width: 48rem;
+        margin: 20px 0 0;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        transition: transform 160ms ease, background-color 160ms ease;
+      }
+
+      .primary {
+        color: #fffaf4;
+        background: var(--accent);
+      }
+
+      .secondary {
+        color: var(--text);
+        background: transparent;
+        border: 1px solid var(--line);
+      }
+
+      a:hover {
+        transform: translateY(-1px);
+      }
+
+      .status {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+        margin-top: 36px;
+      }
+
+      .status-card {
+        padding: 16px 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid var(--line);
+      }
+
+      .status-card strong,
+      .status-card span {
+        display: block;
+      }
+
+      .status-card strong {
+        font-size: 0.9rem;
+        color: var(--accent-dark);
+      }
+
+      .status-card span {
+        margin-top: 6px;
+      }
+
+      @media (max-width: 640px) {
+        .panel {
+          padding: 28px 22px;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="panel">
+        <p class="eyebrow">Test / CEO Review Draft</p>
+        <h1>Any website, now tangible.</h1>
+        <p>
+          This branch turns an empty worktree into a reviewable static website.
+          It is intentionally small: one file, responsive by default, and ready
+          for the next CEO decision cycle to choose a direction for content,
+          branding, and product scope.
+        </p>
+        <div class="actions">
+          <a class="primary" href="#status">Review current state</a>
+          <a class="secondary" href="mailto:ceo@example.com">Request next brief</a>
+        </div>
+        <div class="status" id="status">
+          <article class="status-card">
+            <strong>Scope</strong>
+            <span>Single-page static site</span>
+          </article>
+          <article class="status-card">
+            <strong>Purpose</strong>
+            <span>Provide a concrete first artifact</span>
+          </article>
+          <article class="status-card">
+            <strong>Next cycle</strong>
+            <span>Choose messaging and expansion path</span>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
