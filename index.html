@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orbit Note</title>
+    <style>
+      :root {
+        --bg: #f4efe7;
+        --surface: rgba(255, 255, 255, 0.78);
+        --surface-strong: #fffdf9;
+        --text: #172121;
+        --muted: #5c6b6b;
+        --accent: #d95d39;
+        --accent-strong: #bb4726;
+        --line: rgba(23, 33, 33, 0.12);
+        --shadow: 0 20px 60px rgba(23, 33, 33, 0.12);
+        --radius: 24px;
+        --radius-sm: 16px;
+        --max: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(217, 93, 57, 0.16), transparent 26%),
+          radial-gradient(circle at right center, rgba(26, 120, 117, 0.12), transparent 24%),
+          var(--bg);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        width: min(calc(100% - 32px), var(--max));
+        margin: 0 auto;
+        padding: 24px 0 48px;
+      }
+
+      .nav,
+      .hero,
+      .grid {
+        display: grid;
+        gap: 24px;
+      }
+
+      .nav {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        padding: 12px 0 32px;
+      }
+
+      .brand {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .nav a,
+      .cta {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cta {
+        padding: 0 18px;
+        border-radius: 999px;
+        background: var(--text);
+        color: #fff;
+        transition: transform 160ms ease, background 160ms ease;
+      }
+
+      .cta:hover,
+      .cta:focus-visible {
+        background: #000;
+        transform: translateY(-1px);
+      }
+
+      .hero {
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: stretch;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-copy {
+        padding: 40px;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(217, 93, 57, 0.12);
+        color: var(--accent-strong);
+        font-size: 0.92rem;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        margin-top: 18px;
+        font-size: clamp(2.8rem, 7vw, 5.8rem);
+        line-height: 0.94;
+        letter-spacing: -0.04em;
+      }
+
+      .hero-copy p {
+        margin-top: 20px;
+        max-width: 34rem;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.7;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .secondary {
+        min-height: 44px;
+        padding: 0 18px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface-strong);
+      }
+
+      .secondary:hover,
+      .secondary:focus-visible {
+        border-color: rgba(23, 33, 33, 0.3);
+      }
+
+      .hero-card {
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background:
+          linear-gradient(180deg, rgba(255, 253, 249, 0.98), rgba(255, 255, 255, 0.72)),
+          var(--surface);
+      }
+
+      .note {
+        padding: 16px;
+        border-radius: var(--radius-sm);
+        background: #fff;
+        border: 1px solid rgba(23, 33, 33, 0.08);
+      }
+
+      .note + .note {
+        margin-top: 12px;
+      }
+
+      .note strong,
+      .stat strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1rem;
+      }
+
+      .note span,
+      .stat span {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 24px;
+      }
+
+      .stat {
+        padding: 28px;
+      }
+
+      .stat-value {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--accent);
+        font-size: 2.4rem;
+        line-height: 1;
+      }
+
+      footer {
+        padding: 28px 4px 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid rgba(217, 93, 57, 0.35);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 860px) {
+        .hero,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy,
+        .hero-card,
+        .stat {
+          padding: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="nav">
+        <a class="brand" href="#top">Orbit Note</a>
+        <a class="cta" href="#features">살펴보기</a>
+      </header>
+
+      <section class="hero" id="top">
+        <article class="panel hero-copy">
+          <span class="eyebrow">작고 선명한 아이디어용 랜딩 페이지</span>
+          <h1>생각을 궤도에 올리는 가장 가벼운 시작점</h1>
+          <p>
+            Orbit Note는 빠르게 메모하고, 맥락을 붙이고, 중요한 흐름만 남기기 위한
+            가상의 노트 서비스입니다. 이 저장소에는 요청을 만족하는 최소 완성 웹사이트로
+            한 화면 랜딩 페이지를 담았습니다.
+          </p>
+          <div class="actions">
+            <a class="cta" href="#features">기능 보기</a>
+            <a class="secondary" href="#summary">한 줄 요약</a>
+          </div>
+        </article>
+
+        <aside class="panel hero-card" aria-label="서비스 미리보기">
+          <div>
+            <div class="note">
+              <strong>오늘의 캡처</strong>
+              <span>회의 중 떠오른 문장을 저장하고, 바로 다음 행동으로 이어집니다.</span>
+            </div>
+            <div class="note">
+              <strong>흐름 정리</strong>
+              <span>짧은 카드 구조로 핵심만 남겨 읽기 부담을 줄입니다.</span>
+            </div>
+          </div>
+          <div class="note">
+            <strong id="summary">한 줄 요약</strong>
+            <span>빈 저장소에서도 바로 열어볼 수 있는 정적 웹사이트 한 장.</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="grid" id="features">
+        <article class="panel stat">
+          <span class="stat-value">01</span>
+          <strong>즉시 실행</strong>
+          <span>빌드 도구 없이 `index.html`만으로 바로 브라우저에서 열립니다.</span>
+        </article>
+        <article class="panel stat">
+          <span class="stat-value">02</span>
+          <strong>반응형 구성</strong>
+          <span>좁은 화면에서는 한 열로 재배치되어 모바일에서도 읽을 수 있습니다.</span>
+        </article>
+        <article class="panel stat">
+          <span class="stat-value">03</span>
+          <strong>기본 접근성</strong>
+          <span>의미 있는 랜드마크, 충분한 클릭 영역, `focus-visible`을 포함합니다.</span>
+        </article>
+      </section>
+
+      <footer>Single-file demo site for the request: "아무 웹사이트하나만 만들어봐"</footer>
+    </main>
+  </body>
+</html>
