@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Atelier</title>
+    <style>
+      :root {
+        --bg: #f5efe4;
+        --surface: rgba(255, 251, 245, 0.82);
+        --surface-strong: #fffdf8;
+        --text: #1f2933;
+        --muted: #5b6470;
+        --accent: #c45c2f;
+        --accent-strong: #8b3919;
+        --line: rgba(31, 41, 51, 0.12);
+        --shadow: 0 18px 50px rgba(77, 52, 36, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 214, 177, 0.7), transparent 28%),
+          radial-gradient(circle at 85% 18%, rgba(209, 232, 218, 0.85), transparent 24%),
+          linear-gradient(180deg, #fcf8ef 0%, var(--bg) 100%);
+        font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid rgba(196, 92, 47, 0.35);
+        outline-offset: 3px;
+      }
+
+      .page-shell {
+        width: min(calc(100% - 32px), var(--max-width));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-5) 0;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #c45c2f, #efb15e);
+        color: #fffaf5;
+        box-shadow: var(--shadow);
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: var(--space-6);
+        align-items: center;
+        padding: var(--space-7) 0 var(--space-8);
+      }
+
+      .hero-copy {
+        padding: var(--space-6);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        backdrop-filter: blur(14px);
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: 6px var(--space-3);
+        border-radius: 999px;
+        background: rgba(196, 92, 47, 0.1);
+        color: var(--accent-strong);
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+        line-height: 1.05;
+      }
+
+      h1 {
+        margin-top: var(--space-5);
+        font-size: clamp(3rem, 6vw, 5.4rem);
+      }
+
+      .hero-copy p {
+        margin: var(--space-5) 0 0;
+        max-width: 42rem;
+        color: var(--muted);
+        font-size: 1.04rem;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .button {
+        min-width: 160px;
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fffdf8;
+      }
+
+      .button.primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.38);
+      }
+
+      .hero-card {
+        display: grid;
+        gap: var(--space-4);
+        padding: var(--space-6);
+        border-radius: var(--radius-lg);
+        background: var(--surface-strong);
+        border: 1px solid rgba(139, 57, 25, 0.12);
+        box-shadow: var(--shadow);
+      }
+
+      .stat {
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        background: linear-gradient(180deg, rgba(255, 244, 235, 0.9), rgba(255, 255, 255, 0.95));
+        border: 1px solid rgba(196, 92, 47, 0.12);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 2rem;
+        font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      }
+
+      .section {
+        padding-bottom: var(--space-8);
+      }
+
+      .section-header {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        margin-bottom: var(--space-6);
+      }
+
+      .section-header p {
+        margin: 0;
+        max-width: 40rem;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-5);
+      }
+
+      .panel {
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+        background: rgba(255, 253, 248, 0.9);
+        border: 1px solid var(--line);
+      }
+
+      .panel h3 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.1rem;
+      }
+
+      .panel p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .contact {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: var(--space-5);
+        align-items: center;
+        padding: var(--space-6);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, rgba(31, 41, 51, 0.96), rgba(75, 87, 102, 0.94));
+        color: #f8f2ea;
+        box-shadow: var(--shadow);
+      }
+
+      .contact p {
+        margin: var(--space-3) 0 0;
+        color: rgba(248, 242, 234, 0.72);
+      }
+
+      footer {
+        padding: 0 0 var(--space-6);
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .contact,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .hero {
+          padding-top: var(--space-5);
+        }
+
+        .hero-copy,
+        .hero-card,
+        .contact {
+          padding: var(--space-5);
+        }
+
+        .page-shell {
+          width: min(calc(100% - 24px), var(--max-width));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="topbar" role="banner">
+        <a class="brand" href="#top" aria-label="Test Atelier 홈">
+          <span class="brand-mark" aria-hidden="true">T</span>
+          <span>Test Atelier</span>
+        </a>
+        <div class="nav" role="navigation" aria-label="주요 섹션">
+          <a href="#story">소개</a>
+          <a href="#offers">강점</a>
+          <a href="#contact">문의</a>
+        </div>
+      </div>
+
+      <div id="top" role="main">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">Small site, complete result</span>
+            <h1>아무 웹사이트가 아니라, 바로 보여줄 수 있는 첫 화면.</h1>
+            <p>
+              Test Atelier는 아이디어를 가볍게 시작하되 결과물은 허술하지 않게 만드는
+              스튜디오 콘셉트의 단일 페이지 샘플입니다. 저장소가 비어 있는 상황에서도
+              즉시 열어보고 다음 의사결정을 할 수 있는 최소 완성형 결과를 목표로 했습니다.
+            </p>
+            <div class="cta-row">
+              <a class="button primary" href="#contact">시작 이야기하기</a>
+              <a class="button secondary" href="#offers">구성 보기</a>
+            </div>
+          </div>
+
+          <div class="hero-card" aria-label="핵심 수치">
+            <div class="stat">
+              <strong>1 page</strong>
+              <span>외부 의존성 없이 바로 열리는 정적 결과물</span>
+            </div>
+            <div class="stat">
+              <strong>Responsive</strong>
+              <span>모바일과 데스크톱에서 모두 읽히는 구조</span>
+            </div>
+            <div class="stat">
+              <strong>Accessible</strong>
+              <span>명확한 대비, 키보드 포커스, 48px CTA 타깃</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="story">
+          <div class="section-header">
+            <h2>왜 이 버전이 적절한가</h2>
+            <p>
+              이번 이슈의 목적은 큰 기능 개발이 아니라 CEO가 다음 사이클에서 판단할 수
+              있는 웹 표면을 남기는 것입니다. 그래서 프레임워크 도입 대신, 즉시 배포 또는
+              공유 가능한 HTML 한 장으로 범위를 고정했습니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="section" id="offers">
+          <div class="section-header">
+            <h2>이 페이지에 담은 최소 완성 요건</h2>
+            <p>
+              감도 있는 비주얼, 명확한 메시지, 행동 유도, 반응형 레이아웃, 접근성 기본기를
+              한 번에 담아 다음 리뷰에서 방향성 평가가 가능하도록 구성했습니다.
+            </p>
+          </div>
+          <div class="grid">
+            <div class="panel">
+              <h3>명확한 메시지</h3>
+              <p>첫 문장에서 지금 만든 결과물이 무엇인지와 왜 필요한지를 바로 설명합니다.</p>
+            </div>
+            <div class="panel">
+              <h3>즉시 상호작용</h3>
+              <p>주요 CTA 두 개를 노출해 탐색과 문의 행동이 자연스럽게 이어지도록 했습니다.</p>
+            </div>
+            <div class="panel">
+              <h3>다음 결정 지원</h3>
+              <p>향후 CEO가 브랜드, 제품 방향, 카피 톤을 평가하기 쉬운 구조로 남겨뒀습니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="contact">
+          <div class="contact">
+            <div>
+              <h2>다음 사이클에서 확장할 준비가 된 베이스</h2>
+              <p>
+                필요하면 여기서 브랜드 맞춤 카피, 실제 연락 채널, 사례 섹션, 폼 또는
+                프레임워크 기반 앱으로 이어서 확장할 수 있습니다.
+              </p>
+            </div>
+            <a class="button primary" href="mailto:hello@testatelier.local">hello@testatelier.local</a>
+          </div>
+        </div>
+      </div>
+
+      <div role="contentinfo">
+        Built as a minimal decision-ready website artifact for the next CEO review cycle.
+      </div>
+    </div>
+  </body>
+</html>
