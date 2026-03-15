@@ -16,6 +16,8 @@ failed review signal undocumented.
 
 Review status for this branch: unblocked by documentation.
 
+Implementation status: no backend code exists in this repository snapshot.
+
 There is no omitted implementation to restore on this branch because the
 repository snapshot contains only this placeholder artifact. The actionable fix
 for the failed review signal is to make the absence of application code explicit
@@ -26,6 +28,9 @@ Trigger issue: `Review completed implementation work`
 
 Disposition: no backend implementation exists in this repository snapshot, so
 the follow-up is satisfied by recording that fact directly in-repo.
+
+Validation evidence: `./validate-placeholder-repo.sh` verifies the tracked file
+inventory and the review-resolution statements in this README.
 
 ## Assigned Branch Outcome
 
