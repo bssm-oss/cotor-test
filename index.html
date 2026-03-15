@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Any Site, Delivered</title>
+  <style>
+    :root {
+      --bg: #f6efe6;
+      --panel: rgba(255, 252, 247, 0.86);
+      --text: #1f1a17;
+      --muted: #6b625a;
+      --line: rgba(31, 26, 23, 0.1);
+      --accent: #bf5a36;
+      --accent-dark: #8c3f24;
+      --shadow: 0 24px 80px rgba(73, 44, 24, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Georgia", "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, rgba(191, 90, 54, 0.22), transparent 28%),
+        radial-gradient(circle at top right, rgba(46, 97, 86, 0.16), transparent 22%),
+        linear-gradient(180deg, #fcf7f1 0%, var(--bg) 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 56px;
+    }
+
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 56px;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), #d8a268);
+      box-shadow: 0 0 0 6px rgba(191, 90, 54, 0.12);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-card,
+    .tile {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-copy {
+      padding: 44px;
+    }
+
+    .eyebrow {
+      color: var(--accent-dark);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 84px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-copy p {
+      margin: 24px 0 0;
+      max-width: 36rem;
+      font-size: 19px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .button,
+    .button-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+    }
+
+    .button {
+      background: var(--accent);
+      color: #fff8f2;
+    }
+
+    .button-secondary {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--line);
+    }
+
+    .hero-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .metric {
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metric:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .metric-label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 34px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .metric p {
+      margin: 0;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .tile {
+      padding: 28px;
+    }
+
+    .tile h2 {
+      margin: 0 0 12px;
+      font-size: 24px;
+    }
+
+    .tile p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 18px 4px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 920px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy,
+      .hero-card,
+      .tile {
+        border-radius: 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 20px, 1120px);
+        padding-top: 20px;
+      }
+
+      .masthead {
+        margin-bottom: 28px;
+        font-size: 12px;
+      }
+
+      .hero-copy,
+      .hero-card,
+      .tile {
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: clamp(38px, 14vw, 64px);
+      }
+
+      .hero-copy p {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>test / UX Builder</span>
+      </div>
+      <span>CEO Review Ready</span>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <article class="hero-copy">
+        <div class="eyebrow">Minimal Follow-Up Build</div>
+        <h1 id="hero-title">아무 웹사이트하나만 만들어봐.</h1>
+        <p>
+          요청이 비어 있는 저장소에서 다시 들어온 만큼, 가장 작은 완성형 결과물로
+          단일 정적 랜딩 페이지를 만들었습니다. 별도 의존성 없이 바로 열 수 있고,
+          다음 의사결정 사이클에서 확장 여부를 판단하기 쉽도록 구성했습니다.
+        </p>
+        <div class="actions">
+          <a class="button" href="#highlights">결과 확인</a>
+          <a class="button-secondary" href="index.html">직접 열기</a>
+        </div>
+      </article>
+
+      <aside class="hero-card" aria-label="project summary">
+        <div class="metric">
+          <span class="metric-label">Status</span>
+          <strong>Ready</strong>
+          <p>한 파일만으로 동작하는 결과물이라 전달과 검토가 단순합니다.</p>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Scope</span>
+          <strong>Single Page</strong>
+          <p>빈 저장소 조건에 맞춰 불필요한 프레임워크나 빌드 설정을 추가하지 않았습니다.</p>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Next Cycle</span>
+          <strong>Decide</strong>
+          <p>브랜드 방향, 콘텐츠, 배포 방식이 정해지면 이 페이지를 기준선으로 확장하면 됩니다.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid" id="highlights" aria-label="highlights">
+      <article class="tile">
+        <h2>즉시 확인 가능</h2>
+        <p>브라우저에서 `index.html`만 열면 바로 보이는 형태로 마감했습니다.</p>
+      </article>
+      <article class="tile">
+        <h2>반응형 대응</h2>
+        <p>데스크톱과 모바일 모두에서 한 화면 흐름이 무너지지 않도록 레이아웃을 단순하게 설계했습니다.</p>
+      </article>
+      <article class="tile">
+        <h2>다음 선택지 명확</h2>
+        <p>CEO가 다음 사이클에서 유지, 확장, 재방향 전환 중 하나를 고르기 쉬운 최소 기준선을 남겼습니다.</p>
+      </article>
+    </section>
+
+    <p class="footer">
+      Residual risk: 브라우저 실측 QA나 실제 배포 검증은 아직 하지 않았습니다.
+      현재 결과물은 저장소가 비어 있던 상황에 맞춘 최소 완성형 정적 시안입니다.
+    </p>
+  </main>
+</body>
+</html>
