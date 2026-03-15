@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test | Quick Launch Page</title>
+  <style>
+    :root {
+      --bg: #f5efe4;
+      --surface: rgba(255, 252, 246, 0.88);
+      --surface-strong: #fffdf8;
+      --ink: #182230;
+      --muted: #556070;
+      --line: rgba(24, 34, 48, 0.12);
+      --accent: #c44c2d;
+      --accent-strong: #9c371d;
+      --accent-soft: rgba(196, 76, 45, 0.12);
+      --success: #18794e;
+      --shadow: 0 20px 48px rgba(45, 33, 18, 0.12);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --max-width: 1120px;
+      --font-display: "Georgia", "Times New Roman", serif;
+      --font-body: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      --transition: 180ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: var(--font-body);
+      background:
+        radial-gradient(circle at top left, rgba(196, 76, 45, 0.22), transparent 28%),
+        radial-gradient(circle at right 20%, rgba(24, 121, 78, 0.12), transparent 24%),
+        linear-gradient(180deg, #fcf7ee 0%, var(--bg) 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 0 auto;
+      padding: var(--space-5) 0 var(--space-8);
+    }
+
+    .nav,
+    .hero,
+    .panel,
+    .footer {
+      backdrop-filter: blur(18px);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .nav {
+      margin-top: var(--space-5);
+      padding: var(--space-4) var(--space-5);
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      font-size: 0.95rem;
+      transition: color var(--transition);
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+    }
+
+    .hero {
+      margin-top: var(--space-6);
+      border-radius: var(--radius-lg);
+      padding: clamp(28px, 4vw, 56px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr);
+      gap: var(--space-6);
+      align-items: stretch;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      margin: var(--space-4) 0;
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-copy p,
+    .decision-copy p,
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1.04rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-5);
+    }
+
+    .button,
+    .button-secondary {
+      min-height: 44px;
+      padding: 0 20px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      transition:
+        transform var(--transition),
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition);
+    }
+
+    .button {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--accent-strong);
+    }
+
+    .button-secondary {
+      border: 1px solid var(--line);
+      background: var(--surface-strong);
+      color: var(--ink);
+    }
+
+    .button-secondary:hover {
+      transform: translateY(-1px);
+      border-color: rgba(24, 34, 48, 0.24);
+    }
+
+    .button:focus-visible,
+    .button-secondary:focus-visible,
+    .nav-link:focus-visible {
+      outline: 3px solid rgba(196, 76, 45, 0.28);
+      outline-offset: 3px;
+    }
+
+    .hero-card {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      border-radius: var(--radius-md);
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+    }
+
+    .stat {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat strong {
+      font-size: 2.4rem;
+      font-family: var(--font-display);
+      letter-spacing: -0.04em;
+    }
+
+    .stat span,
+    .hero-card small {
+      color: var(--muted);
+    }
+
+    .grid {
+      margin-top: var(--space-6);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .panel,
+    .footer {
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+    }
+
+    .feature-card {
+      display: grid;
+      gap: var(--space-3);
+      align-content: start;
+    }
+
+    .feature-card strong {
+      font-size: 1.2rem;
+    }
+
+    .feature-index {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      font-weight: 800;
+    }
+
+    .decision {
+      margin-top: var(--space-6);
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: var(--space-4);
+    }
+
+    .decision-card {
+      border-radius: var(--radius-md);
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+      padding: var(--space-5);
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .decision-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .decision-list li {
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .decision-list li::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      margin-top: 0.55em;
+      flex: none;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    .footer {
+      margin-top: var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .decision,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav,
+      .footer {
+        border-radius: 28px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max-width));
+        padding-bottom: var(--space-7);
+      }
+
+      .nav {
+        padding: var(--space-4);
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero,
+      .panel,
+      .footer {
+        padding: var(--space-4);
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 13vw, 4rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="nav" aria-label="상단 탐색">
+      <a class="brand" href="#">
+        <span class="brand-mark">t</span>
+        <span>test</span>
+      </a>
+      <a class="nav-link" href="#decision">다음 의사결정 보기</a>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="eyebrow">한 장으로 끝내는 첫 인상</span>
+        <h1 id="hero-title">아무 웹사이트가 아니라, 바로 판단할 수 있는 시작점.</h1>
+        <p>
+          이 페이지는 비어 있던 저장소에 바로 열어볼 수 있는 최소 랜딩 화면을 추가한 결과물입니다.
+          메시지, 시각 톤, 다음 액션을 한 번에 보여주도록 구성해 CEO의 다음 결정 사이클로 넘길 수 있게 만들었습니다.
+        </p>
+        <div class="cta-row">
+          <a class="button" href="#overview">구성 확인</a>
+          <a class="button-secondary" href="#decision">다음 액션 보기</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="요약 카드">
+        <div class="stat">
+          <span>추가된 산출물</span>
+          <strong>1 page</strong>
+        </div>
+        <div class="stat">
+          <span>의도</span>
+          <strong>Fast review</strong>
+        </div>
+        <small>정적 HTML 한 파일로 구성해 별도 빌드 없이 즉시 확인 가능합니다.</small>
+      </aside>
+    </section>
+
+    <section id="overview" class="grid" aria-label="핵심 구성">
+      <article class="panel feature-card">
+        <span class="feature-index">01</span>
+        <strong>즉시 열리는 제품 표면</strong>
+        <p>프레임워크나 번들러 없이 `index.html`만으로 바로 실행할 수 있어 검토 마찰이 낮습니다.</p>
+      </article>
+      <article class="panel feature-card">
+        <span class="feature-index">02</span>
+        <strong>토큰 기반 스타일</strong>
+        <p>색상, 간격, 반경, 모션을 변수로 정의해 다음 사이클에서 확장하거나 리브랜딩하기 쉽습니다.</p>
+      </article>
+      <article class="panel feature-card">
+        <span class="feature-index">03</span>
+        <strong>의사결정 중심 카피</strong>
+        <p>첫 화면에서 무엇이 만들어졌고 다음에 무엇을 정하면 되는지 바로 읽히도록 문구를 압축했습니다.</p>
+      </article>
+    </section>
+
+    <section id="decision" class="decision" aria-labelledby="decision-title">
+      <article class="panel decision-copy">
+        <span class="eyebrow">CEO Decision Cycle</span>
+        <h2 id="decision-title">다음 사이클에서 고를 수 있는 세 가지</h2>
+        <p>
+          현재 결과물은 "아무 웹사이트 하나" 요구를 충족하는 가장 작은 완성형입니다.
+          다음 리뷰에서는 이 톤을 유지할지, 콘텐츠를 구체화할지, 또는 실제 제품/브랜드 방향으로 갈지 판단하면 됩니다.
+        </p>
+      </article>
+      <aside class="decision-card" aria-label="다음 액션 목록">
+        <ul class="decision-list">
+          <li>이 시안을 기본 골격으로 유지하고 실제 회사 소개 문구를 채운다.</li>
+          <li>색상과 타이포를 브랜드 방향에 맞게 재정의한다.</li>
+          <li>정적 페이지를 넘어 실제 제품 구조나 CTA 흐름을 추가한다.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <span>Branch scope: minimal static launch page</span>
+      <span>Validation target: local HTTP render</span>
+    </footer>
+  </main>
+</body>
+</html>
