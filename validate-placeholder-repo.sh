@@ -2,12 +2,12 @@
 
 set -eu
 
-root_files="$(find . -maxdepth 1 -type f ! -name '.DS_Store' ! -name '.git' -print | sed 's#^\./##' | sort)"
+tracked_files="$(git ls-files | sort)"
 
-if [ "$root_files" != "README.md
+if [ "$tracked_files" != "README.md
 validate-placeholder-repo.sh" ]; then
-  echo "Unexpected repository root files:"
-  printf '%s\n' "$root_files"
+  echo "Unexpected tracked repository files:"
+  printf '%s\n' "$tracked_files"
   exit 1
 fi
 
