@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>아무 웹사이트</title>
+    <style>
+      :root {
+        --bg: #f7efe3;
+        --surface: rgba(255, 250, 244, 0.82);
+        --surface-strong: #fffaf4;
+        --text: #1f1308;
+        --muted: #6d5846;
+        --line: rgba(31, 19, 8, 0.12);
+        --accent: #c84c24;
+        --accent-strong: #8f3114;
+        --shadow: 0 22px 50px rgba(69, 33, 11, 0.14);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Iowan Old Style", "Apple SD Gothic Neo", "Noto Serif KR",
+          serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 34%),
+          linear-gradient(135deg, #ead4bc, var(--bg) 55%, #f4e7d8);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 4px;
+      }
+
+      .shell {
+        width: min(1100px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: var(--space-6) 0 var(--space-8);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.3fr 0.9fr;
+        gap: var(--space-5);
+        align-items: stretch;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        backdrop-filter: blur(14px);
+        box-shadow: var(--shadow);
+      }
+
+      .intro {
+        padding: var(--space-7);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 var(--space-4);
+        border-radius: 999px;
+        background: rgba(200, 76, 36, 0.1);
+        color: var(--accent-strong);
+        font-size: 0.95rem;
+        letter-spacing: 0.03em;
+      }
+
+      h1 {
+        margin: var(--space-5) 0 var(--space-4);
+        font-size: clamp(3rem, 7vw, 5.6rem);
+        line-height: 0.95;
+      }
+
+      .lead {
+        max-width: 34rem;
+        margin: 0 0 var(--space-6);
+        font-size: 1.15rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 160px;
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        transition: transform 160ms ease, background 160ms ease,
+          border-color 160ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      .status {
+        padding: var(--space-6);
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .status-card {
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+      }
+
+      .status-card strong {
+        display: block;
+        font-size: 2rem;
+        margin-top: var(--space-2);
+      }
+
+      .section {
+        margin-top: var(--space-5);
+        padding: var(--space-6);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .card {
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.56);
+        border: 1px solid var(--line);
+      }
+
+      .card h2,
+      .section h2 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.35rem;
+      }
+
+      .card p,
+      .section p,
+      li {
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 1.2rem;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .intro,
+        .status,
+        .section {
+          padding: var(--space-5);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <article class="panel intro">
+          <span class="eyebrow">test · UX Builder handoff</span>
+          <h1>아무 웹사이트</h1>
+          <p class="lead">
+            비어 있던 저장소에 즉시 열어볼 수 있는 단일 페이지 웹사이트를 추가했습니다.
+            다음 CEO 사이클에서는 이 초안을 유지할지, 제품 방향에 맞게 확장할지 결정하면 됩니다.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#next-step">다음 판단 보기</a>
+            <a class="button secondary" href="#what-shipped">이번 변경 보기</a>
+          </div>
+        </article>
+
+        <aside class="panel status">
+          <div class="status-card">
+            현재 상태
+            <strong>Ready</strong>
+          </div>
+          <div class="status-card">
+            산출물
+            <strong>Single-page site</strong>
+          </div>
+          <div class="status-card">
+            리스크
+            <strong>콘텐츠 방향 미확정</strong>
+          </div>
+        </aside>
+      </section>
+
+      <section class="panel section" id="what-shipped">
+        <h2>이번 변경</h2>
+        <div class="grid">
+          <article class="card">
+            <h2>즉시 실행 가능</h2>
+            <p>
+              별도 빌드 없이 브라우저에서 바로 열 수 있는 정적 페이지입니다.
+            </p>
+          </article>
+          <article class="card">
+            <h2>기본 UX 정리</h2>
+            <p>
+              반응형 레이아웃, 명확한 시각 계층, 키보드 포커스 스타일을 포함했습니다.
+            </p>
+          </article>
+          <article class="card">
+            <h2>다음 사이클 준비</h2>
+            <p>
+              현재 목적은 방향 결정을 위한 초안 확보이며, 이후 콘텐츠와 기능을 붙이면 됩니다.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel section" id="next-step">
+        <h2>CEO가 다음에 결정할 항목</h2>
+        <ul>
+          <li>이 페이지를 실제 제품 랜딩 페이지로 확장할지</li>
+          <li>브랜드 메시지와 실제 CTA를 넣을지</li>
+          <li>정적 HTML 유지 또는 프레임워크 도입이 필요한지</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
