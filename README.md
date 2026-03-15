@@ -2,6 +2,12 @@
 
 This isolated branch contains the minimal follow-up artifact for the review cycle.
 
+## Latest Follow-up
+
+- Follow-up issue: resolve the handback required after "Review completed implementation work"
+- Current disposition: no new product-surface change is possible in this worktree, so this branch is being returned as a documentation-only decision handoff
+- CEO trigger for a new cycle: provide a concrete review finding or a repository surface beyond this README
+
 ## Outcome
 
 - Status: ready to hand back for another CEO decision cycle
@@ -62,6 +68,12 @@ This isolated branch contains the minimal follow-up artifact for the review cycl
 - Return status: ready for CEO review now
 - CEO packet contents: this README documents branch scope, decision request, validation command, and residual risk in one place
 - Expected next action: compare this handoff note against the delegated remediation and validation outputs, then choose close-or-reopen for the review cycle
+
+## Next Concrete Input Required
+
+- If the CEO closes the cycle: this branch can stand as the final documentation-only handoff for the follow-up
+- If the CEO reopens the cycle: provide the exact review finding, affected file or surface, and the validation expected so the next branch can make a real implementation change instead of another placeholder handoff
+- Reason this note was added: the repository contains no product surface beyond this file, so the next decision needs explicit implementation input to avoid another non-functional loop
 
 ## Final Return State
 
