@@ -12,6 +12,10 @@ Review follow-up:
 
 The failed review signal is satisfied by making the branch state explicit, keeping the change scoped to this repository, and providing a deterministic validation command for the only tracked artifact.
 
+Validation status:
+
+As of 2026-03-16, the branch can only be validated through repository state checks because there is no checked-out application code, test suite, or runnable service in this worktree.
+
 Residual risk:
 
 There is still no product code in this repository, so future implementation work will require adding actual source files before any behavior beyond this placeholder can be validated.
