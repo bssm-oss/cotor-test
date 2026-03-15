@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test | Quiet Momentum</title>
+    <style>
+      :root {
+        --bg: #f6efe4;
+        --panel: rgba(255, 252, 247, 0.74);
+        --text: #1f1a17;
+        --muted: #5f554d;
+        --accent: #cb5f3f;
+        --accent-strong: #a74427;
+        --line: rgba(31, 26, 23, 0.12);
+        --shadow: 0 20px 60px rgba(78, 45, 33, 0.14);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-6: 1.5rem;
+        --space-8: 2rem;
+        --space-12: 3rem;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 30%),
+          radial-gradient(circle at bottom right, rgba(203, 95, 63, 0.24), transparent 25%),
+          linear-gradient(135deg, #f4ead8, var(--bg));
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: var(--space-8) 0 var(--space-12);
+      }
+
+      .hero {
+        display: grid;
+        gap: var(--space-8);
+        align-items: center;
+        grid-template-columns: 1.2fr 0.8fr;
+        padding: clamp(2rem, 5vw, 4rem);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: 0.45rem 0.8rem;
+        border: 1px solid rgba(203, 95, 63, 0.25);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.6);
+        color: var(--accent-strong);
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: var(--space-6) 0 var(--space-4);
+        font-size: clamp(3rem, 9vw, 5.4rem);
+        line-height: 0.92;
+        letter-spacing: -0.05em;
+      }
+
+      .lead {
+        max-width: 34rem;
+        margin: 0 0 var(--space-8);
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 10rem;
+        min-height: 3rem;
+        padding: 0.85rem 1.2rem;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(203, 95, 63, 0.35);
+        outline-offset: 3px;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fff8f2;
+      }
+
+      .button.primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.56);
+      }
+
+      .stats {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .card {
+        padding: var(--space-6);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.54);
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: var(--space-2);
+        font-size: 2.2rem;
+        line-height: 1;
+      }
+
+      .card span {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .footnote {
+        margin-top: var(--space-6);
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 860px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .page {
+          width: min(100% - 1rem, 36rem);
+          padding-top: var(--space-4);
+        }
+
+        .hero {
+          padding: 1.4rem;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <div class="eyebrow">test studio</div>
+          <h1>작게 만들고, 빠르게 선명해집니다.</h1>
+          <p class="lead">
+            test는 복잡한 계획 대신 작은 실행을 쌓아가는 팀을 위한 실험 공간입니다.
+            오늘 바로 열어볼 수 있는 한 페이지 웹사이트로, 속도와 분위기를 함께 보여줍니다.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="mailto:hello@test.local">바로 시작하기</a>
+            <a class="button secondary" href="#signals">이번 주 신호 보기</a>
+          </div>
+          <p class="footnote">Single-file landing page. No build step required.</p>
+        </div>
+
+        <div class="stats" id="signals" aria-label="핵심 지표">
+          <article class="card">
+            <strong>01</strong>
+            <span>아이디어를 문서보다 먼저 화면으로 올려 빠르게 반응을 확인합니다.</span>
+          </article>
+          <article class="card">
+            <strong>72h</strong>
+            <span>가벼운 시도는 3일 안에 결과를 보고 다음 움직임을 결정합니다.</span>
+          </article>
+          <article class="card">
+            <strong>Lean</strong>
+            <span>정적인 HTML 한 파일만으로도 전달력 있는 첫 인상을 만들 수 있습니다.</span>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
