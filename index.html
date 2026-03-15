@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Any Website</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --surface: rgba(255, 255, 255, 0.78);
+        --surface-strong: #fffdf8;
+        --text: #1f2933;
+        --muted: #52606d;
+        --accent: #c2410c;
+        --accent-soft: #ffedd5;
+        --line: rgba(31, 41, 51, 0.12);
+        --shadow: 0 24px 60px rgba(31, 41, 51, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 20px;
+        --space-6: 24px;
+        --space-8: 32px;
+        --space-10: 40px;
+        --space-12: 48px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(194, 65, 12, 0.16), transparent 28%),
+          radial-gradient(circle at right center, rgba(14, 116, 144, 0.14), transparent 24%),
+          linear-gradient(180deg, #f9f5ee 0%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: var(--space-8) 0 var(--space-12);
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(32px, 6vw, 72px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, rgba(255, 253, 248, 0.95), rgba(255, 255, 255, 0.66));
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -80px -80px auto;
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        background: rgba(194, 65, 12, 0.12);
+        filter: blur(8px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-4);
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        max-width: 10ch;
+        margin: var(--space-5) 0 var(--space-4);
+        font-size: clamp(2.7rem, 7vw, 5.5rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      .lede {
+        max-width: 52ch;
+        margin: 0 0 var(--space-8);
+        color: var(--muted);
+        font-size: clamp(1.05rem, 2.1vw, 1.2rem);
+        line-height: 1.65;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 14px 18px;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(194, 65, 12, 0.28);
+        outline-offset: 3px;
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.76);
+      }
+
+      .grid {
+        display: grid;
+        gap: var(--space-5);
+        margin-top: var(--space-8);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .card {
+        padding: var(--space-6);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface);
+        box-shadow: 0 12px 30px rgba(31, 41, 51, 0.06);
+      }
+
+      .card h2 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.15rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-top: var(--space-8);
+        padding: 0 var(--space-2);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .footer {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="eyebrow">Small, complete, and ready to review</div>
+        <h1 id="hero-title">아무 웹사이트 하나.</h1>
+        <p class="lede">
+          비어 있던 저장소에 바로 확인할 수 있는 단일 페이지 랜딩을 추가했습니다.
+          한 파일만으로 동작하고, 모바일에서도 무너지지 않도록 반응형 레이아웃과
+          접근 가능한 버튼 상태를 포함했습니다.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#details">결과 보기</a>
+          <a class="button secondary" href="mailto:ceo@test.local">다음 결정 요청</a>
+        </div>
+      </section>
+
+      <section id="details" class="grid" aria-label="Landing page details">
+        <article class="card">
+          <h2>Immediate Surface</h2>
+          <p>앱 구조가 없어서 가장 작은 정적 진입점인 <code>index.html</code> 하나로 결과물을 만들었습니다.</p>
+        </article>
+        <article class="card">
+          <h2>Usable By Default</h2>
+          <p>추가 빌드 없이 브라우저에서 바로 열 수 있고, 색상 대비와 포커스 표시를 넣어 기본 사용성을 확보했습니다.</p>
+        </article>
+        <article class="card">
+          <h2>CEO Decision Ready</h2>
+          <p>후속 사이클에서는 이 단일 페이지를 유지할지, 실제 제품 방향에 맞춰 확장할지 바로 판단할 수 있습니다.</p>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <span>Deliverable: one-file static website</span>
+        <span>Branch outcome: ready for the next CEO review cycle</span>
+      </footer>
+    </main>
+  </body>
+</html>
