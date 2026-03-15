@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test | Simple Launch Page</title>
+    <style>
+      :root {
+        --bg: #f3efe6;
+        --surface: rgba(255, 252, 246, 0.82);
+        --surface-strong: #fffaf0;
+        --text: #1f1a17;
+        --muted: #5d544c;
+        --accent: #bf4b2c;
+        --accent-strong: #923012;
+        --line: rgba(31, 26, 23, 0.12);
+        --shadow: 0 24px 60px rgba(81, 49, 27, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+        --max-width: 1100px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(191, 75, 44, 0.18), transparent 28%),
+          radial-gradient(circle at 85% 20%, rgba(215, 176, 104, 0.24), transparent 22%),
+          linear-gradient(180deg, #f7f2e9 0%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(100% - 32px, var(--max-width));
+        margin: 0 auto;
+        padding: var(--space-6) 0 var(--space-8);
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: var(--space-8);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -60px -80px auto;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: rgba(191, 75, 44, 0.12);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-3);
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.5);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      h1 {
+        max-width: 11ch;
+        margin: var(--space-5) 0 var(--space-4);
+        font-size: clamp(2.8rem, 8vw, 5.8rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+      }
+
+      .lead {
+        max-width: 42rem;
+        margin: 0 0 var(--space-6);
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        line-height: 1.7;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-bottom: var(--space-7);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 164px;
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border: 1px solid transparent;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .button:focus-visible,
+      .card-link:focus-visible {
+        outline: 3px solid rgba(191, 75, 44, 0.35);
+        outline-offset: 3px;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .button-primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button-secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.56);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .stat {
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--line);
+        background: var(--surface-strong);
+      }
+
+      .stat strong {
+        display: block;
+        margin-bottom: var(--space-2);
+        font-size: 1.8rem;
+      }
+
+      .stat span {
+        color: var(--muted);
+      }
+
+      .section {
+        padding: var(--space-7) 0 0;
+      }
+
+      .section-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-bottom: var(--space-5);
+      }
+
+      .section-header h2 {
+        margin: 0;
+        font-size: clamp(1.6rem, 4vw, 2.6rem);
+      }
+
+      .section-header p {
+        max-width: 34rem;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .card-link {
+        display: block;
+        padding: var(--space-5);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: rgba(255, 250, 240, 0.8);
+        text-decoration: none;
+      }
+
+      .card-link h3 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.2rem;
+      }
+
+      .card-link p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      footer {
+        padding: var(--space-7) 0 var(--space-4);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 860px) {
+        .hero {
+          padding: var(--space-6);
+        }
+
+        .stats,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .page {
+          width: min(100% - 20px, var(--max-width));
+          padding-top: var(--space-4);
+        }
+
+        .hero {
+          padding: var(--space-5);
+        }
+
+        h1 {
+          max-width: none;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="eyebrow">test company · quick website prototype</div>
+        <h1>One page, fully usable.</h1>
+        <p class="lead">
+          This is a small launch-style website added as the minimal end-to-end result for the
+          follow-up cycle. It gives the repository an actual product surface with a clear headline,
+          actions, and a simple feature summary.
+        </p>
+        <div class="actions">
+          <a class="button button-primary" href="#highlights">See highlights</a>
+          <a class="button button-secondary" href="mailto:hello@example.com">Contact prototype</a>
+        </div>
+        <div class="stats" aria-label="Prototype summary">
+          <div class="stat">
+            <strong>1</strong>
+            <span>self-contained HTML file</span>
+          </div>
+          <div class="stat">
+            <strong>3</strong>
+            <span>clear product highlights</span>
+          </div>
+          <div class="stat">
+            <strong>100%</strong>
+            <span>static and easy to review</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="highlights">
+        <div class="section-header">
+          <h2>What this follow-up delivers</h2>
+          <p>
+            A clean placeholder website is now present in the branch, giving the CEO something
+            concrete to review before deciding whether the next cycle should deepen branding,
+            content, or product structure.
+          </p>
+        </div>
+        <div class="grid">
+          <a class="card-link" href="#highlights">
+            <h3>Fast to open</h3>
+            <p>No build step, framework, or dependency is required. Open the file directly.</p>
+          </a>
+          <a class="card-link" href="#highlights">
+            <h3>Responsive layout</h3>
+            <p>The page collapses cleanly from desktop to mobile without losing hierarchy.</p>
+          </a>
+          <a class="card-link" href="mailto:hello@example.com">
+            <h3>Decision-ready</h3>
+            <p>The result is small, reviewable, and scoped for another CEO decision cycle.</p>
+          </a>
+        </div>
+      </section>
+    </main>
+    <footer class="page">Prepared in the isolated worktree for the next review cycle.</footer>
+  </body>
+</html>
