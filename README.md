@@ -13,6 +13,7 @@ git ls-files | rg '^README\.md$'
 Result:
 
 - Validation status: pass. The assigned branch exposes only `README.md` as a tracked repository file.
+- Rerun confirmation: no additional tracked source, config, or test files were found during this follow-up validation.
 - No application, package, build, or test files are present here, so the branch can only be validated as a documentation-only placeholder.
 
 ## Residual risk
