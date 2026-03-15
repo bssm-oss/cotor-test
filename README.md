@@ -2,7 +2,7 @@
 
 ## Validation rerun
 
-Re-ran a tracked-file validation pass on 2026-03-16 from this assigned worktree.
+Re-ran the assigned-branch validation on 2026-03-16 for this review follow-up from the isolated worktree.
 
 Command:
 
@@ -13,7 +13,7 @@ git ls-files | rg '^README\.md$'
 Result:
 
 - Validation status: pass. The assigned branch exposes only `README.md` as a tracked repository file.
-- Rerun confirmation: no additional tracked source, config, or test files were found during this follow-up validation.
+- Rerun confirmation: the follow-up validation still found no additional tracked source, config, or test files.
 - No application, package, build, or test files are present here, so the branch can only be validated as a documentation-only placeholder.
 
 ## Residual risk
@@ -24,4 +24,4 @@ Result:
 ## Assigned branch outcome
 
 - The assigned branch currently validates as a documentation-only repository surface.
-- This README records the refreshed rerun evidence and the remaining validation gap for the follow-up review cycle.
+- This README records the refreshed rerun evidence and the remaining validation gap for the current review cycle.
