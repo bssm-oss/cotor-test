@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signal Studio</title>
+    <style>
+      :root {
+        --bg: #f3efe6;
+        --surface: rgba(255, 255, 255, 0.78);
+        --surface-strong: #fffdf8;
+        --text: #1e1d1a;
+        --muted: #575245;
+        --accent: #0d9488;
+        --accent-strong: #0f766e;
+        --accent-soft: rgba(13, 148, 136, 0.14);
+        --border: rgba(30, 29, 26, 0.12);
+        --shadow: 0 24px 60px rgba(33, 29, 18, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 32%),
+          linear-gradient(135deg, #ece6d8 0%, #f8f4ea 45%, #e2f2ed 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(calc(100% - 32px), var(--max-width));
+        margin: 0 auto;
+        padding: var(--space-5) 0 var(--space-8);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-bottom: var(--space-7);
+      }
+
+      .brand {
+        font-size: 1rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 var(--space-4);
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.56);
+        font-size: 0.95rem;
+        text-decoration: none;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+        gap: var(--space-6);
+        align-items: center;
+      }
+
+      .hero-copy h1 {
+        margin: 0 0 var(--space-5);
+        font-size: clamp(3rem, 8vw, 6.4rem);
+        line-height: 0.96;
+        letter-spacing: -0.05em;
+      }
+
+      .hero-copy p {
+        max-width: 35rem;
+        margin: 0 0 var(--space-6);
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.75;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 144px;
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 0.98rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .button:focus-visible,
+      .pill:focus-visible {
+        outline: 3px solid rgba(15, 118, 110, 0.3);
+        outline-offset: 3px;
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: white;
+      }
+
+      .button-primary:hover {
+        background: var(--accent-strong);
+        transform: translateY(-1px);
+      }
+
+      .button-secondary {
+        border-color: var(--border);
+        background: rgba(255, 255, 255, 0.62);
+      }
+
+      .button-secondary:hover {
+        background: rgba(255, 255, 255, 0.92);
+        transform: translateY(-1px);
+      }
+
+      .panel {
+        position: relative;
+        overflow: hidden;
+        padding: var(--space-6);
+        border: 1px solid rgba(255, 255, 255, 0.72);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(180deg, rgba(255, 253, 248, 0.92), rgba(255, 255, 255, 0.72));
+        box-shadow: var(--shadow);
+      }
+
+      .panel::after {
+        content: "";
+        position: absolute;
+        inset: auto -40px -40px auto;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: var(--accent-soft);
+      }
+
+      .panel h2,
+      .panel p,
+      .stats,
+      .note {
+        position: relative;
+        z-index: 1;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        min-height: 40px;
+        margin-bottom: var(--space-4);
+        padding: 0 var(--space-4);
+        border-radius: 999px;
+        background: var(--accent-soft);
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--accent-strong);
+      }
+
+      .panel h2 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.8rem;
+      }
+
+      .panel p,
+      .note,
+      .stat-label {
+        margin: 0;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-3);
+        margin: var(--space-6) 0;
+      }
+
+      .stat {
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(30, 29, 26, 0.08);
+      }
+
+      .stat-value {
+        display: block;
+        margin-bottom: var(--space-2);
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .section {
+        margin-top: var(--space-8);
+      }
+
+      .section-heading {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--space-4);
+        align-items: end;
+        margin-bottom: var(--space-5);
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.1rem);
+        letter-spacing: -0.04em;
+      }
+
+      .section-heading p {
+        max-width: 32rem;
+        margin: 0;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .card {
+        min-height: 100%;
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 18px 40px rgba(31, 28, 18, 0.08);
+      }
+
+      .card h3 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.35rem;
+      }
+
+      .card p {
+        margin: 0;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-top: var(--space-8);
+        padding-top: var(--space-5);
+        border-top: 1px solid var(--border);
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        color: var(--muted);
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .grid,
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy h1 {
+          max-width: 10ch;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          width: min(calc(100% - 24px), var(--max-width));
+          padding-top: var(--space-4);
+        }
+
+        .topbar {
+          margin-bottom: var(--space-6);
+        }
+
+        .panel,
+        .card {
+          padding: var(--space-5);
+        }
+
+        .actions,
+        .footer {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .button,
+        .pill {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="brand">Signal Studio</div>
+        <a class="pill" href="#highlights">빠르게 살펴보기</a>
+      </header>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title">작게 시작해도 인상은 크게 남기는 웹사이트.</h1>
+          <p>
+            빈 저장소에서도 바로 확인할 수 있는 단일 페이지 샘플입니다. 선명한 메시지,
+            읽기 쉬운 구조, 모바일 대응까지 한 번에 담아 CEO가 다음 판단을 내릴 수
+            있는 최소 완성본으로 정리했습니다.
+          </p>
+          <div class="actions">
+            <a class="button button-primary" href="#contact">결과 보기</a>
+            <a class="button button-secondary" href="#highlights">구성 확인</a>
+          </div>
+        </div>
+
+        <aside class="panel" aria-label="사이트 요약">
+          <div class="eyebrow">Single-file Demo</div>
+          <h2>정적 파일 하나로 바로 열리는 랜딩 페이지</h2>
+          <p>
+            별도 빌드 도구 없이 브라우저에서 곧바로 열 수 있고, 이후 프레임워크로
+            옮기더라도 구조와 톤을 그대로 재사용할 수 있게 만들었습니다.
+          </p>
+
+          <div class="stats" role="list" aria-label="핵심 지표">
+            <div class="stat" role="listitem">
+              <span class="stat-value">1</span>
+              <span class="stat-label">HTML 파일</span>
+            </div>
+            <div class="stat" role="listitem">
+              <span class="stat-value">100%</span>
+              <span class="stat-label">반응형 레이아웃</span>
+            </div>
+            <div class="stat" role="listitem">
+              <span class="stat-value">AA</span>
+              <span class="stat-label">접근성 기본선</span>
+            </div>
+          </div>
+
+          <p class="note">다음 사이클에서는 실제 브랜드 문구나 전환 흐름만 얹으면 됩니다.</p>
+        </aside>
+      </section>
+
+      <section class="section" id="highlights" aria-labelledby="highlights-title">
+        <div class="section-heading">
+          <h2 id="highlights-title">이번 브랜치에서 넘길 수 있는 결과</h2>
+          <p>
+            빈 리포지토리 상태를 고려해 가장 작은 범위로 끝냈습니다. 그래도 바로
+            열어보고 방향을 판단할 수 있도록 핵심 UX 요소는 빠뜨리지 않았습니다.
+          </p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <h3>명확한 첫 화면</h3>
+            <p>
+              헤드라인, 설명, 2개 액션 버튼으로 구성해 웹사이트의 목적이 첫 스크린에서
+              바로 드러나도록 했습니다.
+            </p>
+          </article>
+          <article class="card">
+            <h3>일관된 시각 시스템</h3>
+            <p>
+              색상, 간격, 반경, 그림자를 CSS 토큰으로 정의해 이후 확장 시에도 스타일이
+              흔들리지 않도록 만들었습니다.
+            </p>
+          </article>
+          <article class="card" id="contact">
+            <h3>즉시 검토 가능</h3>
+            <p>
+              `index.html`만 열면 결과가 보입니다. 추가 의사결정은 브랜드 방향과 실제
+              콘텐츠 수준에서만 진행하면 됩니다.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>Built for the next CEO decision cycle.</span>
+        <span>File: <strong>index.html</strong></span>
+      </footer>
+    </main>
+  </body>
+</html>
