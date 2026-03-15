@@ -12,6 +12,7 @@ This isolated branch contains the minimal follow-up artifact for the review cycl
 ## CEO Next Decision
 
 - Recommended next step: review delegated remediation and validation outputs from the parallel issues, then decide whether to close the cycle or open a concrete implementation task
+- Decision input date: 2026-03-16
 
 ## Residual Risk
 
