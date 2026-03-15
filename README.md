@@ -37,10 +37,11 @@ do not assume missing implementation was silently skipped.
 
 ## Repository Inventory
 
-The tracked file inventory for this branch currently contains only:
+The tracked file inventory for this branch currently contains:
 
 ```text
 README.md
+validate-placeholder-repo.sh
 ```
 
 ## Validation
@@ -48,7 +49,7 @@ README.md
 Run:
 
 ```sh
-test "$(git ls-files)" = "README.md" && grep -q "placeholder-only repository" README.md
+./validate-placeholder-repo.sh
 ```
 
 Expected result: the command exits successfully.
