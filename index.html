@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Small Orbit</title>
+    <style>
+      :root {
+        --bg: #f4efe7;
+        --surface: rgba(255, 252, 246, 0.82);
+        --surface-strong: #fffaf2;
+        --text: #1f1a16;
+        --muted: #66584b;
+        --line: rgba(31, 26, 22, 0.12);
+        --accent: #c55c32;
+        --accent-strong: #9f451f;
+        --shadow: 0 24px 60px rgba(73, 44, 24, 0.14);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top left, rgba(197, 92, 50, 0.24), transparent 28%),
+          radial-gradient(circle at right 18%, rgba(95, 141, 125, 0.18), transparent 22%),
+          linear-gradient(180deg, #f8f1e7 0%, var(--bg) 60%, #efe7dc 100%);
+        color: var(--text);
+        font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        width: min(calc(100% - 32px), var(--max-width));
+        margin: 0 auto;
+      }
+
+      .hero {
+        padding: var(--space-6) 0 var(--space-8);
+      }
+
+      .frame {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(28px, 4vw, 56px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+      }
+
+      .frame::after {
+        content: "";
+        position: absolute;
+        inset: auto -80px -110px auto;
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        background: rgba(197, 92, 50, 0.1);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        min-height: 40px;
+        padding: 0 var(--space-4);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.5);
+        color: var(--muted);
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+      }
+
+      h1 {
+        margin: var(--space-5) 0 var(--space-4);
+        max-width: 10ch;
+        font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+        font-size: clamp(3rem, 7vw, 6.2rem);
+        line-height: 0.95;
+      }
+
+      .lead {
+        max-width: 38rem;
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(1.05rem, 1.8vw, 1.22rem);
+        line-height: 1.7;
+      }
+
+      .hero-grid {
+        display: grid;
+        gap: var(--space-6);
+        align-items: end;
+        margin-top: var(--space-6);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .button,
+      .secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 148px;
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease;
+      }
+
+      .button {
+        background: var(--accent);
+        color: #fff8f3;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+        background: var(--accent-strong);
+      }
+
+      .secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.52);
+      }
+
+      .secondary:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .button:focus-visible,
+      .secondary:focus-visible {
+        outline: 3px solid rgba(197, 92, 50, 0.34);
+        outline-offset: 3px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .stat {
+        padding: var(--space-5);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface-strong);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 2rem;
+        line-height: 1;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: var(--space-2);
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .note {
+        margin-top: var(--space-6);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (min-width: 860px) {
+        .hero-grid {
+          grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+        }
+      }
+
+      @media (max-width: 720px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: var(--space-5);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="hero">
+      <div class="shell">
+        <section class="frame" aria-labelledby="hero-title">
+          <span class="eyebrow">Small Orbit · tiny web launch</span>
+          <div class="hero-grid">
+            <div>
+              <h1 id="hero-title">작아도 바로 열리는 웹사이트.</h1>
+              <p class="lead">
+                이 저장소에는 이제 브라우저에서 즉시 확인할 수 있는 단일 페이지가 있습니다.
+                별도 빌드 없이 열리며, 간단한 소개·지표·행동 버튼까지 포함한 최소 완성형 랜딩입니다.
+              </p>
+              <div class="actions">
+                <a class="button" href="mailto:hello@smallorbit.site">이메일 보내기</a>
+                <a class="secondary" href="#signals">핵심 지표 보기</a>
+              </div>
+            </div>
+
+            <div class="stats" id="signals" aria-label="핵심 지표">
+              <article class="stat">
+                <strong>1 file</strong>
+                <span>저장소에 바로 추가한 가장 작은 웹 진입점</span>
+              </article>
+              <article class="stat">
+                <strong>0 build</strong>
+                <span>정적 HTML이라 설치나 번들링 없이 바로 실행 가능</span>
+              </article>
+              <article class="stat">
+                <strong>100%</strong>
+                <span>모바일과 데스크톱에서 모두 읽히는 반응형 레이아웃</span>
+              </article>
+            </div>
+          </div>
+          <p class="note">파일을 그대로 열거나 간단한 정적 서버로 제공하면 됩니다.</p>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
