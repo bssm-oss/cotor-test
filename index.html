@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test | Simple Website</title>
+    <style>
+      :root {
+        --bg: #f6efe5;
+        --panel: rgba(255, 255, 255, 0.82);
+        --text: #1f2937;
+        --muted: #5b6470;
+        --accent: #d97706;
+        --accent-strong: #9a3412;
+        --border: rgba(31, 41, 55, 0.12);
+        --shadow: 0 24px 60px rgba(88, 54, 24, 0.14);
+        --radius: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+          Palatino, serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(217, 119, 6, 0.18), transparent 28%),
+          radial-gradient(circle at bottom right, rgba(154, 52, 18, 0.14), transparent 32%),
+          linear-gradient(135deg, #f9f4ed 0%, var(--bg) 100%);
+      }
+
+      main {
+        width: min(960px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 64px 0;
+      }
+
+      .card {
+        padding: 48px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--panel);
+        backdrop-filter: blur(16px);
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent-strong);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        line-height: 0.94;
+      }
+
+      .lede {
+        max-width: 38rem;
+        margin: 20px 0 0;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 28px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 148px;
+        min-height: 48px;
+        padding: 0 18px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-weight: 700;
+        transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(217, 119, 6, 0.35);
+        outline-offset: 3px;
+      }
+
+      .button.primary {
+        color: #fff;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+        box-shadow: 0 12px 24px rgba(154, 52, 18, 0.22);
+      }
+
+      .button.secondary {
+        color: var(--text);
+        border-color: var(--border);
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 36px;
+      }
+
+      .feature {
+        padding: 20px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--border);
+      }
+
+      .feature h2 {
+        margin: 0 0 8px;
+        font-size: 1.1rem;
+      }
+
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      @media (max-width: 760px) {
+        main {
+          padding: 24px 0;
+        }
+
+        .card {
+          padding: 28px 22px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="card" aria-labelledby="hero-title">
+        <p class="eyebrow">Small, complete, usable</p>
+        <h1 id="hero-title">아무 웹사이트나가 아니라, 바로 열어볼 수 있는 한 페이지.</h1>
+        <p class="lede">
+          This branch now contains a simple standalone website for <strong>test</strong>.
+          It needs no build step, works as a plain static file, and gives the repository a
+          concrete product surface instead of staying empty.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="mailto:hello@example.com">Contact</a>
+          <a class="button secondary" href="#features">See Features</a>
+        </div>
+
+        <div class="grid" id="features">
+          <article class="feature">
+            <h2>Single File</h2>
+            <p>Everything lives in one HTML document, which keeps this follow-up minimal and reviewable.</p>
+          </article>
+          <article class="feature">
+            <h2>Responsive</h2>
+            <p>The layout collapses cleanly for smaller screens without any framework dependency.</p>
+          </article>
+          <article class="feature">
+            <h2>Accessible</h2>
+            <p>Semantic sections, focus-visible controls, and readable contrast are in place by default.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
