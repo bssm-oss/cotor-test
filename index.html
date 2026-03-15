@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test | Small Website</title>
+    <style>
+      :root {
+        --color-bg: #f6f1e8;
+        --color-surface: rgba(255, 255, 255, 0.72);
+        --color-surface-strong: #fffdf8;
+        --color-text: #1d1a17;
+        --color-muted: #655d55;
+        --color-accent: #c8643b;
+        --color-accent-strong: #a74f2c;
+        --color-border: rgba(29, 26, 23, 0.12);
+        --shadow-soft: 0 20px 60px rgba(63, 40, 24, 0.08);
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+        --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+        --font-body: "Avenir Next", "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: var(--font-body);
+        color: var(--color-text);
+        background:
+          radial-gradient(circle at top, rgba(200, 100, 59, 0.18), transparent 32%),
+          linear-gradient(180deg, #fbf7ef 0%, var(--color-bg) 58%, #efe4d4 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible {
+        outline: 3px solid rgba(200, 100, 59, 0.45);
+        outline-offset: 4px;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: var(--space-6) 0 var(--space-8);
+      }
+
+      .hero {
+        display: grid;
+        gap: var(--space-6);
+        align-items: center;
+        padding: var(--space-7);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, rgba(255, 253, 248, 0.94), rgba(255, 255, 255, 0.62));
+        box-shadow: var(--shadow-soft);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 var(--space-4);
+        border-radius: 999px;
+        background: rgba(200, 100, 59, 0.12);
+        color: var(--color-accent-strong);
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-weight: 700;
+        line-height: 1.04;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 5vw, 5.5rem);
+        max-width: 12ch;
+      }
+
+      h2 {
+        font-size: clamp(2rem, 3vw, 2.8rem);
+      }
+
+      p {
+        margin: 0;
+        color: var(--color-muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: var(--space-5);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 156px;
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: var(--color-accent);
+        color: #fff;
+      }
+
+      .button-primary:hover {
+        background: var(--color-accent-strong);
+      }
+
+      .button-secondary {
+        border-color: var(--color-border);
+        background: rgba(255, 255, 255, 0.44);
+      }
+
+      .button-secondary:hover {
+        background: rgba(255, 255, 255, 0.74);
+      }
+
+      .hero-card {
+        padding: var(--space-5);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background: var(--color-surface);
+        backdrop-filter: blur(8px);
+      }
+
+      .hero-card strong {
+        display: block;
+        margin-bottom: var(--space-3);
+        font-size: 1.1rem;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+        margin-top: var(--space-4);
+      }
+
+      .stat {
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        background: var(--color-surface-strong);
+        border: 1px solid var(--color-border);
+      }
+
+      .stat-value {
+        display: block;
+        margin-bottom: var(--space-2);
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--color-accent-strong);
+      }
+
+      .section {
+        margin-top: var(--space-7);
+        display: grid;
+        gap: var(--space-5);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .card {
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .card h3 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.1rem;
+      }
+
+      footer {
+        margin-top: var(--space-7);
+        padding-top: var(--space-5);
+        border-top: 1px solid var(--color-border);
+        color: var(--color-muted);
+        font-size: 0.95rem;
+      }
+
+      @media (min-width: 900px) {
+        .hero {
+          grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+        }
+      }
+
+      @media (max-width: 899px) {
+        .hero,
+        .page {
+          padding-left: var(--space-5);
+          padding-right: var(--space-5);
+        }
+
+        .stats,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 599px) {
+        .page {
+          width: min(100% - 16px, 1120px);
+          padding-top: var(--space-4);
+        }
+
+        .hero {
+          padding: var(--space-5);
+        }
+
+        h1 {
+          font-size: 2.7rem;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">test website</span>
+          <h1>One small website, ready to open.</h1>
+          <p>
+            This repository now ships a simple static homepage: fast to host, easy to edit, and
+            complete enough to act as a real landing page instead of an empty worktree.
+          </p>
+          <div class="actions">
+            <a class="button button-primary" href="#features">See features</a>
+            <a class="button button-secondary" href="#about">Read the summary</a>
+          </div>
+        </div>
+        <aside class="hero-card" id="about">
+          <strong>What’s inside</strong>
+          <p>
+            A single-file site with responsive layout, semantic sections, tokenized styles, and no
+            build step. Open it directly or serve it with any static file server.
+          </p>
+          <div class="stats" aria-label="Site highlights">
+            <div class="stat">
+              <span class="stat-value">1</span>
+              <span>HTML entry point</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">0</span>
+              <span>Dependencies added</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">100%</span>
+              <span>Static and portable</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="features">
+        <h2>Why this is the smallest complete version</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Usable immediately</h3>
+            <p>The page works as-is in a browser without installing packages or running a build.</p>
+          </article>
+          <article class="card">
+            <h3>Designed, not placeholder text</h3>
+            <p>
+              The layout has a clear visual direction, spacing tokens, responsive behavior, and
+              accessible interaction states.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Easy next step</h3>
+            <p>
+              The fastest follow-up is to add project-specific copy or wire this page into a real
+              deployment target.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        Built for the `아무 웹사이트하나만 만들어봐` issue as a minimal end-to-end repository change.
+      </footer>
+    </main>
+  </body>
+</html>
