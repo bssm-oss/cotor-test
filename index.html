@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Landing Page</title>
+    <style>
+      :root {
+        --bg: #f5efe6;
+        --panel: rgba(255, 255, 255, 0.8);
+        --text: #1f2933;
+        --muted: #52606d;
+        --accent: #c2410c;
+        --accent-strong: #9a3412;
+        --border: rgba(31, 41, 51, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(194, 65, 12, 0.18), transparent 28%),
+          linear-gradient(135deg, #fff7ed 0%, var(--bg) 45%, #e8dcc7 100%);
+      }
+
+      main {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 32px;
+      }
+
+      .hero {
+        width: min(760px, 100%);
+        padding: 48px;
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        background: var(--panel);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 24px 60px rgba(31, 41, 51, 0.12);
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        font-size: 0.85rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.5rem, 5vw, 4.8rem);
+        line-height: 0.95;
+      }
+
+      p {
+        margin: 24px 0 0;
+        max-width: 34rem;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 160px;
+        padding: 14px 20px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-weight: 600;
+      }
+
+      .primary {
+        color: #fff;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+      }
+
+      .secondary {
+        color: var(--text);
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .note {
+        margin-top: 32px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      @media (max-width: 640px) {
+        main {
+          padding: 20px;
+        }
+
+        .hero {
+          padding: 32px 24px;
+          border-radius: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Test Company</p>
+        <h1>아무 웹사이트 하나를 바로 볼 수 있게 만들었습니다.</h1>
+        <p>
+          이 저장소에는 기존 제품 표면이 없어서, 가장 작은 완결 결과물로 단일 랜딩 페이지를
+          추가했습니다. 다음 CEO 사이클에서는 이 페이지를 유지할지, 더 큰 제품 구조로 확장할지
+          결정하면 됩니다.
+        </p>
+        <div class="actions">
+          <a class="primary" href="#next-step">다음 판단 포인트</a>
+          <a class="secondary" href="mailto:ceo@test.local">CEO에게 전달</a>
+        </div>
+        <div class="note" id="next-step">
+          현재 결과물은 정적 단일 페이지입니다. 후속 결정 항목: 브랜드 방향, 실제 콘텐츠,
+          다중 페이지 확장 여부.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
