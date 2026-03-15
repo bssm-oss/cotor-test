@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Studio</title>
+    <style>
+      :root {
+        --bg: #f6f1e8;
+        --surface: rgba(255, 252, 247, 0.78);
+        --surface-strong: #fffaf2;
+        --text: #1f1a17;
+        --muted: #685d56;
+        --line: rgba(54, 40, 31, 0.12);
+        --accent: #b6542d;
+        --accent-strong: #8e3d1d;
+        --accent-soft: rgba(182, 84, 45, 0.12);
+        --shadow: 0 24px 60px rgba(66, 40, 24, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 999px;
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-5: 1.5rem;
+        --space-6: 2rem;
+        --space-7: 3rem;
+        --space-8: 4rem;
+        --content: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Segoe UI", "Noto Sans KR", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 215, 181, 0.9), transparent 28%),
+          radial-gradient(circle at 80% 15%, rgba(214, 233, 223, 0.75), transparent 22%),
+          linear-gradient(180deg, #fcf7ef 0%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible {
+        outline: 3px solid rgba(182, 84, 45, 0.35);
+        outline-offset: 4px;
+      }
+
+      .page {
+        width: min(calc(100% - 2rem), var(--content));
+        margin: 0 auto;
+        padding: var(--space-6) 0 var(--space-8);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: var(--space-6);
+        align-items: stretch;
+        min-height: 100vh;
+        padding: var(--space-4) 0;
+      }
+
+      .hero-card,
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-card {
+        padding: clamp(2rem, 5vw, 4rem);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        width: fit-content;
+        padding: 0.5rem 0.9rem;
+        border-radius: var(--radius-sm);
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: var(--space-5) 0 var(--space-4);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.9rem, 7vw, 5.8rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      .lead {
+        max-width: 38rem;
+        margin: 0;
+        font-size: clamp(1rem, 1.8vw, 1.22rem);
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .button {
+        min-height: 48px;
+        padding: 0.9rem 1.25rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid transparent;
+        font-weight: 700;
+        transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: #fffaf6;
+      }
+
+      .button-primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button-secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.55);
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-3);
+        margin-top: var(--space-7);
+      }
+
+      .metric {
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.8rem;
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      .metric span {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .panel {
+        padding: var(--space-5);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .stack {
+        display: grid;
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .stack-card {
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--line);
+      }
+
+      .stack-card h2,
+      .stack-card h3 {
+        margin: 0 0 var(--space-2);
+      }
+
+      .stack-card p,
+      .footer-note {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .section {
+        margin-top: var(--space-7);
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .section .panel {
+        min-height: 220px;
+      }
+
+      @media (max-width: 960px) {
+        .hero,
+        .section {
+          grid-template-columns: 1fr;
+        }
+
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          min-height: auto;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          width: min(calc(100% - 1rem), var(--content));
+          padding-top: var(--space-4);
+        }
+
+        .hero-card,
+        .panel {
+          border-radius: 24px;
+        }
+
+        h1 {
+          font-size: clamp(2.5rem, 16vw, 4rem);
+        }
+
+        .actions {
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
+          justify-content: center;
+          display: inline-flex;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-card">
+          <div>
+            <span class="eyebrow">Small but complete</span>
+            <h1 id="hero-title">바로 열어볼 수 있는 단일 페이지 웹사이트</h1>
+            <p class="lead">
+              빈 저장소에서도 바로 보여줄 수 있도록, 별도 빌드 없이 실행되는 랜딩 페이지를 추가했습니다.
+              따뜻한 톤의 비주얼과 짧은 구조로 시작점 역할을 하도록 만들었습니다.
+            </p>
+            <div class="actions">
+              <a class="button button-primary" href="#details">구성 보기</a>
+              <a class="button button-secondary" href="mailto:hello@example.com">연락하기</a>
+            </div>
+          </div>
+
+          <div class="metrics" aria-label="핵심 정보">
+            <div class="metric">
+              <strong>1</strong>
+              <span>파일만으로 바로 열리는 구조</span>
+            </div>
+            <div class="metric">
+              <strong>100%</strong>
+              <span>정적 HTML, CSS 기반</span>
+            </div>
+            <div class="metric">
+              <strong>320px+</strong>
+              <span>모바일 폭까지 대응</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="panel" aria-label="사이트 요약">
+          <div class="panel-header">
+            <span>Test Studio</span>
+            <span>Landing Page</span>
+          </div>
+
+          <div class="stack">
+            <article class="stack-card">
+              <h2>왜 이 형태인가</h2>
+              <p>현재 저장소에 기존 제품면이 없어, 검토와 다음 의사결정에 바로 쓰일 수 있는 가장 작은 결과물로 맞췄습니다.</p>
+            </article>
+            <article class="stack-card">
+              <h3>포함된 요소</h3>
+              <p>히어로 영역, CTA, 상태성 높은 정보 카드, 반응형 레이아웃, 포커스 표시를 포함합니다.</p>
+            </article>
+            <article class="stack-card">
+              <h3>다음 사이클 후보</h3>
+              <p>브랜드 카피 정리, 실제 연락처 연결, 섹션 확장, 프레임워크 전환 여부 판단.</p>
+            </article>
+          </div>
+
+          <p class="footer-note">정적 호스팅이나 로컬 파일 열기로 바로 확인할 수 있습니다.</p>
+        </aside>
+      </section>
+
+      <section class="section" id="details" aria-label="상세 정보">
+        <article class="panel">
+          <h2>Visual Direction</h2>
+          <p class="footer-note">Warmth & approachability를 기준으로 베이지 배경, 테라코타 포인트, 부드러운 유리 질감을 사용했습니다.</p>
+        </article>
+        <article class="panel">
+          <h2>Accessibility</h2>
+          <p class="footer-note">링크는 모두 키보드 포커스가 보이도록 처리했고, CTA는 48px 이상 터치 영역을 확보했습니다.</p>
+        </article>
+        <article class="panel">
+          <h2>Handoff</h2>
+          <p class="footer-note">이 브랜치는 최소한의 실행 가능한 결과물을 제공하므로, CEO가 다음 결정 사이클에서 범위를 재정의하기 좋습니다.</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
