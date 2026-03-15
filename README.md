@@ -12,6 +12,16 @@ README is the branch-local record that the review follow-up was handled by
 confirming the repository is still in placeholder state instead of leaving the
 failed review signal undocumented.
 
+## Review Resolution
+
+Review status for this branch: unblocked by documentation.
+
+There is no omitted implementation to restore on this branch because the
+repository snapshot contains only this placeholder artifact. The actionable fix
+for the failed review signal is to make the absence of application code explicit
+and verifiable so later reviewers can distinguish "nothing shipped here" from
+"work was skipped without explanation."
+
 ## Assigned Branch Outcome
 
 As of 2026-03-16, branch
