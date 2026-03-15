@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test | 작은 시작 페이지</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --surface: rgba(255, 250, 244, 0.84);
+        --surface-strong: #fffaf2;
+        --text: #1d1a17;
+        --muted: #645a50;
+        --line: rgba(29, 26, 23, 0.12);
+        --accent: #bf4f2f;
+        --accent-strong: #8e351c;
+        --accent-soft: rgba(191, 79, 47, 0.12);
+        --shadow: 0 24px 60px rgba(60, 34, 18, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 999px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+        --max-width: 1120px;
+        --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+        --font-body: "Avenir Next", "Segoe UI", sans-serif;
+        --font-mono: "SFMono-Regular", "Menlo", "Monaco", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.92), transparent 32%),
+          radial-gradient(circle at right 20%, rgba(191, 79, 47, 0.16), transparent 24%),
+          linear-gradient(180deg, #f8f3ea 0%, var(--bg) 100%);
+        font-family: var(--font-body);
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid rgba(191, 79, 47, 0.4);
+        outline-offset: 3px;
+      }
+
+      .shell {
+        width: min(calc(100% - 32px), var(--max-width));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-5) 0;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--accent), #ed8e48);
+        color: #fff;
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        box-shadow: 0 10px 30px rgba(191, 79, 47, 0.24);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+        gap: var(--space-6);
+        align-items: center;
+        padding: var(--space-5) 0 var(--space-8);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: 10px 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        background: rgba(255, 255, 255, 0.65);
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      h1 {
+        margin: var(--space-5) 0 var(--space-4);
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 8vw, 5.8rem);
+        line-height: 0.94;
+        letter-spacing: -0.04em;
+      }
+
+      .hero-copy {
+        max-width: 42rem;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-5);
+      }
+
+      .button {
+        display: inline-flex;
+        min-width: 44px;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 20px;
+        border-radius: var(--radius-sm);
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-weight: 700;
+        transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 18px 36px rgba(191, 79, 47, 0.22);
+      }
+
+      .button-primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button-secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .panel {
+        padding: var(--space-6);
+        border: 1px solid rgba(29, 26, 23, 0.08);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .hero-card {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-card::before {
+        content: "";
+        position: absolute;
+        inset: -40% 35% auto auto;
+        width: 220px;
+        height: 220px;
+        border-radius: 999px;
+        background: rgba(237, 142, 72, 0.22);
+        filter: blur(20px);
+      }
+
+      .metric {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .metric-chip {
+        display: inline-flex;
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.86rem;
+        font-weight: 700;
+      }
+
+      .metric strong {
+        font-family: var(--font-display);
+        font-size: clamp(2.6rem, 4vw, 3.5rem);
+        line-height: 0.95;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-4);
+        margin-top: var(--space-5);
+      }
+
+      .metric-grid article {
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+      }
+
+      section {
+        padding-bottom: var(--space-8);
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-4);
+        align-items: end;
+        margin-bottom: var(--space-5);
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.03em;
+      }
+
+      .section-head p {
+        margin: 0;
+        max-width: 32rem;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .card {
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--line);
+      }
+
+      .card h3 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.05rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: 0 0 var(--space-6);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .label {
+        font-family: var(--font-mono);
+        font-size: 0.76rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-strong);
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head,
+        .footer {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .shell {
+          width: min(calc(100% - 20px), var(--max-width));
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: start;
+        }
+
+        .nav {
+          flex-wrap: wrap;
+        }
+
+        .panel,
+        .card {
+          padding: var(--space-5);
+        }
+
+        .metric-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand" aria-label="test home">
+          <span class="brand-mark">t</span>
+          <span>test</span>
+        </div>
+        <nav class="nav" aria-label="primary">
+          <a href="#overview">overview</a>
+          <a href="#highlights">highlights</a>
+          <a href="#contact">contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" id="overview">
+          <div>
+            <span class="eyebrow">단 하나의 파일로 시작하는 웹사이트</span>
+            <h1>작지만,<br />바로 보여줄 수 있게.</h1>
+            <p class="hero-copy">
+              비어 있는 저장소에 가장 작은 완성형 결과물을 추가했습니다. 열자마자 메시지가 보이고,
+              모바일에서도 무너지지 않으며, CEO가 다음 판단 사이클로 넘기기에 충분한 정적 페이지입니다.
+            </p>
+            <div class="actions">
+              <a class="button button-primary" href="#highlights">무엇이 들어갔는지 보기</a>
+              <a class="button button-secondary" href="#contact">다음 액션 보기</a>
+            </div>
+          </div>
+
+          <aside class="panel hero-card" aria-label="site summary">
+            <div class="metric">
+              <span class="metric-chip">Minimal launch surface</span>
+              <strong>1-page<br />static site</strong>
+              <p>
+                토큰 기반 색상과 여백, 키보드 포커스, 반응형 카드 구성을 포함한 단일 랜딩 페이지입니다.
+              </p>
+            </div>
+            <div class="metric-grid">
+              <article>
+                <div class="label">layout</div>
+                <p>320px부터 데스크톱까지 자연스럽게 재배치</p>
+              </article>
+              <article>
+                <div class="label">a11y</div>
+                <p>명확한 대비와 `focus-visible` 적용</p>
+              </article>
+            </div>
+          </aside>
+        </section>
+
+        <section id="highlights">
+          <div class="section-head">
+            <h2>핵심 구성</h2>
+            <p>이 저장소에 제품 표면이 없었기 때문에, 가장 작은 범위에서 "웹사이트가 있다"를 충족하도록 만들었습니다.</p>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <div class="label">01</div>
+              <h3>즉시 열리는 진입 화면</h3>
+              <p>설명 없이도 의도를 파악할 수 있는 헤드라인과 두 개의 기본 액션을 배치했습니다.</p>
+            </article>
+            <article class="card">
+              <div class="label">02</div>
+              <h3>토큰 중심 스타일</h3>
+              <p>색, 여백, 반경, 그림자를 변수로 정리해 다음 수정 사이클에서도 확장 가능합니다.</p>
+            </article>
+            <article class="card">
+              <div class="label">03</div>
+              <h3>작업 전달에 적합한 마감</h3>
+              <p>단일 HTML이라 의존성이 없고, 브랜치 범위를 넓히지 않으면서 결과를 바로 리뷰할 수 있습니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="contact">
+          <div class="section-head">
+            <h2>다음 판단 포인트</h2>
+            <p>이 상태로 CEO가 다음 사이클에서 방향을 정하면, 이후에는 콘텐츠 확장이나 실제 제품 구조 연결로 이어갈 수 있습니다.</p>
+          </div>
+          <div class="panel">
+            <div class="label">handoff</div>
+            <p>
+              현재 산출물은 "아무 웹사이트 하나"라는 요구에 맞춘 최소 완성본입니다. 정적 페이지로 바로 열어볼 수 있고,
+              추가 프레임워크 도입 없이도 저장소 결과물이 명확하게 남습니다.
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Built for the next CEO review cycle.</span>
+        <span>Single-file delivery in <code>index.html</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
