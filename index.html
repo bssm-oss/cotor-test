@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>아무 웹사이트 하나</title>
+    <style>
+      :root {
+        --bg: #f7f1e8;
+        --surface: rgba(255, 255, 255, 0.78);
+        --surface-strong: #fffdf8;
+        --text: #1f1b16;
+        --muted: #60574d;
+        --accent: #c85d2d;
+        --accent-strong: #9f431b;
+        --line: rgba(31, 27, 22, 0.12);
+        --shadow: 0 24px 60px rgba(73, 49, 24, 0.12);
+        --radius-xl: 28px;
+        --radius-lg: 20px;
+        --radius-md: 14px;
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-5: 1.5rem;
+        --space-6: 2rem;
+        --space-7: 3rem;
+        --space-8: 4rem;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Pretendard", "Apple SD Gothic Neo", "SF Pro Display",
+          "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 217, 183, 0.9), transparent 36%),
+          radial-gradient(circle at bottom right, rgba(200, 93, 45, 0.14), transparent 30%),
+          linear-gradient(180deg, #f9f3ea 0%, #f4ede4 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page-shell {
+        width: min(calc(100% - 2rem), var(--max-width));
+        margin: 0 auto;
+        padding: var(--space-5) 0 var(--space-8);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-4) 0 var(--space-6);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 999px;
+        color: #fffaf3;
+        background: linear-gradient(135deg, var(--accent) 0%, #e09a5b 100%);
+        box-shadow: 0 16px 28px rgba(200, 93, 45, 0.28);
+      }
+
+      .nav-link {
+        padding: 0.875rem 1rem;
+        border-radius: 999px;
+        color: var(--muted);
+        transition: background-color 160ms ease, color 160ms ease;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.58);
+        color: var(--text);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+        gap: var(--space-6);
+        align-items: stretch;
+      }
+
+      .hero-card,
+      .panel,
+      .value-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        background: var(--surface);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-card {
+        padding: clamp(1.75rem, 2vw + 1rem, 3rem);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: 0.5rem 0.875rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.68);
+        color: var(--accent-strong);
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        margin-top: var(--space-5);
+        font-size: clamp(2.8rem, 6vw, 5.4rem);
+        line-height: 0.95;
+        letter-spacing: -0.06em;
+      }
+
+      .hero-copy {
+        margin-top: var(--space-5);
+        max-width: 42rem;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.7;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .button,
+      .button-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 3rem;
+        padding: 0.9rem 1.2rem;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        transition:
+          transform 160ms ease,
+          box-shadow 160ms ease,
+          background-color 160ms ease,
+          border-color 160ms ease;
+      }
+
+      .button {
+        color: #fff8f2;
+        background: linear-gradient(135deg, var(--accent) 0%, #df8a4e 100%);
+        box-shadow: 0 18px 30px rgba(200, 93, 45, 0.24);
+      }
+
+      .button-secondary {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.62);
+        border-color: var(--line);
+      }
+
+      .button:hover,
+      .button-secondary:hover {
+        transform: translateY(-1px);
+      }
+
+      .panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: var(--space-5);
+      }
+
+      .panel-label {
+        font-size: 0.88rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+      }
+
+      .panel-quote {
+        margin-top: var(--space-5);
+        font-size: clamp(1.5rem, 3vw, 2.4rem);
+        line-height: 1.15;
+        letter-spacing: -0.05em;
+      }
+
+      .panel-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .stat {
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        background: var(--surface-strong);
+        border: 1px solid rgba(31, 27, 22, 0.08);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.6rem;
+        letter-spacing: -0.05em;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: var(--space-2);
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .section {
+        margin-top: var(--space-8);
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-bottom: var(--space-5);
+      }
+
+      .section-heading p {
+        max-width: 34rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .value-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .value-card {
+        padding: var(--space-5);
+      }
+
+      .value-card span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.25rem;
+        padding: 0.375rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(200, 93, 45, 0.12);
+        color: var(--accent-strong);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .value-card h3 {
+        margin-top: var(--space-4);
+        font-size: 1.4rem;
+        letter-spacing: -0.04em;
+      }
+
+      .value-card p {
+        margin-top: var(--space-3);
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .handoff {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: var(--space-5);
+        align-items: center;
+        padding: clamp(1.5rem, 2vw + 1rem, 2.5rem);
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--line);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.72) 0%,
+          rgba(255, 246, 238, 0.92) 100%
+        );
+        box-shadow: var(--shadow);
+      }
+
+      .handoff p {
+        margin-top: var(--space-3);
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      footer {
+        margin-top: var(--space-7);
+        padding-top: var(--space-5);
+        border-top: 1px solid rgba(31, 27, 22, 0.08);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid rgba(200, 93, 45, 0.34);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .value-grid,
+        .handoff {
+          grid-template-columns: 1fr;
+        }
+
+        .section-heading {
+          align-items: start;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page-shell {
+          width: min(calc(100% - 1.25rem), var(--max-width));
+          padding-top: var(--space-4);
+        }
+
+        .nav {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .nav-links {
+          display: flex;
+          justify-content: space-between;
+          gap: var(--space-2);
+        }
+
+        .nav-link {
+          flex: 1 1 0;
+          text-align: center;
+        }
+
+        .hero-actions {
+          flex-direction: column;
+        }
+
+        .panel-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="nav">
+        <a class="brand" href="#top">
+          <span class="brand-mark">A</span>
+          <span>아무 웹사이트</span>
+        </a>
+        <div class="nav-links" aria-label="페이지 섹션">
+          <a class="nav-link" href="#features">특징</a>
+          <a class="nav-link" href="#handoff">다음 결정</a>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <article class="hero-card">
+            <span class="eyebrow">작고 완결된 첫 결과물</span>
+            <h1 id="hero-title">정말로, 아무 웹사이트 하나.</h1>
+            <p class="hero-copy">
+              빈 저장소를 그대로 두지 않고 바로 열어볼 수 있는 한 장짜리 사이트로
+              마무리했습니다. 복잡한 프레임워크 대신 정적 HTML 하나로 구성해 다음
+              결정 사이클에서 방향만 빠르게 고르면 됩니다.
+            </p>
+            <div class="hero-actions">
+              <a class="button" href="#handoff">CEO에게 넘길 포인트 보기</a>
+              <a class="button-secondary" href="#features">무엇이 들어갔는지 보기</a>
+            </div>
+          </article>
+
+          <aside class="panel" aria-label="핵심 상태 요약">
+            <div>
+              <div class="panel-label">Current branch outcome</div>
+              <p class="panel-quote">
+                빈 브랜치를 “검토 가능한 웹사이트” 상태로 전환했습니다.
+              </p>
+            </div>
+            <div class="panel-grid">
+              <div class="stat">
+                <strong>1 file</strong>
+                <span>프레임워크 없이 바로 확인 가능한 최소 단위 결과물</span>
+              </div>
+              <div class="stat">
+                <strong>Responsive</strong>
+                <span>모바일부터 데스크톱까지 한 파일 안에서 대응</span>
+              </div>
+              <div class="stat">
+                <strong>Accessible</strong>
+                <span>시맨틱 구조와 `focus-visible` 스타일 포함</span>
+              </div>
+              <div class="stat">
+                <strong>Ready</strong>
+                <span>다음 사이클에서 확장 여부만 결정하면 되는 상태</span>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="section" id="features" aria-labelledby="features-title">
+          <div class="section-heading">
+            <div>
+              <h2 id="features-title">이번 follow-up에서 넣은 최소 완성 요소</h2>
+            </div>
+            <p>
+              결과물의 핵심은 “아무 것도 없는 저장소”를 “볼 수 있고 설명할 수 있는
+              웹사이트”로 바꾸는 것입니다. 그래서 기능보다 전달력과 완결성에
+              집중했습니다.
+            </p>
+          </div>
+
+          <div class="value-grid">
+            <article class="value-card">
+              <span>Visual</span>
+              <h3>의도 있는 첫인상</h3>
+              <p>
+                따뜻한 배경, 강조 색상, 카드 레이아웃으로 단순하지만 허전하지 않은
+                첫 화면을 만들었습니다.
+              </p>
+            </article>
+            <article class="value-card">
+              <span>Structure</span>
+              <h3>한눈에 읽히는 구성</h3>
+              <p>
+                헤더, 히어로, 특징, handoff 섹션으로 나눠 CEO가 바로 판단할 수
+                있게 정리했습니다.
+              </p>
+            </article>
+            <article class="value-card">
+              <span>Scope</span>
+              <h3>작지만 확장 가능한 기반</h3>
+              <p>
+                CSS 변수를 사용해 다음 사이클에서 브랜딩이나 콘텐츠를 덧붙이기
+                쉬운 형태로 남겼습니다.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="handoff" aria-labelledby="handoff-title">
+          <div class="handoff">
+            <div>
+              <h2 id="handoff-title">CEO decision cycle로 넘길 질문</h2>
+              <p>
+                지금 상태는 “정적 단일 페이지로 컨셉 확인 완료”입니다. 다음 결정은
+                이 페이지를 실제 서비스 소개 랜딩으로 확장할지, 아니면 여기서
+                마감할지 선택하는 것입니다.
+              </p>
+            </div>
+            <a class="button" href="#top">다시 상단으로</a>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        이 브랜치의 결과물은 최소 변경 원칙에 맞춰 하나의 정적 HTML 파일로
+        구성되었습니다.
+      </footer>
+    </div>
+  </body>
+</html>
