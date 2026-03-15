@@ -48,6 +48,13 @@ test "$(git ls-files)" = "README.md" && grep -q "placeholder-only repository" RE
 
 Expected result: the command exits successfully.
 
+## Acceptance Criteria Check
+
+- Branch scope: limited to documenting the placeholder-only repository state.
+- Assigned branch outcome: validated with the command above.
+- Review follow-up: unblocked by making the empty implementation state explicit.
+- Residual risk: product code is still absent, so only the failed review signal is resolved here.
+
 ## Residual Risk
 
 This change only resolves the documentation gap around the review follow-up. It
