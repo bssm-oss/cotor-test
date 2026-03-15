@@ -20,12 +20,20 @@ is validated as a placeholder-only repository. The unblock action for this
 follow-up is to make that status explicit so downstream review and validation
 do not assume missing implementation was silently skipped.
 
+## Repository Inventory
+
+The tracked file inventory for this branch currently contains only:
+
+```text
+README.md
+```
+
 ## Validation
 
 Run:
 
 ```sh
-test -s README.md && grep -q "bootstrap placeholder" README.md
+test "$(git ls-files)" = "README.md" && grep -q "placeholder-only repository" README.md
 ```
 
 Expected result: the command exits successfully.
