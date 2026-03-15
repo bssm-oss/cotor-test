@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>One Small Website</title>
+    <style>
+      :root {
+        --bg: #f5efe6;
+        --surface: rgba(255, 251, 245, 0.84);
+        --surface-strong: #fffaf2;
+        --text: #1d1a17;
+        --muted: #62584f;
+        --accent: #b84c2a;
+        --accent-strong: #8f3416;
+        --line: rgba(29, 26, 23, 0.12);
+        --shadow: 0 18px 50px rgba(71, 40, 20, 0.14);
+        --radius: 24px;
+        --radius-small: 14px;
+        --space-1: 0.5rem;
+        --space-2: 1rem;
+        --space-3: 1.5rem;
+        --space-4: 2rem;
+        --space-5: 3rem;
+        --space-6: 5rem;
+        --max: 1100px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(184, 76, 42, 0.18), transparent 32%),
+          radial-gradient(circle at top right, rgba(40, 87, 74, 0.15), transparent 30%),
+          linear-gradient(180deg, #fbf6ef 0%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        width: min(calc(100% - 2rem), var(--max));
+        margin: 0 auto;
+        padding: 1.25rem 0 4rem;
+      }
+
+      .nav,
+      .hero,
+      .panel {
+        backdrop-filter: blur(10px);
+        background: var(--surface);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+        padding: 1rem 1.25rem;
+        border-radius: 999px;
+        position: sticky;
+        top: 1rem;
+        z-index: 10;
+      }
+
+      .brand {
+        font-family: "Iowan Old Style", "Palatino Linotype", serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .nav-links a,
+      .cta {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+      }
+
+      .nav-links a {
+        padding: 0 1rem;
+        color: var(--muted);
+      }
+
+      .nav-links a:hover,
+      .nav-links a:focus-visible {
+        background: rgba(29, 26, 23, 0.06);
+        color: var(--text);
+      }
+
+      .hero {
+        margin-top: var(--space-4);
+        padding: clamp(1.5rem, 3vw, 2.5rem);
+        border-radius: calc(var(--radius) + 8px);
+        display: grid;
+        gap: var(--space-4);
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(184, 76, 42, 0.1);
+        color: var(--accent-strong);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      h1,
+      h2 {
+        font-family: "Iowan Old Style", "Palatino Linotype", serif;
+        margin: 0;
+        line-height: 1.02;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 8vw, 6rem);
+        max-width: 10ch;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 1.02rem;
+      }
+
+      .hero-copy {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 0.9rem;
+        flex-wrap: wrap;
+      }
+
+      .cta {
+        padding: 0 1.25rem;
+        border: 1px solid transparent;
+        font-weight: 700;
+      }
+
+      .cta.primary {
+        background: var(--accent);
+        color: #fff7f3;
+      }
+
+      .cta.secondary {
+        background: transparent;
+        border-color: var(--line);
+      }
+
+      .cta:hover {
+        transform: translateY(-1px);
+      }
+
+      .cta.primary:hover,
+      .cta.primary:focus-visible {
+        background: var(--accent-strong);
+      }
+
+      .cta.secondary:hover,
+      .cta.secondary:focus-visible {
+        background: rgba(29, 26, 23, 0.05);
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid rgba(184, 76, 42, 0.35);
+        outline-offset: 3px;
+      }
+
+      .hero-card {
+        align-self: stretch;
+        background: linear-gradient(180deg, rgba(255, 250, 242, 0.88), rgba(255, 244, 230, 0.95));
+        border: 1px solid rgba(29, 26, 23, 0.08);
+        border-radius: var(--radius);
+        padding: var(--space-4);
+        display: grid;
+        gap: var(--space-3);
+      }
+
+      .stat {
+        padding-top: var(--space-3);
+        border-top: 1px solid var(--line);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 2.6rem;
+        font-family: "Iowan Old Style", "Palatino Linotype", serif;
+        color: var(--accent-strong);
+      }
+
+      .grid {
+        margin-top: var(--space-4);
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-3);
+      }
+
+      .panel {
+        border-radius: var(--radius);
+        padding: var(--space-4);
+      }
+
+      .panel h2 {
+        font-size: clamp(1.6rem, 3vw, 2.3rem);
+        margin-bottom: 0.75rem;
+      }
+
+      .feature-list {
+        display: grid;
+        gap: var(--space-2);
+        margin-top: var(--space-3);
+      }
+
+      .feature {
+        padding: 1rem 1rem 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-small);
+        background: rgba(255, 255, 255, 0.54);
+      }
+
+      .feature strong {
+        display: block;
+        margin-bottom: 0.35rem;
+      }
+
+      footer {
+        margin-top: var(--space-4);
+        padding: var(--space-3) 0 0;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      @media (max-width: 860px) {
+        .hero,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav {
+          border-radius: 28px;
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .page {
+          width: min(calc(100% - 1rem), var(--max));
+        }
+
+        h1 {
+          font-size: clamp(2.6rem, 16vw, 4rem);
+        }
+
+        .hero,
+        .panel {
+          padding: 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="nav">
+        <a class="brand" href="#">Small Site</a>
+        <nav class="nav-links" aria-label="주요 섹션">
+          <a href="#about">소개</a>
+          <a href="#highlights">포인트</a>
+          <a href="#contact">마무리</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" id="about">
+          <div class="hero-copy">
+            <span class="eyebrow">한 장으로 끝나는 작은 웹사이트</span>
+            <h1>그냥 열면 바로 보이는 한 페이지.</h1>
+            <p>
+              저장소가 비어 있는 상태에서도 바로 확인할 수 있도록 정적 HTML 한 파일로 만든
+              미니 사이트입니다. 소개, 강조 포인트, 마무리까지 한 화면 흐름으로 담았습니다.
+            </p>
+            <div class="hero-actions">
+              <a class="cta primary" href="#highlights">아래로 보기</a>
+              <a class="cta secondary" href="#contact">끝으로 이동</a>
+            </div>
+          </div>
+
+          <aside class="hero-card" aria-label="사이트 요약">
+            <p>핵심은 작지만 완결된 결과물입니다. 별도 빌드 없이 브라우저에서 바로 열 수 있습니다.</p>
+            <div class="stat">
+              <strong>1</strong>
+              <p>정적 파일 하나로 구성</p>
+            </div>
+            <div class="stat">
+              <strong>100%</strong>
+              <p>로컬에서 즉시 확인 가능한 구조</p>
+            </div>
+          </aside>
+        </section>
+
+        <section class="grid" id="highlights">
+          <article class="panel">
+            <h2>명확한 방향</h2>
+            <p>따뜻한 배경과 강한 포인트 컬러로 단순한 랜딩 페이지 톤을 잡았습니다.</p>
+          </article>
+          <article class="panel">
+            <h2>작은 토큰 세트</h2>
+            <p>색상, 반경, 간격, 그림자를 변수화해서 한 파일 안에서도 일관성을 유지했습니다.</p>
+          </article>
+          <article class="panel">
+            <h2>기본 접근성</h2>
+            <p>44px 타깃, 명확한 포커스 스타일, 반응형 브레이크포인트를 포함했습니다.</p>
+          </article>
+        </section>
+
+        <section class="panel" id="contact" style="margin-top: 1.5rem;">
+          <h2>이걸로 충분한 이유</h2>
+          <p>
+            요구사항이 "아무 웹사이트 하나"인 만큼, 가장 작은 완결 단위로 결과를 남겼습니다.
+            이후 필요하면 이 파일을 기준으로 CSS 분리, 스크립트 추가, 프레임워크 이관을 이어갈 수 있습니다.
+          </p>
+          <div class="feature-list">
+            <div class="feature">
+              <strong>바로 열림</strong>
+              <span>루트의 <code>index.html</code> 을 브라우저에서 열면 즉시 확인됩니다.</span>
+            </div>
+            <div class="feature">
+              <strong>배포 친화적</strong>
+              <span>정적 호스팅 환경이면 별도 설정 없이 올릴 수 있습니다.</span>
+            </div>
+            <div class="feature">
+              <strong>확장 가능</strong>
+              <span>콘텐츠와 스타일이 작게 정리돼 있어 다음 작업의 출발점으로 쓰기 쉽습니다.</span>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>One Small Website, built as the smallest usable repository change.</footer>
+    </div>
+  </body>
+</html>
