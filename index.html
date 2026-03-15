@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Any Website</title>
+    <style>
+      :root {
+        --bg: #f3efe7;
+        --surface: rgba(255, 255, 255, 0.82);
+        --surface-strong: #fff9f0;
+        --text: #1d1a17;
+        --muted: #5f584f;
+        --accent: #0d7a5f;
+        --accent-strong: #095643;
+        --accent-soft: rgba(13, 122, 95, 0.12);
+        --border: rgba(29, 26, 23, 0.12);
+        --shadow: 0 24px 80px rgba(51, 41, 28, 0.12);
+        --radius-xl: 28px;
+        --radius-lg: 18px;
+        --radius-md: 14px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 20px;
+        --space-6: 24px;
+        --space-8: 32px;
+        --space-10: 40px;
+        --space-12: 48px;
+        --space-16: 64px;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+          Palatino, serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.92), transparent 34%),
+          radial-gradient(circle at top right, rgba(13, 122, 95, 0.14), transparent 28%),
+          linear-gradient(180deg, #f7f2ea 0%, var(--bg) 58%, #ebe3d6 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid rgba(13, 122, 95, 0.38);
+        outline-offset: 3px;
+      }
+
+      .page-shell {
+        width: min(calc(100% - 32px), var(--max-width));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-4);
+        padding: var(--space-6) 0;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #0d7a5f 0%, #1fa382 100%);
+        color: #fffdf8;
+        box-shadow: 0 12px 28px rgba(13, 122, 95, 0.24);
+      }
+
+      .nav-link {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .hero {
+        padding: var(--space-10) 0 var(--space-16);
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+        gap: var(--space-8);
+        align-items: center;
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: var(--space-6);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-4);
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(3rem, 7vw, 5.6rem);
+        line-height: 0.95;
+        letter-spacing: -0.06em;
+      }
+
+      .lead {
+        margin: 0;
+        max-width: 40rem;
+        color: var(--muted);
+        font-size: 1.125rem;
+        line-height: 1.7;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+      }
+
+      .button {
+        min-width: 160px;
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 700;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          background-color 180ms ease,
+          border-color 180ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: #fffcf7;
+        box-shadow: 0 18px 36px rgba(13, 122, 95, 0.22);
+      }
+
+      .button-primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button-secondary {
+        background: rgba(255, 255, 255, 0.58);
+        border-color: var(--border);
+        color: var(--text);
+      }
+
+      .hero-card,
+      .feature-card,
+      .quote-card {
+        background: var(--surface);
+        backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.62);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-card {
+        padding: var(--space-8);
+        border-radius: var(--radius-xl);
+        display: grid;
+        gap: var(--space-6);
+      }
+
+      .hero-card-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-4);
+      }
+
+      .hero-card-heading span {
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .metric-grid,
+      .feature-grid {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .metric {
+        padding: var(--space-5);
+        border-radius: var(--radius-lg);
+        background: var(--surface-strong);
+        border: 1px solid var(--border);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.8rem;
+        letter-spacing: -0.05em;
+      }
+
+      .metric span {
+        color: var(--muted);
+      }
+
+      main {
+        padding-bottom: var(--space-16);
+      }
+
+      section {
+        padding: var(--space-10) 0;
+      }
+
+      .section-header {
+        display: grid;
+        gap: var(--space-3);
+        margin-bottom: var(--space-8);
+      }
+
+      .section-header h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.04em;
+      }
+
+      .section-header p {
+        margin: 0;
+        max-width: 40rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .feature-card {
+        padding: var(--space-6);
+        border-radius: var(--radius-lg);
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 1.4rem;
+        background: var(--accent-soft);
+      }
+
+      .feature-card h3,
+      .quote-card h3 {
+        margin: 0;
+        font-size: 1.35rem;
+      }
+
+      .feature-card p,
+      .quote-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .quote-card {
+        padding: var(--space-8);
+        border-radius: var(--radius-xl);
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .quote-card footer {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .footer {
+        padding: 0 0 var(--space-8);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 920px) {
+        .hero,
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page-shell {
+          width: min(calc(100% - 24px), var(--max-width));
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .hero {
+          padding-top: var(--space-6);
+          gap: var(--space-6);
+        }
+
+        .hero-card,
+        .quote-card {
+          padding: var(--space-6);
+        }
+
+        .metric-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top">
+          <span class="brand-mark">A</span>
+          <span>Any Website</span>
+        </a>
+        <a class="nav-link" href="#features">What’s inside</a>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">Small, complete, and ready to review</div>
+            <h1>아무 웹사이트 하나가 아니라, 바로 열어볼 수 있는 첫 화면.</h1>
+            <p class="lead">
+              빈 저장소에서도 결과물이 보이도록 한 파일로 만든 정적 랜딩 페이지입니다.
+              복잡한 의존성 없이 열리며, 반응형 레이아웃과 명확한 시각 위계까지 포함합니다.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#features">구성 보기</a>
+              <a class="button button-secondary" href="index.html">바로 열기</a>
+            </div>
+          </div>
+
+          <aside class="hero-card" aria-label="Website summary">
+            <div class="hero-card-heading">
+              <strong>Branch outcome</strong>
+              <span>Static HTML</span>
+            </div>
+            <div class="metric-grid">
+              <div class="metric">
+                <strong>1 file</strong>
+                <span>설치 없이 확인 가능</span>
+              </div>
+              <div class="metric">
+                <strong>Responsive</strong>
+                <span>모바일과 데스크톱 대응</span>
+              </div>
+              <div class="metric">
+                <strong>Focus-visible</strong>
+                <span>키보드 사용성 반영</span>
+              </div>
+              <div class="metric">
+                <strong>No build</strong>
+                <span>리뷰 사이클에 바로 전달</span>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section id="features">
+          <div class="section-header">
+            <h2>What this follow-up actually delivers</h2>
+            <p>
+              이번 작업은 넓은 리팩터링 대신, CEO가 다음 판단을 내릴 수 있도록 실제 웹 결과물을
+              가장 작은 범위로 채웠습니다.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">01</div>
+              <h3>즉시 열리는 결과물</h3>
+              <p>
+                프레임워크 설정 없이 브라우저로 바로 열 수 있는 정적 페이지라서 검토가 빠릅니다.
+              </p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">02</div>
+              <h3>최소한의 완성도</h3>
+              <p>
+                토큰 기반 색상, 간격, 둥근 모서리, 그림자 전략을 한 파일 안에서 일관되게 구성했습니다.
+              </p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">03</div>
+              <h3>다음 사이클에 적합</h3>
+              <p>
+                이후 방향이 정해지면 이 정적 화면을 기준으로 프레임워크 이관이나 콘텐츠 확장이 가능합니다.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <article class="quote-card">
+            <h3>Review handoff note</h3>
+            <p>
+              현재 브랜치는 “아무 웹사이트하나만 만들어봐”에 대한 follow-up으로, 비어 있던 작업트리에
+              실질적인 첫 화면을 추가한 상태입니다. 다음 의사결정에서는 이 방향을 유지해 확장할지,
+              아니면 다른 톤과 구조로 교체할지 판단하면 됩니다.
+            </p>
+            <footer>End state: minimal website ready for CEO decision cycle</footer>
+          </article>
+        </section>
+      </main>
+
+      <footer class="footer">
+        Open <a href="index.html">index.html</a> in any browser to review the result.
+      </footer>
+    </div>
+  </body>
+</html>
