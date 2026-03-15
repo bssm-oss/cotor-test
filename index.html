@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Studio</title>
+    <style>
+      :root {
+        --bg: #f5efe4;
+        --panel: rgba(255, 252, 245, 0.88);
+        --surface: #fffaf1;
+        --text: #1f1812;
+        --muted: #63574d;
+        --line: rgba(63, 41, 18, 0.12);
+        --accent: #d35d2d;
+        --accent-strong: #ac431a;
+        --accent-soft: #ffd6b8;
+        --shadow: 0 20px 45px rgba(74, 39, 11, 0.14);
+        --radius: 24px;
+        --radius-sm: 16px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+        --max: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 214, 184, 0.85), transparent 34%),
+          linear-gradient(180deg, #f9f4ea 0%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: var(--space-6);
+      }
+
+      .shell {
+        max-width: var(--max);
+        margin: 0 auto;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: var(--space-7);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -10% -20% auto;
+        width: 240px;
+        height: 240px;
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(211, 93, 45, 0.3), rgba(211, 93, 45, 0));
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-3);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid rgba(63, 41, 18, 0.08);
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 10ch;
+        margin: var(--space-5) 0 var(--space-4);
+        font-size: clamp(3rem, 7vw, 6rem);
+        line-height: 0.94;
+        letter-spacing: -0.04em;
+      }
+
+      .lead {
+        max-width: 52ch;
+        margin: 0 0 var(--space-6);
+        font-size: clamp(1.05rem, 2vw, 1.25rem);
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 160px;
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fffaf7;
+      }
+
+      .button.primary:hover {
+        background: var(--accent-strong);
+        transform: translateY(-1px);
+      }
+
+      .button.secondary {
+        background: rgba(255, 255, 255, 0.78);
+        border-color: var(--line);
+      }
+
+      .button.secondary:hover {
+        background: #ffffff;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(211, 93, 45, 0.35);
+        outline-offset: 3px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-5);
+        margin-top: var(--space-6);
+      }
+
+      .card {
+        padding: var(--space-5);
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--line);
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: var(--space-3);
+        font-size: 1.1rem;
+      }
+
+      .card p {
+        margin: 0;
+        line-height: 1.65;
+        color: var(--muted);
+      }
+
+      .footer-note {
+        margin-top: var(--space-6);
+        padding: var(--space-4) var(--space-5);
+        border-left: 4px solid var(--accent);
+        background: rgba(255, 250, 241, 0.76);
+        color: var(--muted);
+      }
+
+      @media (max-width: 900px) {
+        .page {
+          padding: var(--space-4);
+        }
+
+        .hero {
+          padding: var(--space-6);
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="shell">
+        <section class="hero">
+          <span class="eyebrow">Any Website, Made Concrete</span>
+          <h1>Test Studio</h1>
+          <p class="lead">
+            막연한 요청에서 바로 검토 가능한 결과물로 넘어가기 위한 단일 페이지 시안입니다.
+            브랜드 소개, 핵심 가치, 다음 액션을 한 화면에 담아 CEO가 다음 의사결정을 이어갈 수 있게 구성했습니다.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#highlights">시안 검토하기</a>
+            <a class="button secondary" href="#handoff">다음 결정 보기</a>
+          </div>
+
+          <div class="grid" id="highlights">
+            <article class="card">
+              <strong>빠른 착수</strong>
+              <p>별도 빌드 없이 열어볼 수 있는 정적 HTML 한 장으로 시작 비용을 낮췄습니다.</p>
+            </article>
+            <article class="card">
+              <strong>의도 있는 톤</strong>
+              <p>따뜻한 크림 배경과 선명한 오렌지 포인트로 테스트 브랜드의 실험적 성격을 표현했습니다.</p>
+            </article>
+            <article class="card">
+              <strong>다음 사이클 준비</strong>
+              <p>이번 브랜치는 시안 제공까지 담당하고, 구체화 여부는 다음 CEO 결정 사이클로 넘기도록 정리했습니다.</p>
+            </article>
+          </div>
+
+          <div class="footer-note" id="handoff">
+            현재 결과물은 최소 완성본입니다. 다음 사이클에서는 이 방향을 유지할지, 더 구체적인 제품/카피/기능 요구사항을 붙일지 결정하면 됩니다.
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
