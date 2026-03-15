@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Studio</title>
+    <style>
+      :root {
+        --bg: #f3efe7;
+        --surface: rgba(255, 255, 255, 0.72);
+        --surface-strong: #fffdf8;
+        --text: #1f1a17;
+        --muted: #5f564f;
+        --line: rgba(31, 26, 23, 0.12);
+        --accent: #b85c38;
+        --accent-strong: #8f4122;
+        --shadow: 0 22px 60px rgba(31, 26, 23, 0.14);
+        --radius: 24px;
+        --radius-sm: 16px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 72px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(184, 92, 56, 0.18), transparent 32%),
+          radial-gradient(circle at right 20%, rgba(244, 193, 112, 0.25), transparent 30%),
+          linear-gradient(180deg, #fbf8f2 0%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        width: min(1100px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: var(--space-8) 0;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(32px, 5vw, 72px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        backdrop-filter: blur(16px);
+        box-shadow: var(--shadow);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -60px -80px auto;
+        width: 260px;
+        aspect-ratio: 1;
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(184, 92, 56, 0.24), rgba(244, 193, 112, 0.08));
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 253, 248, 0.88);
+        border: 1px solid rgba(184, 92, 56, 0.18);
+        color: var(--accent-strong);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      h1 {
+        margin: var(--space-5) 0 var(--space-4);
+        max-width: 10ch;
+        font-size: clamp(42px, 8vw, 88px);
+        line-height: 0.94;
+        letter-spacing: -0.05em;
+      }
+
+      .lead {
+        max-width: 600px;
+        margin: 0 0 var(--space-6);
+        font-size: clamp(18px, 2.4vw, 22px);
+        line-height: 1.6;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-bottom: var(--space-7);
+      }
+
+      .button {
+        min-width: 140px;
+        min-height: 48px;
+        padding: 14px 20px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(184, 92, 56, 0.35);
+        outline-offset: 3px;
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .button.primary:hover {
+        background: var(--accent-strong);
+        transform: translateY(-1px);
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.66);
+      }
+
+      .button.secondary:hover {
+        border-color: rgba(31, 26, 23, 0.22);
+        transform: translateY(-1px);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .card {
+        padding: var(--space-5);
+        border-radius: var(--radius-sm);
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: var(--space-2);
+        font-size: 18px;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          width: min(100% - 20px, 1100px);
+          padding: var(--space-5) 0;
+        }
+
+        .hero {
+          padding: 28px;
+        }
+
+        h1 {
+          max-width: none;
+        }
+
+        .actions {
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <span class="eyebrow">TEST STUDIO</span>
+        <h1>아무 웹사이트 말고, 바로 보여줄 첫 화면.</h1>
+        <p class="lead">
+          이 저장소는 비어 있었기 때문에 외부 도구 없이 바로 실행 가능한 단일 페이지를 추가했습니다.
+          지금은 간단한 소개 사이트지만, 여기서부터 제품 소개나 데모 페이지로 바로 확장할 수 있습니다.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#features">살펴보기</a>
+          <a class="button secondary" href="mailto:hello@example.com">문의하기</a>
+        </div>
+        <div class="grid" id="features">
+          <article class="card">
+            <strong>즉시 실행</strong>
+            <p>빌드 도구 없이 `index.html` 하나만으로 열 수 있는 정적 페이지입니다.</p>
+          </article>
+          <article class="card">
+            <strong>반응형 구성</strong>
+            <p>모바일과 데스크톱 모두에서 무너지지 않도록 단순한 그리드와 여백 체계를 사용했습니다.</p>
+          </article>
+          <article class="card">
+            <strong>확장 가능한 시작점</strong>
+            <p>색상, 간격, 모서리, 그림자를 토큰으로 정의해 이후 섹션 추가나 브랜딩 변경이 쉽습니다.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
