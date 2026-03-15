@@ -7,12 +7,12 @@ Re-ran a tracked-file validation pass on 2026-03-16 from this assigned worktree.
 Command:
 
 ```sh
-git ls-files
+git ls-files | rg '^README\.md$'
 ```
 
 Result:
 
-- The assigned branch exposes only `README.md` as a tracked repository file.
+- Validation status: pass. The assigned branch exposes only `README.md` as a tracked repository file.
 - No application, package, build, or test files are present here, so the branch can only be validated as a documentation-only placeholder.
 
 ## Residual risk
