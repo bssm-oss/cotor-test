@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Launch Page</title>
+    <style>
+      :root {
+        --bg: #f5efe5;
+        --surface: rgba(255, 255, 255, 0.82);
+        --surface-strong: #fffaf2;
+        --text: #1d1f22;
+        --muted: #5a5f6a;
+        --line: rgba(29, 31, 34, 0.12);
+        --accent: #ff6a1a;
+        --accent-strong: #d94f00;
+        --accent-soft: #ffd7c2;
+        --shadow: 0 18px 40px rgba(25, 20, 10, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 20px;
+        --radius-sm: 14px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, #fff8e8 0%, transparent 34%),
+          radial-gradient(circle at right center, #ffd2ba 0%, transparent 28%),
+          linear-gradient(180deg, #fef8ef 0%, #f3ecdf 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page-shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: var(--space-5);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        gap: var(--space-6);
+        align-items: center;
+        min-height: 100vh;
+        padding: var(--space-7) 0;
+      }
+
+      .hero-copy,
+      .hero-panel,
+      .section-card {
+        background: var(--surface);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-copy {
+        padding: var(--space-8);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-4);
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        margin-top: var(--space-5);
+        font-size: clamp(2.8rem, 6vw, 5.4rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+      }
+
+      .hero-copy p {
+        margin-top: var(--space-5);
+        max-width: 36rem;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .button,
+      .button-secondary {
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      }
+
+      .button {
+        background: var(--accent);
+        color: white;
+      }
+
+      .button-secondary {
+        background: transparent;
+        border-color: var(--line);
+      }
+
+      .button:hover,
+      .button-secondary:hover {
+        transform: translateY(-1px);
+      }
+
+      .button:focus-visible,
+      .button-secondary:focus-visible,
+      .nav-link:focus-visible {
+        outline: 3px solid rgba(255, 106, 26, 0.45);
+        outline-offset: 3px;
+      }
+
+      .hero-panel {
+        padding: var(--space-6);
+      }
+
+      .panel-grid {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .mini-card {
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+        background: var(--surface-strong);
+        border: 1px solid rgba(29, 31, 34, 0.08);
+      }
+
+      .mini-card strong {
+        display: block;
+        font-size: 2rem;
+        margin-bottom: var(--space-2);
+      }
+
+      .mini-card span {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        padding: var(--space-4) 0;
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-3) var(--space-4);
+        background: rgba(255, 250, 242, 0.88);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        backdrop-filter: blur(12px);
+      }
+
+      .nav-brand {
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .nav-link {
+        min-height: 40px;
+        padding: 0 var(--space-3);
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        color: var(--muted);
+      }
+
+      .content-stack {
+        display: grid;
+        gap: var(--space-5);
+        padding-bottom: var(--space-8);
+      }
+
+      .section-card {
+        padding: var(--space-6);
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: var(--space-4);
+        margin-bottom: var(--space-5);
+      }
+
+      .section-header p {
+        max-width: 34rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .feature-grid,
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .feature,
+      .step {
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(29, 31, 34, 0.08);
+        background: rgba(255, 255, 255, 0.65);
+      }
+
+      .feature h3,
+      .step h3 {
+        margin-top: var(--space-4);
+        margin-bottom: var(--space-3);
+        font-size: 1.25rem;
+      }
+
+      .feature p,
+      .step p {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .feature-number,
+      .step-number {
+        width: 44px;
+        height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-weight: 800;
+      }
+
+      .cta-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: var(--space-5);
+        align-items: center;
+      }
+
+      .cta-card p {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .cta-card,
+        .feature-grid,
+        .steps-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy {
+          padding: var(--space-6);
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page-shell {
+          padding: var(--space-4);
+        }
+
+        .nav-inner,
+        .section-header {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        h1 {
+          font-size: clamp(2.4rem, 13vw, 4rem);
+        }
+
+        .hero {
+          min-height: auto;
+          padding: var(--space-6) 0;
+        }
+
+        .hero-copy,
+        .hero-panel,
+        .section-card {
+          border-radius: var(--radius-md);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <nav class="nav" aria-label="Primary">
+        <div class="nav-inner">
+          <a class="nav-brand" href="#top">Test</a>
+          <div class="nav-links">
+            <a class="nav-link" href="#features">Features</a>
+            <a class="nav-link" href="#flow">Flow</a>
+            <a class="nav-link" href="#cta">Start</a>
+          </div>
+        </div>
+      </nav>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">Build Fast</span>
+            <h1>Ship a clear landing page with one command.</h1>
+            <p>
+              This repository now serves a responsive single-page experience with a
+              focused hero, feature summary, simple user flow, and a direct call
+              to action. The page is intentionally small so it fits cleanly into a
+              minimal project surface.
+            </p>
+            <div class="cta-row">
+              <a class="button" href="#cta">Launch the page</a>
+              <a class="button-secondary" href="#features">Review sections</a>
+            </div>
+          </div>
+
+          <aside class="hero-panel" aria-label="Launch highlights">
+            <div class="panel-grid">
+              <div class="mini-card">
+                <strong>01</strong>
+                <span>Hero section with headline, message, and two CTAs.</span>
+              </div>
+              <div class="mini-card">
+                <strong>02</strong>
+                <span>Feature and flow sections that explain the experience.</span>
+              </div>
+              <div class="mini-card">
+                <strong>03</strong>
+                <span>Dependency-free Node start flow for quick local serving.</span>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <div class="content-stack">
+          <section class="section-card" id="features">
+            <div class="section-header">
+              <div>
+                <span class="eyebrow">Core Sections</span>
+                <h2>Everything required for a small but complete entry page.</h2>
+              </div>
+              <p>
+                The structure stays focused: explain value quickly, show what the
+                user gets, then route attention to one primary action.
+              </p>
+            </div>
+            <div class="feature-grid">
+              <article class="feature">
+                <span class="feature-number">A</span>
+                <h3>Focused Hero</h3>
+                <p>
+                  A clear heading and summary keep the entry point readable on both
+                  desktop and mobile.
+                </p>
+              </article>
+              <article class="feature">
+                <span class="feature-number">B</span>
+                <h3>Explained Value</h3>
+                <p>
+                  Core sections communicate the page intent without requiring extra
+                  navigation or deeper app structure.
+                </p>
+              </article>
+              <article class="feature">
+                <span class="feature-number">C</span>
+                <h3>Simple Run Flow</h3>
+                <p>
+                  The repository now exposes a single `npm start` entry point that
+                  serves the page directly.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="section-card" id="flow">
+            <div class="section-header">
+              <div>
+                <span class="eyebrow">User Flow</span>
+                <h2>Three quick steps from arrival to action.</h2>
+              </div>
+              <p>
+                The flow mirrors a lightweight landing page: orient, evaluate, and
+                convert.
+              </p>
+            </div>
+            <div class="steps-grid">
+              <article class="step">
+                <span class="step-number">1</span>
+                <h3>Land</h3>
+                <p>The hero section introduces the page and gives an immediate CTA.</p>
+              </article>
+              <article class="step">
+                <span class="step-number">2</span>
+                <h3>Scan</h3>
+                <p>Visitors review the feature and flow sections in a single scroll.</p>
+              </article>
+              <article class="step">
+                <span class="step-number">3</span>
+                <h3>Act</h3>
+                <p>The final CTA consolidates attention into one clear next step.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="section-card" id="cta">
+            <div class="cta-card">
+              <div>
+                <span class="eyebrow">Call To Action</span>
+                <h2>Run the repository and open the page locally.</h2>
+                <p>
+                  Start the included server, visit the local address, and use this
+                  landing page as the project's first runnable surface.
+                </p>
+              </div>
+              <a class="button" href="/">Open from root</a>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

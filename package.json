@@ -1,0 +1,7 @@
+{
+  "name": "test-landing-page",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  }
+}
