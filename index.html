@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Landing Page</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --surface: rgba(255, 255, 255, 0.78);
+        --surface-strong: #fffaf2;
+        --text: #182020;
+        --muted: #5f6966;
+        --accent: #ff6b2c;
+        --accent-strong: #cf4a14;
+        --accent-soft: #ffd7c8;
+        --line: rgba(24, 32, 32, 0.12);
+        --shadow: 0 20px 50px rgba(24, 32, 32, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 107, 44, 0.16), transparent 24%),
+          radial-gradient(circle at right, rgba(24, 32, 32, 0.08), transparent 20%),
+          var(--bg);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+
+      .page-shell {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 24px 0 72px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: 14px 18px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 250, 242, 0.75);
+        backdrop-filter: blur(18px);
+        position: sticky;
+        top: 16px;
+        z-index: 10;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--text);
+        color: #fff;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.1rem;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .cta-button,
+      .ghost-button {
+        min-height: 44px;
+        padding: 0 18px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-weight: 700;
+        transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .cta-button {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 10px 24px rgba(255, 107, 44, 0.28);
+      }
+
+      .cta-button:hover,
+      .cta-button:focus-visible {
+        background: var(--accent-strong);
+        transform: translateY(-1px);
+      }
+
+      .ghost-button {
+        background: rgba(255, 255, 255, 0.55);
+        border-color: var(--line);
+      }
+
+      .ghost-button:hover,
+      .ghost-button:focus-visible {
+        background: #fff;
+        transform: translateY(-1px);
+      }
+
+      a:focus-visible {
+        outline: 3px solid rgba(255, 107, 44, 0.32);
+        outline-offset: 3px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        gap: var(--space-6);
+        align-items: center;
+        padding: var(--space-7) 0 var(--space-6);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid rgba(255, 107, 44, 0.18);
+        color: var(--accent-strong);
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+
+      h1 {
+        margin: var(--space-5) 0 var(--space-4);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.8rem, 6vw, 5.4rem);
+        line-height: 0.96;
+        letter-spacing: -0.05em;
+      }
+
+      .hero p {
+        max-width: 58ch;
+        margin: 0 0 var(--space-5);
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .hero-grid {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .hero-card,
+      .feature-card,
+      .quote-card,
+      .cta-panel {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-card {
+        padding: var(--space-5);
+        border-radius: var(--radius-lg);
+      }
+
+      .hero-stat {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: var(--space-4);
+        padding: var(--space-4) 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hero-stat:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .hero-stat strong {
+        font-size: clamp(2rem, 3vw, 2.8rem);
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      .section {
+        padding: var(--space-7) 0 0;
+      }
+
+      .section-head {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-bottom: var(--space-5);
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      .section-head p {
+        margin: 0;
+        max-width: 46ch;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .feature-card {
+        padding: var(--space-5);
+        border-radius: var(--radius-md);
+      }
+
+      .feature-card h3 {
+        margin: var(--space-4) 0 var(--space-3);
+        font-size: 1.2rem;
+      }
+
+      .feature-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0 14px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-weight: 800;
+      }
+
+      .flow-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .quote-card {
+        padding: var(--space-6);
+        border-radius: var(--radius-lg);
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 240, 229, 0.9)),
+          var(--surface);
+      }
+
+      .quote-card blockquote {
+        margin: 0 0 var(--space-4);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        line-height: 1.25;
+      }
+
+      .quote-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .cta-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: var(--space-5);
+        align-items: center;
+        padding: var(--space-6);
+        border-radius: var(--radius-lg);
+        margin-top: var(--space-7);
+        background: var(--surface-strong);
+      }
+
+      .cta-panel h2 {
+        margin: 0 0 var(--space-3);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      .cta-panel p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .footer {
+        padding-top: var(--space-6);
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+        color: var(--muted);
+      }
+
+      @media (max-width: 900px) {
+        .topbar {
+          border-radius: 24px;
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .hero,
+        .feature-grid,
+        .flow-grid,
+        .cta-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: var(--space-6);
+        }
+
+        .nav {
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page-shell {
+          width: min(100% - 20px, 1120px);
+          padding-top: 12px;
+          padding-bottom: 56px;
+        }
+
+        .topbar,
+        .hero-card,
+        .feature-card,
+        .quote-card,
+        .cta-panel {
+          padding-left: var(--space-4);
+          padding-right: var(--space-4);
+        }
+
+        h1 {
+          font-size: clamp(2.4rem, 14vw, 4rem);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top">
+          <span class="brand-mark">T</span>
+          <span>Test</span>
+        </a>
+        <nav class="nav" aria-label="주요 섹션">
+          <a href="#features">핵심 섹션</a>
+          <a href="#flow">사용 흐름</a>
+          <a href="#contact">시작하기</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div>
+            <span class="eyebrow">빠르게 올리고 바로 확인하는 단일 페이지</span>
+            <h1>저장소에 바로 붙는<br />가벼운 테스트 웹페이지</h1>
+            <p>
+              이 페이지는 최소한의 저장소 변경으로 실행 흐름에 통합되도록 구성되었습니다.
+              핵심 메시지, 주요 섹션, CTA를 한 화면 안에 정리했고 데스크톱과 모바일에서
+              모두 무리 없이 읽히도록 반응형 레이아웃을 적용했습니다.
+            </p>
+            <div class="hero-actions">
+              <a class="cta-button" href="#contact">지금 확인하기</a>
+              <a class="ghost-button" href="#features">섹션 보기</a>
+            </div>
+          </div>
+
+          <div class="hero-grid" aria-label="주요 수치">
+            <article class="hero-card">
+              <div class="hero-stat">
+                <span>구성 시간</span>
+                <strong>1 Page</strong>
+              </div>
+              <div class="hero-stat">
+                <span>핵심 메시지</span>
+                <strong>3 Blocks</strong>
+              </div>
+              <div class="hero-stat">
+                <span>실행 방식</span>
+                <strong>npm start</strong>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="features">
+          <div class="section-head">
+            <h2>핵심 섹션</h2>
+            <p>
+              작은 저장소에서도 바로 쓸 수 있게, 정보 전달과 클릭 유도에 필요한 최소 구조만
+              남겼습니다.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <span class="pill">01</span>
+              <h3>명확한 첫 화면</h3>
+              <p>헤드라인, 요약 문장, 주요 CTA를 첫 화면에 배치해 방문자가 바로 행동할 수 있습니다.</p>
+            </article>
+            <article class="feature-card">
+              <span class="pill">02</span>
+              <h3>간단한 정보 구조</h3>
+              <p>핵심 섹션, 사용 흐름, 마지막 전환 영역만 남겨 과도한 설명 없이 메시지를 유지합니다.</p>
+            </article>
+            <article class="feature-card">
+              <span class="pill">03</span>
+              <h3>모바일 대응</h3>
+              <p>320px 폭까지 읽기 쉬운 간격과 카드 재배치를 적용해 기본 사용성을 확보했습니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="flow">
+          <div class="section-head">
+            <h2>사용 흐름</h2>
+            <p>이 페이지는 방문자가 메시지를 이해하고 CTA까지 도달하는 가장 짧은 흐름에 맞춰 설계되었습니다.</p>
+          </div>
+          <div class="flow-grid">
+            <article class="feature-card">
+              <span class="pill">A</span>
+              <h3>인지</h3>
+              <p>첫 화면에서 페이지 목적과 실행 방식이 명확히 보입니다.</p>
+            </article>
+            <article class="feature-card">
+              <span class="pill">B</span>
+              <h3>이해</h3>
+              <p>핵심 섹션에서 무엇이 구현되었는지 빠르게 파악할 수 있습니다.</p>
+            </article>
+            <article class="feature-card">
+              <span class="pill">C</span>
+              <h3>전환</h3>
+              <p>하단 CTA에서 다음 액션으로 연결되며, 페이지 내 이동도 자연스럽게 이어집니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <article class="quote-card">
+            <blockquote>
+              “작게 만들되, 바로 띄울 수 있고, 읽는 사람에게는 완성된 화면처럼 보여야 합니다.”
+            </blockquote>
+            <p>단일 HTML 파일 기반이지만, 토큰과 반응형 구성을 갖춘 실제 랜딩 페이지 형태로 정리했습니다.</p>
+          </article>
+        </section>
+
+        <section class="section" id="contact">
+          <div class="cta-panel">
+            <div>
+              <h2>지금 실행해 보십시오</h2>
+              <p>
+                저장소 루트에서 <code>npm start</code>를 실행하면 이 페이지를 바로 확인할 수 있습니다.
+                추가 프레임워크 없이 최소 흐름으로 붙였습니다.
+              </p>
+            </div>
+            <a class="cta-button" href="mailto:test@example.com">CTA 실행</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Test Landing Page</span>
+        <span id="year"></span>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear().toString();
+    </script>
+  </body>
+</html>
