@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Project Landing</title>
+    <style>
+      :root {
+        --bg: #f6f1e8;
+        --panel: rgba(255, 252, 246, 0.88);
+        --text: #1f2933;
+        --muted: #52606d;
+        --line: rgba(31, 41, 51, 0.12);
+        --accent: #d96c3f;
+        --accent-strong: #b65228;
+        --accent-soft: #fde1d5;
+        --shadow: 0 24px 60px rgba(87, 56, 37, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 20px;
+        --space-6: 24px;
+        --space-8: 32px;
+        --space-10: 40px;
+        --space-12: 48px;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 32%),
+          linear-gradient(180deg, #fff9f2 0%, var(--bg) 56%, #efe2d0 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid rgba(217, 108, 63, 0.45);
+        outline-offset: 4px;
+      }
+
+      .page-shell {
+        width: min(calc(100% - 32px), var(--max-width));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-6) 0 var(--space-4);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #f7a77f, #d96c3f);
+        color: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-cta,
+      .button {
+        min-height: 48px;
+        padding: 0 20px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+      }
+
+      .nav-cta,
+      .button-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .nav-cta:hover,
+      .button-primary:hover {
+        transform: translateY(-1px);
+        background: var(--accent-strong);
+      }
+
+      .button-secondary {
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--text);
+      }
+
+      .button-secondary:hover {
+        background: rgba(255, 255, 255, 0.55);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        gap: var(--space-8);
+        align-items: center;
+        padding: var(--space-10) 0 var(--space-12);
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: var(--space-5);
+      }
+
+      .eyebrow {
+        width: fit-content;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        line-height: 1.05;
+      }
+
+      h1 {
+        font-size: clamp(2.8rem, 7vw, 5.4rem);
+      }
+
+      h2 {
+        font-size: clamp(2rem, 5vw, 3rem);
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.7;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .hero-actions,
+      .hero-points,
+      .feature-grid,
+      .steps,
+      .footer-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+      }
+
+      .hero-points {
+        gap: var(--space-3);
+      }
+
+      .pill {
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--line);
+        color: var(--text);
+      }
+
+      .spotlight {
+        position: relative;
+        padding: var(--space-8);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(252, 236, 225, 0.88));
+        border: 1px solid rgba(217, 108, 63, 0.16);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .spotlight::after {
+        content: "";
+        position: absolute;
+        inset: auto -40px -60px auto;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(217, 108, 63, 0.14);
+      }
+
+      .metric {
+        display: grid;
+        gap: 4px;
+        margin-top: var(--space-5);
+      }
+
+      .metric strong {
+        font-size: 2rem;
+      }
+
+      section {
+        padding: var(--space-12) 0;
+      }
+
+      .section-heading {
+        display: grid;
+        gap: var(--space-4);
+        margin-bottom: var(--space-8);
+        max-width: 720px;
+      }
+
+      .feature-grid {
+        align-items: stretch;
+      }
+
+      .card {
+        flex: 1 1 240px;
+        min-width: 0;
+        padding: var(--space-6);
+        border-radius: var(--radius-md);
+        background: var(--panel);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--line);
+        box-shadow: 0 10px 30px rgba(31, 41, 51, 0.05);
+      }
+
+      .card h3,
+      .step h3 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.2rem;
+      }
+
+      .step {
+        flex: 1 1 280px;
+        padding: var(--space-6);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.58);
+        border: 1px solid var(--line);
+      }
+
+      .step-index {
+        display: inline-grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        margin-bottom: var(--space-4);
+        border-radius: 14px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-weight: 800;
+      }
+
+      .cta-panel {
+        display: grid;
+        gap: var(--space-5);
+        padding: var(--space-8);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, #1f2933 0%, #30414d 100%);
+        color: #fff;
+      }
+
+      .cta-panel p {
+        color: rgba(255, 255, 255, 0.76);
+      }
+
+      footer {
+        padding: var(--space-6) 0 var(--space-10);
+      }
+
+      .footer-row {
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid var(--line);
+        padding-top: var(--space-5);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 820px) {
+        .hero {
+          grid-template-columns: 1fr;
+          padding-top: var(--space-8);
+        }
+
+        .topbar {
+          padding-top: var(--space-4);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .page-shell {
+          width: min(calc(100% - 24px), var(--max-width));
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .hero-actions,
+        .footer-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .button,
+        .nav-cta {
+          width: 100%;
+        }
+
+        .spotlight,
+        .cta-panel {
+          padding: var(--space-6);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top">
+          <span class="brand-mark">T</span>
+          <span>Test Project</span>
+        </a>
+        <a class="nav-cta" href="#cta">지금 시작하기</a>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <span class="eyebrow">작게 시작해서 빠르게 공개하는 테스트용 랜딩 페이지</span>
+            <h1 id="hero-title">한 페이지로 메시지와 행동을 바로 연결합니다.</h1>
+            <p>
+              이 저장소는 실행 가능한 실제 웹페이지를 포함합니다. 핵심 소개, 사용 흐름, 가치 제안,
+              그리고 CTA까지 한 화면 안에서 확인할 수 있도록 최소 구조로 구현했습니다.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#cta">무료로 시작</a>
+              <a class="button button-secondary" href="#features">핵심 섹션 보기</a>
+            </div>
+            <div class="hero-points" aria-label="핵심 포인트">
+              <span class="pill">실행 스크립트 포함</span>
+              <span class="pill">데스크톱 / 모바일 대응</span>
+              <span class="pill">즉시 수정 가능한 정적 페이지</span>
+            </div>
+          </div>
+
+          <aside class="spotlight" aria-label="요약 정보">
+            <h2>빠른 확인용 구성</h2>
+            <p>
+              빈 저장소에서도 바로 열 수 있도록 외부 의존성 없이 작성했습니다. 실행 후 브라우저에서
+              즉시 CTA와 핵심 섹션을 검토할 수 있습니다.
+            </p>
+            <div class="metric">
+              <strong>3</strong>
+              <span>핵심 가치 카드</span>
+            </div>
+            <div class="metric">
+              <strong>3</strong>
+              <span>간단한 사용자 흐름 단계</span>
+            </div>
+            <div class="metric">
+              <strong>1</strong>
+              <span>명확한 최종 CTA</span>
+            </div>
+          </aside>
+        </section>
+
+        <section id="features" aria-labelledby="features-title">
+          <div class="section-heading">
+            <h2 id="features-title">핵심 섹션</h2>
+            <p>
+              페이지는 소개 문구에 그치지 않고, 왜 필요한지와 어떻게 사용하는지를 한 번에 보여주도록
+              구성했습니다.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="card">
+              <h3>명확한 가치 제안</h3>
+              <p>
+                첫 화면에서 페이지 목적과 기대 결과를 한 문장으로 전달합니다. 사용자는 도착 즉시 이
+                페이지가 무엇을 위한 것인지 파악할 수 있습니다.
+              </p>
+            </article>
+            <article class="card">
+              <h3>짧은 실행 흐름</h3>
+              <p>
+                사용자가 어떤 단계를 거쳐 행동하는지 단순한 3단계로 압축했습니다. 설명을 줄이고 전환
+                동선을 더 쉽게 읽을 수 있게 했습니다.
+              </p>
+            </article>
+            <article class="card">
+              <h3>즉시 행동 가능한 CTA</h3>
+              <p>
+                상단과 하단에 CTA를 배치해 어디서든 다음 행동으로 이어질 수 있게 했습니다. 버튼 크기와
+                포커스 스타일도 모바일 기준에 맞춰 확보했습니다.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section aria-labelledby="steps-title">
+          <div class="section-heading">
+            <h2 id="steps-title">사용 흐름</h2>
+            <p>
+              랜딩 페이지는 이해보다 행동을 우선해야 합니다. 그래서 설명을 늘리기보다 흐름을 짧게
+              정리했습니다.
+            </p>
+          </div>
+          <div class="steps">
+            <article class="step">
+              <span class="step-index">01</span>
+              <h3>발견</h3>
+              <p>상단 히어로에서 목적과 핵심 이점을 바로 확인합니다.</p>
+            </article>
+            <article class="step">
+              <span class="step-index">02</span>
+              <h3>이해</h3>
+              <p>가치 카드와 간단한 설명으로 무엇이 제공되는지 빠르게 읽습니다.</p>
+            </article>
+            <article class="step">
+              <span class="step-index">03</span>
+              <h3>행동</h3>
+              <p>하단 CTA에서 바로 시작 버튼을 눌러 다음 단계로 이동합니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="cta" aria-labelledby="cta-title">
+          <div class="cta-panel">
+            <div class="section-heading" style="margin-bottom: 0">
+              <h2 id="cta-title">테스트용 웹페이지를 바로 실행해 보십시오.</h2>
+              <p>
+                저장소 루트에서 실행 스크립트만 호출하면 이 페이지를 브라우저로 확인할 수 있습니다.
+                최소 구현이지만 실제 데모, 검토, 추가 편집의 출발점으로 바로 사용할 수 있습니다.
+              </p>
+            </div>
+            <div class="hero-actions">
+              <a class="button button-primary" href="mailto:test@example.com">문의하기</a>
+              <a class="button button-secondary" href="#top">다시 보기</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="footer-row">
+          <span>Test Project Landing</span>
+          <span>Static HTML · Responsive Layout · Accessible CTA</span>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
