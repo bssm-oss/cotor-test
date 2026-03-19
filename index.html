@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Launch</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --surface: rgba(255, 255, 255, 0.72);
+        --surface-strong: #fffdf9;
+        --text: #1e1d1a;
+        --muted: #5d5a52;
+        --accent: #d95f36;
+        --accent-strong: #b44a25;
+        --line: rgba(30, 29, 26, 0.1);
+        --shadow: 0 24px 60px rgba(83, 54, 33, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 20px;
+        --space-6: 24px;
+        --space-8: 32px;
+        --space-10: 40px;
+        --space-12: 48px;
+        --space-16: 64px;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(217, 95, 54, 0.16), transparent 32%),
+          radial-gradient(circle at top right, rgba(64, 120, 101, 0.15), transparent 24%),
+          linear-gradient(180deg, #f7f2ea 0%, var(--bg) 100%);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      .page-shell {
+        padding: var(--space-6);
+      }
+
+      .site-header,
+      .section,
+      .site-footer {
+        width: min(100%, var(--max-width));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-5) 0;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+
+      .brand-mark {
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #1f4741, #d95f36);
+        color: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .nav {
+        display: flex;
+        gap: var(--space-4);
+        align-items: center;
+        color: var(--muted);
+      }
+
+      .nav a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        gap: var(--space-8);
+        align-items: center;
+        padding: var(--space-10) 0 var(--space-12);
+      }
+
+      .hero-copy h1 {
+        margin: 0 0 var(--space-4);
+        font-size: clamp(2.5rem, 5vw, 4.75rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+      }
+
+      .hero-copy p {
+        margin: 0;
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .button {
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        transition:
+          transform 160ms ease,
+          background-color 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button:focus-visible,
+      .nav a:focus-visible {
+        outline: 3px solid rgba(217, 95, 54, 0.28);
+        outline-offset: 3px;
+        border-radius: 999px;
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .button-primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button-secondary {
+        background: rgba(255, 255, 255, 0.5);
+        border-color: var(--line);
+        color: var(--text);
+      }
+
+      .hero-panel {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 253, 249, 0.82));
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: var(--radius-lg);
+        padding: var(--space-8);
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-bottom: var(--space-5);
+        padding: var(--space-2) var(--space-3);
+        border-radius: 999px;
+        background: rgba(31, 71, 65, 0.08);
+        color: #1f4741;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .metric-list,
+      .feature-grid,
+      .steps,
+      .cta-band {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .metric-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: var(--space-8);
+      }
+
+      .metric-card,
+      .feature-card,
+      .step-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        backdrop-filter: blur(18px);
+      }
+
+      .metric-card {
+        padding: var(--space-5);
+      }
+
+      .metric-card strong {
+        display: block;
+        font-size: 2rem;
+        letter-spacing: -0.04em;
+      }
+
+      .metric-card span {
+        color: var(--muted);
+      }
+
+      .section {
+        padding: var(--space-12) 0 0;
+      }
+
+      .section-heading {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-5);
+        align-items: end;
+        margin-bottom: var(--space-6);
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(1.9rem, 4vw, 3rem);
+        letter-spacing: -0.04em;
+      }
+
+      .section-heading p {
+        margin: 0;
+        max-width: 48ch;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .feature-card,
+      .step-card {
+        padding: var(--space-6);
+      }
+
+      .feature-card h3,
+      .step-card h3 {
+        margin: var(--space-4) 0 var(--space-3);
+        font-size: 1.25rem;
+      }
+
+      .feature-card p,
+      .step-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .card-icon,
+      .step-index {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        background: rgba(217, 95, 54, 0.12);
+        color: var(--accent);
+        font-weight: 800;
+      }
+
+      .steps {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .cta-band {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        padding: var(--space-8);
+        background: linear-gradient(135deg, #1f4741, #234e47 56%, #d95f36 140%);
+        border-radius: var(--radius-lg);
+        color: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .cta-band h2 {
+        margin: 0 0 var(--space-3);
+        font-size: clamp(2rem, 3.5vw, 3rem);
+        letter-spacing: -0.04em;
+      }
+
+      .cta-band p {
+        margin: 0;
+        max-width: 52ch;
+        color: rgba(255, 255, 255, 0.82);
+        line-height: 1.7;
+      }
+
+      .cta-band .button {
+        background: #fff;
+        color: #1f4741;
+      }
+
+      .site-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-10) 0 var(--space-6);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 960px) {
+        .hero,
+        .feature-grid,
+        .steps,
+        .cta-band,
+        .metric-list {
+          grid-template-columns: 1fr;
+        }
+
+        .section-heading,
+        .site-footer,
+        .site-header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .nav {
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page-shell {
+          padding: var(--space-4);
+        }
+
+        .hero-panel,
+        .feature-card,
+        .step-card,
+        .cta-band {
+          padding: var(--space-5);
+        }
+
+        .hero-copy h1 {
+          font-size: 2.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Test Launch home">
+          <span class="brand-mark">TL</span>
+          <span>Test Launch</span>
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a href="#features">Features</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#cta">Launch</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="site-header hero">
+          <div class="hero-copy">
+            <div class="eyebrow">Ship a page in one repo change</div>
+            <h1>One focused landing page that is ready to run.</h1>
+            <p>
+              This lightweight site shows a complete hero, supporting sections, and
+              a clear call to action. It is built as a single static page so the
+              repository can serve it immediately without adding a framework.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#cta">Launch now</a>
+              <a class="button button-secondary" href="#features">See the sections</a>
+            </div>
+            <div class="metric-list" aria-label="Key highlights">
+              <article class="metric-card">
+                <strong>1 file</strong>
+                <span>Smallest practical web surface for an empty repository.</span>
+              </article>
+              <article class="metric-card">
+                <strong>4 sections</strong>
+                <span>Hero, features, workflow, and CTA all visible on the page.</span>
+              </article>
+              <article class="metric-card">
+                <strong>320px+</strong>
+                <span>Responsive layouts remain usable on mobile and desktop.</span>
+              </article>
+            </div>
+          </div>
+
+          <aside class="hero-panel" aria-label="Implementation summary">
+            <div class="eyebrow">What changed</div>
+            <h2>Static delivery with no extra dependencies.</h2>
+            <p>
+              The page uses CSS tokens, clear hierarchy, keyboard focus states, and
+              a responsive grid. The repository also gets a minimal run command so
+              the page can be served locally through a familiar script.
+            </p>
+          </aside>
+        </section>
+
+        <section class="section" id="features">
+          <div class="section-heading">
+            <h2>Core sections included</h2>
+            <p>
+              The screen is intentionally compact but still complete enough to act as
+              a real product surface instead of placeholder text.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <div class="card-icon">01</div>
+              <h3>Hero with CTA</h3>
+              <p>
+                A prominent headline, supporting paragraph, and primary action make
+                the main intent obvious within the first screen.
+              </p>
+            </article>
+            <article class="feature-card">
+              <div class="card-icon">02</div>
+              <h3>Feature overview</h3>
+              <p>
+                Three scannable cards describe what the page delivers so the content
+                is useful instead of decorative.
+              </p>
+            </article>
+            <article class="feature-card">
+              <div class="card-icon">03</div>
+              <h3>Responsive layout</h3>
+              <p>
+                The grid collapses cleanly for narrow screens while preserving tap
+                targets, spacing, and reading flow.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="workflow">
+          <div class="section-heading">
+            <h2>Repository-friendly workflow</h2>
+            <p>
+              This approach keeps the implementation small and easy to review while
+              still giving the repository something concrete to run.
+            </p>
+          </div>
+          <div class="steps">
+            <article class="step-card">
+              <div class="step-index">1</div>
+              <h3>Create a single page</h3>
+              <p>
+                Keep markup, styling, and layout together so the empty repository
+                gains a usable page with minimal surface area.
+              </p>
+            </article>
+            <article class="step-card">
+              <div class="step-index">2</div>
+              <h3>Add a run script</h3>
+              <p>
+                Expose a standard command through <code>package.json</code> so the
+                page can be served locally without extra setup files.
+              </p>
+            </article>
+            <article class="step-card">
+              <div class="step-index">3</div>
+              <h3>Validate quickly</h3>
+              <p>
+                Start a temporary local server and assert the CTA text is present to
+                confirm the repository now serves real HTML.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="cta">
+          <div class="cta-band">
+            <div>
+              <h2>Ready to launch a simple page from this repository?</h2>
+              <p>
+                Run the local server, open the browser, and use this landing page as
+                the first visible product surface for the project.
+              </p>
+            </div>
+            <a class="button" href="mailto:launch@test.local">Start with this CTA</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>Test Launch static landing page</span>
+        <span>Built to satisfy a minimal repository web entry point</span>
+      </footer>
+    </div>
+  </body>
+</html>
