@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Landing Page</title>
+    <style>
+      :root {
+        --bg: #f4efe8;
+        --surface: rgba(255, 255, 255, 0.84);
+        --surface-strong: #fffdf9;
+        --text: #1f1a17;
+        --muted: #5d554f;
+        --accent: #0d7c66;
+        --accent-strong: #085847;
+        --accent-soft: #d9f1ea;
+        --border: rgba(31, 26, 23, 0.12);
+        --shadow: 0 24px 60px rgba(31, 26, 23, 0.12);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+        --max-width: 1120px;
+        --body-font: "Avenir Next", "Segoe UI", sans-serif;
+        --display-font: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family: var(--body-font);
+        background:
+          radial-gradient(circle at top left, rgba(13, 124, 102, 0.16), transparent 32%),
+          linear-gradient(180deg, #faf7f2 0%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      .shell {
+        width: min(calc(100% - 32px), var(--max-width));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        padding: var(--space-5) 0;
+      }
+
+      .site-header .shell,
+      .hero,
+      .stats,
+      .sections,
+      .cta-band,
+      .site-footer {
+        display: grid;
+        gap: var(--space-5);
+      }
+
+      .site-header .shell {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+      }
+
+      .brand {
+        font-family: var(--display-font);
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
+      .nav {
+        display: flex;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .nav a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      main {
+        padding-bottom: var(--space-8);
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        align-items: center;
+        padding: var(--space-6) 0 var(--space-7);
+      }
+
+      .eyebrow,
+      .pill {
+        width: fit-content;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: var(--display-font);
+        line-height: 1.04;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 8vw, 5.5rem);
+        max-width: 10ch;
+      }
+
+      h2 {
+        font-size: clamp(2rem, 4vw, 3.25rem);
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 1rem;
+      }
+
+      .hero-copy,
+      .card,
+      .cta-panel {
+        display: grid;
+        gap: var(--space-5);
+      }
+
+      .hero-copy p {
+        max-width: 56ch;
+      }
+
+      .actions {
+        display: flex;
+        gap: var(--space-3);
+        flex-wrap: wrap;
+      }
+
+      .button {
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: white;
+      }
+
+      .button-primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button-secondary {
+        background: var(--surface);
+        border-color: var(--border);
+      }
+
+      .hero-panel,
+      .cta-panel {
+        padding: var(--space-6);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-panel {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(135deg, rgba(13, 124, 102, 0.18), transparent 46%),
+          radial-gradient(circle at top right, rgba(13, 124, 102, 0.2), transparent 26%);
+        pointer-events: none;
+      }
+
+      .metric {
+        position: relative;
+        display: grid;
+        gap: var(--space-2);
+        padding: var(--space-5);
+        background: var(--surface-strong);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+      }
+
+      .metric strong {
+        font-size: 2.4rem;
+        font-family: var(--display-font);
+      }
+
+      .stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        padding-bottom: var(--space-7);
+      }
+
+      .sections {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        padding-bottom: var(--space-7);
+      }
+
+      .card {
+        padding: var(--space-6);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+      }
+
+      .card ul {
+        margin: 0;
+        padding-left: 1.1rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .card li + li {
+        margin-top: var(--space-2);
+      }
+
+      .cta-band {
+        padding-bottom: var(--space-7);
+      }
+
+      .cta-panel {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+      }
+
+      .site-footer {
+        padding: 0 0 var(--space-6);
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .stats,
+        .sections,
+        .cta-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .site-header .shell {
+          grid-template-columns: 1fr;
+          justify-items: start;
+        }
+
+        h1 {
+          max-width: none;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .site-header {
+          padding-top: var(--space-4);
+        }
+
+        .hero {
+          padding-top: var(--space-4);
+        }
+
+        .hero-panel,
+        .card,
+        .cta-panel {
+          padding: var(--space-5);
+        }
+
+        .actions,
+        .nav {
+          width: 100%;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell">
+        <a class="brand" href="#top">Test Co.</a>
+        <nav class="nav" aria-label="주요 섹션">
+          <a href="#overview">핵심 가치</a>
+          <a href="#benefits">활용 방식</a>
+          <a href="#contact">시작하기</a>
+        </nav>
+      </div>
+    </header>
+    <main id="top">
+      <section class="shell hero" id="overview">
+        <div class="hero-copy">
+          <span class="eyebrow">작게 시작하고 빠르게 전환하는 팀을 위한 페이지</span>
+          <h1>한 번의 배포로 메시지와 행동을 연결합니다.</h1>
+          <p>
+            이 샘플 랜딩 페이지는 저장소에서 바로 실행되도록 구성되었습니다.
+            핵심 소개, 가치 제안, 실행 흐름, 명확한 CTA를 한 화면에 담아
+            데스크톱과 모바일에서 모두 자연스럽게 읽히도록 설계했습니다.
+          </p>
+          <div class="actions">
+            <a class="button button-primary" href="#contact">지금 시작하기</a>
+            <a class="button button-secondary" href="#benefits">섹션 보기</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="핵심 지표">
+          <div class="pill">실행 흐름 포함</div>
+          <div class="metric">
+            <strong>3개</strong>
+            <p>핵심 섹션으로 정보를 압축해 첫 방문자가 빠르게 이해할 수 있습니다.</p>
+          </div>
+          <div class="metric">
+            <strong>1분</strong>
+            <p>정적 파일 기반이라 설치 부담 없이 저장소에서 즉시 확인할 수 있습니다.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="shell stats" aria-label="주요 포인트">
+        <article class="metric">
+          <strong>소개</strong>
+          <p>서비스의 목적과 톤을 첫 스크롤 안에서 전달합니다.</p>
+        </article>
+        <article class="metric">
+          <strong>가치</strong>
+          <p>사용자가 얻는 이점을 카드 섹션으로 단순하게 정리합니다.</p>
+        </article>
+        <article class="metric">
+          <strong>전환</strong>
+          <p>CTA를 상단과 하단에 모두 배치해 행동 유도를 분명히 만듭니다.</p>
+        </article>
+      </section>
+
+      <section class="shell sections" id="benefits">
+        <article class="card">
+          <span class="pill">01</span>
+          <h2>명확한 구조</h2>
+          <p>페이지를 처음 열었을 때 무엇을 보여주고 어디로 이동할지 한눈에 알 수 있습니다.</p>
+          <ul>
+            <li>히어로 섹션에서 메시지와 CTA를 동시에 제시</li>
+            <li>카드 기반 섹션으로 정보 밀도를 균형 있게 유지</li>
+            <li>좁은 화면에서는 단일 열로 자연스럽게 재배치</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="pill">02</span>
+          <h2>기본 접근성</h2>
+          <p>가시적인 포커스와 충분한 터치 영역을 포함해 기본 사용성을 확보했습니다.</p>
+          <ul>
+            <li>버튼과 내비게이션은 44px 이상 클릭 영역 확보</li>
+            <li>명도 대비가 충분한 배경과 본문 색상 사용</li>
+            <li>스크린 리더를 위한 내비게이션 라벨 반영</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="pill">03</span>
+          <h2>즉시 실행</h2>
+          <p>별도 빌드 파이프라인 없이 정적 파일 하나로 빠르게 배포나 검증이 가능합니다.</p>
+          <ul>
+            <li>`npm start`만으로 로컬 서버 실행</li>
+            <li>의존성 없이 저장소 상태를 단순하게 유지</li>
+            <li>추가 개발 시 정적 페이지를 기반으로 확장 가능</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="shell cta-band" id="contact">
+        <div class="cta-panel">
+          <div>
+            <span class="pill">Ready to ship</span>
+            <h2>이 저장소에서 바로 페이지를 띄워 보십시오.</h2>
+            <p>핵심 섹션과 CTA가 이미 반영되어 있으므로, 다음 단계는 문구 교체나 브랜드 확장뿐입니다.</p>
+          </div>
+          <a class="button button-primary" href="mailto:hello@example.com">문의 보내기</a>
+        </div>
+      </section>
+    </main>
+    <footer class="shell site-footer">
+      <p>Test Co. landing page sample</p>
+    </footer>
+  </body>
+</html>
