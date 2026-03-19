@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Landing</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --surface: rgba(255, 255, 255, 0.76);
+        --surface-strong: #fff8ec;
+        --text: #1f1a17;
+        --muted: #655c55;
+        --line: rgba(31, 26, 23, 0.12);
+        --accent: #ff6b2c;
+        --accent-strong: #dd5317;
+        --accent-soft: rgba(255, 107, 44, 0.14);
+        --success: #1b7f5d;
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --shadow: 0 24px 60px rgba(31, 26, 23, 0.12);
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 72px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+          Palatino, serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 32%),
+          linear-gradient(180deg, #f8f1e7 0%, #f0e4d6 55%, #efe7dd 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page-shell {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-5) 0;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: var(--text);
+        color: #fff;
+      }
+
+      .nav-cta {
+        min-height: 44px;
+        padding: 0 var(--space-4);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        background: var(--text);
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: var(--space-8) 0 var(--space-7);
+      }
+
+      .hero-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        gap: var(--space-6);
+        align-items: stretch;
+        padding: var(--space-7);
+        border: 1px solid var(--line);
+        border-radius: calc(var(--radius-lg) + 8px);
+        background: linear-gradient(145deg, rgba(255, 248, 236, 0.95), rgba(255, 255, 255, 0.82));
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+        padding: 6px var(--space-3);
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0 0 var(--space-4);
+        font-size: clamp(2.5rem, 7vw, 5.4rem);
+        line-height: 0.93;
+        letter-spacing: -0.05em;
+      }
+
+      .hero-copy p {
+        margin: 0 0 var(--space-5);
+        max-width: 56ch;
+        font-size: 1.08rem;
+        line-height: 1.75;
+        color: var(--muted);
+      }
+
+      .hero-actions,
+      .cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .button {
+        min-height: 48px;
+        padding: 0 22px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-size: 1rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          transform 160ms ease,
+          background-color 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease;
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 12px 28px rgba(255, 107, 44, 0.22);
+      }
+
+      .button-secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      .button:hover,
+      .button:active,
+      .nav-cta:hover,
+      .nav-cta:active {
+        transform: translateY(-1px);
+      }
+
+      .button-primary:hover,
+      .button-primary:active {
+        background: var(--accent-strong);
+      }
+
+      .button-secondary:hover,
+      .button-secondary:active {
+        background: #fff;
+      }
+
+      :focus-visible {
+        outline: 3px solid rgba(255, 107, 44, 0.45);
+        outline-offset: 3px;
+      }
+
+      .hero-stats {
+        display: grid;
+        gap: var(--space-4);
+        align-content: center;
+      }
+
+      .stat-card {
+        padding: var(--space-5);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface);
+        backdrop-filter: blur(12px);
+      }
+
+      .stat-card strong {
+        display: block;
+        margin-bottom: var(--space-2);
+        font-size: 2rem;
+        line-height: 1;
+      }
+
+      .stat-card span {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .section {
+        padding: 0 0 var(--space-8);
+      }
+
+      .section-heading {
+        max-width: 640px;
+        margin-bottom: var(--space-6);
+      }
+
+      .section-heading h2 {
+        margin: 0 0 var(--space-3);
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1;
+      }
+
+      .section-heading p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .feature-grid,
+      .flow-grid {
+        display: grid;
+        gap: var(--space-4);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .card {
+        padding: var(--space-5);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface);
+        box-shadow: 0 18px 40px rgba(31, 26, 23, 0.06);
+      }
+
+      .card h3 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.28rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .step-index {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin-bottom: var(--space-4);
+        border-radius: 999px;
+        background: var(--text);
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .cta-band {
+        padding: var(--space-7);
+        border-radius: calc(var(--radius-lg) + 8px);
+        background: linear-gradient(135deg, #1f1a17 0%, #352822 100%);
+        color: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .cta-band p {
+        max-width: 56ch;
+        color: rgba(255, 255, 255, 0.72);
+        line-height: 1.75;
+      }
+
+      .cta-note {
+        margin-top: var(--space-4);
+        color: rgba(255, 255, 255, 0.74);
+        font-size: 0.96rem;
+      }
+
+      .highlight {
+        color: var(--success);
+        font-weight: 700;
+      }
+
+      .site-footer {
+        padding: 0 0 var(--space-6);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 900px) {
+        .hero-panel,
+        .feature-grid,
+        .flow-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-panel,
+        .cta-band {
+          padding: var(--space-6);
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page-shell {
+          width: min(100% - 24px, 1120px);
+        }
+
+        .site-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .hero,
+        .section {
+          padding-bottom: var(--space-7);
+        }
+
+        .hero-panel,
+        .cta-band {
+          padding: var(--space-5);
+        }
+
+        h1 {
+          font-size: clamp(2.25rem, 15vw, 3.6rem);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Test Landing 상단으로 이동">
+          <span class="brand-mark">T</span>
+          <span>Test Landing</span>
+        </a>
+        <a class="nav-cta" href="#cta">시작하기</a>
+      </header>
+    </div>
+
+    <main id="top">
+      <section class="hero">
+        <div class="page-shell">
+          <div class="hero-panel">
+            <div class="hero-copy">
+              <div class="eyebrow">빠르게 띄우는 단일 페이지 웹 경험</div>
+              <h1>핵심 메시지와 CTA가 바로 보이는 테스트용 랜딩 페이지</h1>
+              <p>
+                이 페이지는 저장소 안에서 즉시 실행할 수 있도록 만든 최소 구현입니다.
+                소개, 장점, 진행 흐름, 마지막 행동 유도까지 한 화면 안에 정리해
+                데스크톱과 모바일 모두에서 기본 사용이 가능하도록 구성했습니다.
+              </p>
+              <div class="hero-actions">
+                <a class="button button-primary" href="#cta">지금 시작하기</a>
+                <a class="button button-secondary" href="#features">구성 보기</a>
+              </div>
+            </div>
+
+            <aside class="hero-stats" aria-label="핵심 지표">
+              <div class="stat-card">
+                <strong>3분</strong>
+                <span>페이지를 확인하고 다음 액션으로 이동하는 데 필요한 평균 시간</span>
+              </div>
+              <div class="stat-card">
+                <strong>4개</strong>
+                <span>랜딩 페이지에 필요한 핵심 섹션을 단순하게 압축한 화면 구성</span>
+              </div>
+              <div class="stat-card">
+                <strong class="highlight">Responsive</strong>
+                <span>좁은 화면에서도 읽기 흐름과 버튼 접근성을 유지하는 레이아웃</span>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="page-shell">
+          <div class="section-heading">
+            <h2>핵심 섹션</h2>
+            <p>
+              사용자가 처음 들어왔을 때 무엇을 이해하고, 왜 눌러야 하는지, 어떤 흐름으로
+              이어지는지를 자연스럽게 따라갈 수 있도록 구성했습니다.
+            </p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="card">
+              <h3>명확한 첫 문장</h3>
+              <p>상단 히어로에서 목적과 가치 제안을 한 번에 전달해 이탈을 줄입니다.</p>
+            </article>
+            <article class="card">
+              <h3>간결한 설명 블록</h3>
+              <p>카드형 정보 구조로 장점과 차별점을 짧게 읽을 수 있도록 정리했습니다.</p>
+            </article>
+            <article class="card">
+              <h3>반복되는 CTA</h3>
+              <p>헤더와 본문 하단에 CTA를 배치해 어느 위치에서도 다음 행동이 보입니다.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="flow">
+        <div class="page-shell">
+          <div class="section-heading">
+            <h2>사용 흐름</h2>
+            <p>
+              최소 페이지라도 사용자는 맥락, 신뢰, 행동 순서가 필요합니다. 아래 세 단계만
+              갖추면 테스트 목적의 웹페이지로 충분히 기능합니다.
+            </p>
+          </div>
+
+          <div class="flow-grid">
+            <article class="card">
+              <span class="step-index">01</span>
+              <h3>이해</h3>
+              <p>무엇을 위한 페이지인지 히어로 영역에서 바로 설명합니다.</p>
+            </article>
+            <article class="card">
+              <span class="step-index">02</span>
+              <h3>확신</h3>
+              <p>핵심 장점과 구조를 카드 단위로 보여 주어 메시지 피로를 줄입니다.</p>
+            </article>
+            <article class="card">
+              <span class="step-index">03</span>
+              <h3>행동</h3>
+              <p>마지막 CTA에서 곧바로 다음 단계로 연결되도록 행동 유도를 마무리합니다.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="cta">
+        <div class="page-shell">
+          <div class="cta-band">
+            <div class="section-heading">
+              <h2>저장소에서 바로 실행해 확인하십시오</h2>
+              <p>
+                별도 의존성 없이 `npm start`만으로 로컬 서버가 뜨고, 정적 페이지가 바로
+                열립니다. 최소 변경으로 웹페이지 구현과 실행 흐름 연결을 동시에 충족합니다.
+              </p>
+            </div>
+            <div class="cta-actions">
+              <a class="button button-primary" href="http://localhost:4173">로컬 주소 보기</a>
+              <a class="button button-secondary" href="mailto:test@example.com">문의 남기기</a>
+            </div>
+            <p class="cta-note">실행 명령: <strong>npm start</strong></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="page-shell">
+      <footer class="site-footer">
+        Test Landing · Minimal repository integration for a runnable landing page
+      </footer>
+    </div>
+  </body>
+</html>
