@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>아무 웹이나 만드십시오</title>
+    <style>
+      :root {
+        --bg: #f4efe8;
+        --panel: rgba(255, 252, 247, 0.86);
+        --text: #1f1a17;
+        --muted: #5f564f;
+        --accent: #d66853;
+        --accent-strong: #a94234;
+        --line: rgba(31, 26, 23, 0.12);
+        --shadow: 0 24px 60px rgba(76, 52, 35, 0.16);
+        --radius: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+          Palatino, Georgia, serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(214, 104, 83, 0.22), transparent 28%),
+          radial-gradient(circle at bottom right, rgba(169, 66, 52, 0.18), transparent 30%),
+          linear-gradient(135deg, #f8f3ed, var(--bg));
+      }
+
+      main {
+        width: min(100%, 920px);
+        padding: clamp(28px, 5vw, 48px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        backdrop-filter: blur(12px);
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(214, 104, 83, 0.12);
+        color: var(--accent-strong);
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 18px 0 12px;
+        font-size: clamp(2.6rem, 7vw, 5rem);
+        line-height: 0.95;
+      }
+
+      p {
+        margin: 0;
+        max-width: 62ch;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-top: 32px;
+      }
+
+      .card {
+        min-height: 180px;
+        padding: 20px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 1.15rem;
+      }
+
+      .card p {
+        font-size: 0.98rem;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 24px;
+        min-height: 44px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff8f2;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .status::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: currentColor;
+        box-shadow: 0 0 0 6px rgba(255, 248, 242, 0.18);
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 16px;
+        }
+
+        main {
+          padding: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="eyebrow">Minimal Web Delivery</span>
+      <h1>아무 웹이나 만드십시오</h1>
+      <p>
+        비어 있던 저장소에 즉시 열어볼 수 있는 단일 정적 웹 페이지를 추가했습니다.
+        별도 빌드나 의존성 없이 `index.html` 하나로 결과를 검토할 수 있으며,
+        이번 브랜치의 목적은 CEO가 다음 판단을 내릴 수 있도록 최소한의 실행 가능한
+        웹 결과를 돌려주는 것입니다.
+      </p>
+
+      <div class="grid">
+        <section class="card">
+          <h2>What Shipped</h2>
+          <p>한 장짜리 랜딩 페이지, 반응형 레이아웃, 접근 가능한 기본 HTML 구조.</p>
+        </section>
+        <section class="card">
+          <h2>Validation State</h2>
+          <p>로컬 HTTP 응답으로 제목과 handoff 문구를 확인할 수 있도록 구성했습니다.</p>
+        </section>
+        <section class="card">
+          <h2>CEO Handoff</h2>
+          <p>추가 제품 방향 없이도 바로 검토 가능한 최소 결과물입니다. CEO handoff ready.</p>
+        </section>
+      </div>
+
+      <div class="status">Ready for the next decision cycle</div>
+    </main>
+  </body>
+</html>
