@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sunlit Atelier</title>
+    <style>
+      :root {
+        --bg: #fff8ef;
+        --surface: rgba(255, 255, 255, 0.82);
+        --surface-strong: #ffffff;
+        --text: #24160d;
+        --muted: #6e5747;
+        --accent: #ff7a18;
+        --accent-strong: #d75600;
+        --accent-soft: #ffe0bf;
+        --line: rgba(54, 29, 13, 0.12);
+        --shadow: 0 18px 50px rgba(136, 74, 24, 0.14);
+        --radius-lg: 28px;
+        --radius-md: 20px;
+        --radius-sm: 14px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 64px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, #ffd5a8 0, transparent 28%),
+          radial-gradient(circle at bottom right, #ffe9d1 0, transparent 32%),
+          linear-gradient(180deg, #fffaf4 0%, #fff3e6 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 24px 0 48px;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(32px, 7vw, 72px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 244, 232, 0.88));
+        box-shadow: var(--shadow);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -8% -24% auto;
+        width: 280px;
+        height: 280px;
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(255, 122, 24, 0.28), rgba(255, 122, 24, 0));
+        pointer-events: none;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border: 1px solid rgba(255, 122, 24, 0.22);
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      h1 {
+        max-width: 11ch;
+        margin: var(--space-5) 0 var(--space-4);
+        font-size: clamp(2.6rem, 7vw, 5.2rem);
+        line-height: 0.98;
+        letter-spacing: -0.04em;
+      }
+
+      .hero p {
+        max-width: 620px;
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(1.05rem, 2.6vw, 1.2rem);
+        line-height: 1.7;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 20px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-weight: 700;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(215, 86, 0, 0.34);
+        outline-offset: 3px;
+      }
+
+      .button-primary {
+        background: linear-gradient(135deg, var(--accent), #ff9950);
+        color: #fff;
+        box-shadow: 0 12px 24px rgba(255, 122, 24, 0.26);
+      }
+
+      .button-secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .metrics,
+      .gallery {
+        display: grid;
+        gap: var(--space-5);
+        margin-top: var(--space-6);
+      }
+
+      .metrics {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .gallery {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: var(--space-8);
+      }
+
+      .card {
+        padding: var(--space-5);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface);
+        backdrop-filter: blur(14px);
+        box-shadow: var(--shadow);
+      }
+
+      .metric-value {
+        margin: 0 0 var(--space-2);
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      .metric-label,
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .card h2 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.2rem;
+      }
+
+      .footer-note {
+        margin-top: var(--space-7);
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 860px) {
+        .metrics,
+        .gallery {
+          grid-template-columns: 1fr;
+        }
+
+        .page {
+          width: min(100% - 20px, 1120px);
+          padding-top: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero" aria-labelledby="hero-title">
+        <span class="badge">Small, bright, and ready to open</span>
+        <h1 id="hero-title">Sunlit Atelier</h1>
+        <p>
+          빈 저장소에 바로 띄울 수 있는 단일 페이지 웹입니다. 따뜻한 배경, 또렷한 타이포그래피,
+          유리 질감 카드로 작은 브랜드 랜딩처럼 보이도록 구성했습니다.
+        </p>
+        <div class="actions">
+          <a class="button button-primary" href="#collection">컬렉션 보기</a>
+          <a class="button button-secondary" href="#story">분위기 읽기</a>
+        </div>
+        <div class="metrics" aria-label="핵심 수치">
+          <article class="card">
+            <p class="metric-value">01</p>
+            <p class="metric-label">파일 하나로 끝나는 정적 페이지</p>
+          </article>
+          <article class="card">
+            <p class="metric-value">100%</p>
+            <p class="metric-label">모바일까지 대응하는 반응형 레이아웃</p>
+          </article>
+          <article class="card">
+            <p class="metric-value">AA</p>
+            <p class="metric-label">읽기 쉬운 대비와 포커스 표시 포함</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="gallery" id="collection" aria-label="소개 카드">
+        <article class="card">
+          <h2>Morning Palette</h2>
+          <p>차분한 크림 톤 위에 선명한 오렌지 포인트를 더해 첫 화면 인상을 강하게 만듭니다.</p>
+        </article>
+        <article class="card" id="story">
+          <h2>Soft Depth</h2>
+          <p>모든 카드에 동일한 그림자와 반투명 표면을 적용해 일관된 깊이감을 유지했습니다.</p>
+        </article>
+        <article class="card">
+          <h2>Fast Launch</h2>
+          <p>빌드 도구 없이 바로 열 수 있어, 빈 저장소에서도 즉시 결과물을 확인할 수 있습니다.</p>
+        </article>
+      </section>
+
+      <p class="footer-note">Open `index.html` in a browser to view the page.</p>
+    </main>
+  </body>
+</html>
