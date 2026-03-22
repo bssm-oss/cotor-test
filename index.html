@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atelier Wave</title>
+    <style>
+      :root {
+        --bg: #f7f1e8;
+        --surface: rgba(255, 251, 245, 0.82);
+        --surface-strong: #fffaf2;
+        --text: #1e1a17;
+        --muted: #5e544d;
+        --accent: #c4572d;
+        --accent-strong: #9d421f;
+        --line: rgba(30, 26, 23, 0.12);
+        --shadow: 0 24px 60px rgba(62, 34, 18, 0.12);
+        --radius-xl: 32px;
+        --radius-lg: 22px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --space-8: 72px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(255, 176, 112, 0.7), transparent 36%),
+          radial-gradient(circle at 85% 20%, rgba(103, 169, 189, 0.35), transparent 30%),
+          linear-gradient(160deg, #f7f1e8, #f1e6d7 55%, #ede0ce);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: var(--space-6) 0 var(--space-8);
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(32px, 5vw, 72px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        background: linear-gradient(135deg, rgba(255, 250, 242, 0.92), rgba(255, 245, 232, 0.74));
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -80px -120px auto;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(196, 87, 45, 0.28), rgba(103, 169, 189, 0.18));
+        filter: blur(10px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-3);
+        border: 1px solid rgba(196, 87, 45, 0.24);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.55);
+        color: var(--accent-strong);
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 10ch;
+        margin: var(--space-5) 0 var(--space-4);
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+        font-size: clamp(3rem, 8vw, 6rem);
+        line-height: 0.95;
+      }
+
+      .lead {
+        max-width: 34rem;
+        margin: 0 0 var(--space-6);
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        line-height: 1.7;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 168px;
+        min-height: 48px;
+        padding: 0 var(--space-5);
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, border-color 160ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(103, 169, 189, 0.5);
+        outline-offset: 3px;
+      }
+
+      .button.primary {
+        color: #fff8f1;
+        background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+        box-shadow: 0 14px 28px rgba(157, 66, 31, 0.22);
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-5);
+        margin-top: var(--space-6);
+      }
+
+      .card {
+        padding: var(--space-5);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        box-shadow: 0 12px 24px rgba(62, 34, 18, 0.08);
+      }
+
+      .card h2 {
+        margin: 0 0 var(--space-3);
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .feature {
+        margin-top: var(--space-6);
+        padding: clamp(24px, 4vw, 40px);
+        border-radius: var(--radius-xl);
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+
+      .feature h2 {
+        margin: 0 0 var(--space-3);
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+      }
+
+      .feature p {
+        margin: 0;
+        max-width: 38rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          width: min(100% - 20px, 1120px);
+          padding-top: var(--space-4);
+          padding-bottom: var(--space-7);
+        }
+
+        .hero {
+          padding: 28px;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero" aria-labelledby="hero-title">
+        <span class="eyebrow">Small site, clear mood</span>
+        <h1 id="hero-title">Atelier Wave</h1>
+        <p class="lead">
+          아무 것도 없던 저장소에 가볍지만 인상적인 한 장짜리 웹을 추가했습니다. 따뜻한 배경, 선명한 타이포,
+          그리고 읽기 쉬운 카드 구조만으로도 충분히 완성도 있는 첫 화면을 만들 수 있습니다.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#story">Explore</a>
+          <a class="button secondary" href="#details">See Details</a>
+        </div>
+      </section>
+
+      <section class="grid" id="details" aria-label="핵심 특징">
+        <article class="card">
+          <h2>Responsive</h2>
+          <p>작은 화면에서는 단일 열로 정리되고 버튼은 전체 너비를 사용해 바로 누를 수 있게 바뀝니다.</p>
+        </article>
+        <article class="card">
+          <h2>Accessible</h2>
+          <p>충분한 대비, `focus-visible`, 의미 있는 랜드마크와 제목 구조만 넣어도 기본 접근성은 확보됩니다.</p>
+        </article>
+        <article class="card">
+          <h2>Minimal</h2>
+          <p>빌드 도구 없이 `index.html` 한 파일로 끝나므로 저장소 범위를 거의 넓히지 않습니다.</p>
+        </article>
+      </section>
+
+      <section class="feature" id="story" aria-labelledby="story-title">
+        <h2 id="story-title">A quiet landing page with enough personality</h2>
+        <p>
+          이 페이지는 데모, 임시 랜딩, 혹은 이후 프레임워크 도입 전의 시작점으로 바로 쓸 수 있습니다. 필요하면
+          여기에서 섹션을 더 붙이거나 라우팅 구조로 확장하면 됩니다.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
