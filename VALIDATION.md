@@ -5,7 +5,8 @@ Scope
 
 Result
 - Re-ran repository validation against the assigned branch.
-- `git ls-tree --name-only HEAD` returns no tracked files, so there is no web application, build target, or runtime entry point to validate.
+- `git ls-tree --name-only HEAD` returns `VALIDATION.md`. That file is the only tracked artifact on this branch.
+- There is still no web application, build target, or runtime entry point beyond this validation note, so there is no product surface to execute.
 - Current branch outcome does not satisfy the original goal yet.
 
 Residual risk
