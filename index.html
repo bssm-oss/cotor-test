@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luma Atelier</title>
+    <style>
+      :root {
+        --bg: #f4ede3;
+        --surface: rgba(255, 251, 247, 0.78);
+        --surface-strong: #fff8f1;
+        --text: #231815;
+        --muted: #68554b;
+        --line: rgba(35, 24, 21, 0.12);
+        --accent: #d85b44;
+        --accent-soft: #f7b27c;
+        --accent-deep: #8f3327;
+        --shadow: 0 24px 60px rgba(80, 44, 32, 0.14);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 999px;
+        --space-1: 0.5rem;
+        --space-2: 1rem;
+        --space-3: 1.5rem;
+        --space-4: 2rem;
+        --space-5: 3rem;
+        --space-6: 4.5rem;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+          Georgia, serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 214, 173, 0.82), transparent 34%),
+          radial-gradient(circle at 80% 12%, rgba(216, 91, 68, 0.22), transparent 24%),
+          linear-gradient(180deg, #fbf7f0 0%, var(--bg) 52%, #ead8c4 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        position: relative;
+        padding: var(--space-4);
+      }
+
+      .page::before,
+      .page::after {
+        content: "";
+        position: fixed;
+        inset: auto;
+        pointer-events: none;
+        z-index: -1;
+        filter: blur(22px);
+        opacity: 0.6;
+      }
+
+      .page::before {
+        top: 5rem;
+        right: -2rem;
+        width: 14rem;
+        height: 14rem;
+        border-radius: 50%;
+        background: rgba(216, 91, 68, 0.22);
+      }
+
+      .page::after {
+        left: -3rem;
+        bottom: 8rem;
+        width: 18rem;
+        height: 18rem;
+        border-radius: 50%;
+        background: rgba(247, 178, 124, 0.28);
+      }
+
+      .shell {
+        width: min(1120px, 100%);
+        margin: 0 auto;
+      }
+
+      .topbar,
+      .hero,
+      .gallery,
+      .closing {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+        padding: 1rem 1.25rem;
+        border-radius: var(--radius-sm);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 2.7rem;
+        height: 2.7rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-soft) 100%);
+        color: #fff8f2;
+        font-size: 1.25rem;
+      }
+
+      .topbar nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .topbar nav a {
+        text-decoration: none;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        gap: var(--space-4);
+        margin-top: var(--space-4);
+        padding: clamp(1.5rem, 4vw, 3rem);
+        border-radius: var(--radius-lg);
+      }
+
+      .eyebrow,
+      .metric-label {
+        font-size: 0.85rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent-deep);
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        margin-top: var(--space-2);
+        font-size: clamp(3rem, 8vw, 6rem);
+        line-height: 0.94;
+        letter-spacing: -0.04em;
+      }
+
+      .hero-copy {
+        margin-top: var(--space-3);
+        max-width: 34rem;
+        color: var(--muted);
+        font-size: 1.1rem;
+        line-height: 1.7;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+        margin-top: var(--space-4);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 10rem;
+        min-height: 3rem;
+        padding: 0.8rem 1.2rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-size: 0.98rem;
+        transition: transform 180ms ease, background-color 180ms ease,
+          border-color 180ms ease;
+      }
+
+      .button:focus-visible,
+      .stat:focus-visible,
+      .topbar nav a:focus-visible {
+        outline: 3px solid rgba(216, 91, 68, 0.35);
+        outline-offset: 4px;
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fffaf5;
+      }
+
+      .button.secondary {
+        background: rgba(255, 255, 255, 0.5);
+        border-color: var(--line);
+      }
+
+      .button:hover,
+      .button:active {
+        transform: translateY(-1px);
+      }
+
+      .panel-stack {
+        display: grid;
+        gap: var(--space-2);
+      }
+
+      .showcase,
+      .insight,
+      .closing-card {
+        border-radius: calc(var(--radius-lg) - 8px);
+        border: 1px solid var(--line);
+        background: var(--surface-strong);
+      }
+
+      .showcase {
+        display: grid;
+        gap: var(--space-2);
+        padding: var(--space-3);
+      }
+
+      .showcase strong {
+        font-size: 1.2rem;
+      }
+
+      .showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.9rem;
+      }
+
+      .showcase-grid article,
+      .insight,
+      .gallery article,
+      .closing-card {
+        padding: var(--space-3);
+      }
+
+      .showcase-grid article {
+        min-height: 8rem;
+        border-radius: var(--radius-md);
+        background: linear-gradient(180deg, rgba(255, 233, 216, 0.9), rgba(255, 248, 241, 0.9));
+      }
+
+      .showcase-grid span,
+      .gallery article p:last-child {
+        display: block;
+        margin-top: 0.65rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .insight {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+      }
+
+      .metric {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        line-height: 1;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1px;
+        margin-top: var(--space-4);
+        overflow: clip;
+        border-radius: var(--radius-lg);
+      }
+
+      .gallery article {
+        background: rgba(255, 248, 241, 0.88);
+      }
+
+      .gallery h2,
+      .closing h2 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        margin-bottom: 0.9rem;
+      }
+
+      .closing {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+        gap: var(--space-4);
+        margin: var(--space-4) 0 0;
+        padding: clamp(1.5rem, 4vw, 2.5rem);
+        border-radius: var(--radius-lg);
+      }
+
+      .closing-copy {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .closing-card {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .closing-card ul {
+        margin: 0;
+        padding-left: 1.2rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      @media (max-width: 860px) {
+        .page {
+          padding: 1rem;
+        }
+
+        .topbar,
+        .hero,
+        .closing {
+          border-radius: 1.5rem;
+        }
+
+        .hero,
+        .closing,
+        .gallery {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: clamp(2.8rem, 16vw, 4.5rem);
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .showcase-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .actions,
+        .insight {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto;
+          transition-duration: 0ms !important;
+          animation-duration: 0ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="shell">
+        <header class="topbar">
+          <div class="brand">
+            <div class="brand-mark" aria-hidden="true">L</div>
+            <div>
+              <strong>Luma Atelier</strong><br />
+              Quiet luxury for playful products
+            </div>
+          </div>
+          <nav aria-label="빠른 링크">
+            <a href="#atelier">Atelier</a>
+            <a href="#collection">Collection</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </header>
+
+        <section class="hero" id="atelier">
+          <div>
+            <p class="eyebrow">Editorial Landing Page</p>
+            <h1>아무 웹이나.<br />이번에는 꽤 아름답게.</h1>
+            <p class="hero-copy">
+              Luma Atelier는 감도 높은 제품 소개 페이지를 위한 가상의 스튜디오입니다.
+              큰 문장, 따뜻한 색, 유리 같은 레이어를 조합해 한 장짜리 페이지도
+              인상적으로 보이도록 구성했습니다.
+            </p>
+            <div class="actions">
+              <a class="button primary" href="#collection">작품 보기</a>
+              <a class="button secondary" href="#contact">이 분위기 저장하기</a>
+            </div>
+          </div>
+
+          <div class="panel-stack">
+            <section class="showcase" aria-label="하이라이트">
+              <p class="eyebrow">Season Notes</p>
+              <strong>빛, 종이, 공기감을 가진 제품 페이지</strong>
+              <div class="showcase-grid">
+                <article>
+                  <p class="metric-label">Palette</p>
+                  <strong>Apricot Clay</strong>
+                  <span>따뜻한 크림 배경 위에 코랄 포인트를 얹어 차분하지만 밋밋하지 않게.</span>
+                </article>
+                <article>
+                  <p class="metric-label">Rhythm</p>
+                  <strong>8px scale</strong>
+                  <span>랜딩 전체의 간격과 카드 크기를 일정한 박자로 묶어 화면이 안정적으로 보이게.</span>
+                </article>
+              </div>
+            </section>
+
+            <a class="insight" href="#contact">
+              <div>
+                <p class="metric-label">Ready for mobile</p>
+                <strong>스크롤 가능한 전체 높이 레이아웃</strong>
+              </div>
+              <div class="metric" aria-hidden="true">100%</div>
+            </a>
+          </div>
+        </section>
+
+        <section class="gallery" id="collection" aria-label="컬렉션">
+          <article>
+            <p class="eyebrow">Mood One</p>
+            <h2>Soft glass</h2>
+            <p>
+              반투명 카드와 깊은 그림자를 섞어 랜딩 페이지에 전시 공간 같은 밀도를
+              줍니다.
+            </p>
+          </article>
+          <article>
+            <p class="eyebrow">Mood Two</p>
+            <h2>Long scroll</h2>
+            <p>
+              고정 높이를 쓰지 않아 짧은 모바일 뷰포트에서도 내용이 끊기지 않고 자연스럽게
+              이어집니다.
+            </p>
+          </article>
+          <article>
+            <p class="eyebrow">Mood Three</p>
+            <h2>Clear CTA</h2>
+            <p>
+              큰 타이포와 명확한 버튼 두 개만 남겨 사용자가 다음 행동을 고민하지 않게
+              구성했습니다.
+            </p>
+          </article>
+        </section>
+
+        <section class="closing" id="contact">
+          <div>
+            <p class="eyebrow">For the next release</p>
+            <h2>작고 완결된 정적 웹 한 장.</h2>
+            <p class="closing-copy">
+              이 저장소에는 제품 파일이 없었기 때문에, 가장 작은 완성형 결과물인 단일
+              `index.html` 페이지를 추가했습니다. 별도 빌드 없이 바로 열리며, 데스크톱과
+              모바일 모두에서 읽히는 구성을 기준으로 만들었습니다.
+            </p>
+          </div>
+          <aside class="closing-card">
+            <p class="metric-label">Built with care</p>
+            <strong>Included in this page</strong>
+            <ul>
+              <li>CSS 토큰 기반 색상과 간격</li>
+              <li>키보드 포커스가 보이는 버튼과 링크</li>
+              <li>모바일에서 한 열로 내려오는 카드 레이아웃</li>
+            </ul>
+          </aside>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
