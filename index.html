@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moonlit Studio</title>
+    <style>
+      :root {
+        --bg: #fffaf2;
+        --surface: rgba(255, 255, 255, 0.72);
+        --surface-strong: #ffffff;
+        --text: #1f1c1a;
+        --muted: #6f675f;
+        --line: rgba(31, 28, 26, 0.08);
+        --accent: #ff7a59;
+        --accent-soft: #ffd8bf;
+        --accent-deep: #1f5eff;
+        --shadow: 0 24px 60px rgba(49, 37, 24, 0.12);
+        --radius-xl: 28px;
+        --radius-lg: 20px;
+        --space-1: 0.5rem;
+        --space-2: 1rem;
+        --space-3: 1.5rem;
+        --space-4: 2rem;
+        --space-5: 3rem;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        min-height: 100svh;
+        overflow-x: hidden;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 122, 89, 0.28), transparent 30%),
+          radial-gradient(circle at top right, rgba(31, 94, 255, 0.14), transparent 28%),
+          linear-gradient(180deg, #fffaf2 0%, #ffeede 48%, #fff7f0 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 1.25rem 0 3rem;
+      }
+
+      .hero {
+        position: relative;
+        overflow: clip;
+        padding: clamp(1.25rem, 4vw, 2rem);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -4rem -5rem auto;
+        width: 14rem;
+        height: 14rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--accent), #ffb36a);
+        opacity: 0.2;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.86);
+        border: 1px solid rgba(31, 28, 26, 0.08);
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 10ch;
+        margin: 1rem 0 0.75rem;
+        font-size: clamp(3rem, 9vw, 6.5rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      .lede {
+        max-width: 42rem;
+        margin: 0;
+        font-size: clamp(1.05rem, 2vw, 1.25rem);
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.875rem;
+        margin-top: 2rem;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.9rem 1.3rem;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-weight: 700;
+        transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(31, 94, 255, 0.32);
+        outline-offset: 3px;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        color: #fff;
+        background: linear-gradient(135deg, var(--accent) 0%, #ff9860 100%);
+        box-shadow: 0 16px 28px rgba(255, 122, 89, 0.28);
+      }
+
+      .button.secondary {
+        border-color: rgba(31, 28, 26, 0.12);
+        background: rgba(255, 255, 255, 0.82);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .card,
+      .quote {
+        padding: 1.25rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.78);
+        box-shadow: 0 16px 40px rgba(49, 37, 24, 0.08);
+      }
+
+      .card strong,
+      .quote strong {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 1.05rem;
+      }
+
+      .card p,
+      .quote p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .section {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .quote {
+        background: linear-gradient(180deg, var(--surface-strong) 0%, #fff1e7 100%);
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin-top: 2rem;
+      }
+
+      .metric {
+        padding: 1rem;
+        border-radius: 18px;
+        background: rgba(31, 94, 255, 0.06);
+        border: 1px solid rgba(31, 94, 255, 0.08);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.8rem;
+        letter-spacing: -0.05em;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 860px) {
+        .grid,
+        .section,
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .page {
+          width: min(100% - 1rem, 1120px);
+          padding-bottom: 2rem;
+        }
+
+        h1 {
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <span class="eyebrow">Moonlit Studio</span>
+        <h1>아무 웹이나, 보기 좋게.</h1>
+        <p class="lede">
+          작은 저장소에도 첫 인상은 필요합니다. 이 페이지는 가벼운 정적 구조만으로
+          분위기, 반응형 레이아웃, 명확한 타이포그래피를 갖춘 단일 랜딩 화면을 제공합니다.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#showcase">Show the Mood</a>
+          <a class="button secondary" href="#details">Read the Story</a>
+        </div>
+
+        <div class="metrics" id="showcase">
+          <div class="metric">
+            <strong>100%</strong>
+            <span>Static and portable</span>
+          </div>
+          <div class="metric">
+            <strong>320px+</strong>
+            <span>Responsive layout</span>
+          </div>
+          <div class="metric">
+            <strong>0 JS</strong>
+            <span>Zero runtime dependencies</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid" aria-label="Highlights">
+        <article class="card">
+          <strong>Warm palette</strong>
+          <p>크림 톤 배경과 코랄 포인트로 가볍지만 단조롭지 않은 분위기를 만듭니다.</p>
+        </article>
+        <article class="card">
+          <strong>Readable rhythm</strong>
+          <p>간격 스케일과 큰 제목 대비를 사용해 콘텐츠가 짧아도 화면이 비어 보이지 않습니다.</p>
+        </article>
+        <article class="card">
+          <strong>Mobile safe</strong>
+          <p>세로 스크롤을 막지 않아 짧은 뷰포트에서도 콘텐츠가 정상적으로 내려갑니다.</p>
+        </article>
+      </section>
+
+      <section class="section" id="details">
+        <article class="card">
+          <strong>Designed for a tiny repo</strong>
+          <p>
+            프레임워크 없이도 시작점으로 쓸 수 있도록 한 파일에 필요한 스타일과
+            구조를 담았습니다. 이후 정적 호스팅, 템플릿 확장, 혹은 앱 프론트로의
+            전환이 모두 가능합니다.
+          </p>
+        </article>
+        <aside class="quote">
+          <strong>Quietly polished</strong>
+          <p>
+            과한 상호작용 대신, 배경의 깊이와 여백의 균형으로 첫 화면을 완성했습니다.
+          </p>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
