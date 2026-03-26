@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Velvet Orbit</title>
+    <style>
+      :root {
+        --bg: #f6efe4;
+        --bg-strong: #f0e2ce;
+        --surface: rgba(255, 250, 242, 0.78);
+        --surface-border: rgba(114, 78, 39, 0.16);
+        --text: #2d1b10;
+        --muted: #6f5647;
+        --accent: #cb5f35;
+        --accent-strong: #a7441d;
+        --shadow: 0 24px 80px rgba(83, 45, 10, 0.14);
+        --radius-xl: 32px;
+        --radius-lg: 22px;
+        --space-1: 8px;
+        --space-2: 16px;
+        --space-3: 24px;
+        --space-4: 32px;
+        --space-5: 48px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.85), transparent 36%),
+          radial-gradient(circle at right center, rgba(203, 95, 53, 0.2), transparent 28%),
+          linear-gradient(135deg, var(--bg), var(--bg-strong));
+        overflow-x: hidden;
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        z-index: 0;
+        border-radius: 999px;
+        filter: blur(12px);
+        pointer-events: none;
+      }
+
+      body::before {
+        top: -120px;
+        right: -80px;
+        width: 280px;
+        height: 280px;
+        background: rgba(255, 255, 255, 0.55);
+      }
+
+      body::after {
+        bottom: -120px;
+        left: -60px;
+        width: 320px;
+        height: 320px;
+        background: rgba(203, 95, 53, 0.16);
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        width: min(1080px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 72px 0 48px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: var(--space-4);
+        align-items: stretch;
+      }
+
+      .panel,
+      .orbital-card {
+        backdrop-filter: blur(18px);
+        background: var(--surface);
+        border: 1px solid var(--surface-border);
+        box-shadow: var(--shadow);
+      }
+
+      .panel {
+        border-radius: var(--radius-xl);
+        padding: var(--space-5);
+      }
+
+      .eyebrow {
+        margin: 0 0 var(--space-2);
+        font-size: 0.8rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--accent-strong);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(3rem, 7vw, 5.6rem);
+        line-height: 0.92;
+        letter-spacing: -0.04em;
+      }
+
+      .lead {
+        margin: var(--space-3) 0 0;
+        max-width: 34rem;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: var(--space-4);
+      }
+
+      .button,
+      .ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0 20px;
+        border-radius: 999px;
+        text-decoration: none;
+        transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+      }
+
+      .button {
+        color: #fff7ef;
+        background: var(--accent);
+      }
+
+      .ghost {
+        color: var(--text);
+        border: 1px solid rgba(45, 27, 16, 0.15);
+      }
+
+      .button:hover,
+      .ghost:hover {
+        transform: translateY(-1px);
+      }
+
+      .button:focus-visible,
+      .ghost:focus-visible {
+        outline: 3px solid rgba(203, 95, 53, 0.35);
+        outline-offset: 3px;
+      }
+
+      .orbital-card {
+        border-radius: var(--radius-xl);
+        padding: var(--space-4);
+        display: grid;
+        align-content: space-between;
+        gap: var(--space-4);
+      }
+
+      .orbit {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at center, rgba(255, 248, 240, 0.98) 0 20%, rgba(255, 248, 240, 0) 21%),
+          conic-gradient(from 180deg, rgba(203, 95, 53, 0.1), rgba(45, 27, 16, 0.55), rgba(203, 95, 53, 0.1));
+      }
+
+      .orbit::before,
+      .orbit::after {
+        content: "";
+        position: absolute;
+        inset: 12%;
+        border-radius: 50%;
+        border: 1px solid rgba(45, 27, 16, 0.14);
+      }
+
+      .orbit::after {
+        inset: 28%;
+        border-style: dashed;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-2);
+      }
+
+      .stat {
+        padding: 18px;
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.52);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.55rem;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .details {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-3);
+        margin-top: var(--space-4);
+      }
+
+      .details article {
+        padding: var(--space-3);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 253, 249, 0.72);
+        border: 1px solid rgba(114, 78, 39, 0.12);
+      }
+
+      .details h2 {
+        margin: 0 0 10px;
+        font-size: 1.15rem;
+      }
+
+      .details p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      @media (max-width: 900px) {
+        main {
+          padding-top: 48px;
+        }
+
+        .hero,
+        .details,
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .panel,
+        .orbital-card {
+          padding: var(--space-4);
+        }
+      }
+
+      @media (max-width: 520px) {
+        main {
+          width: min(100% - 20px, 1080px);
+          padding-bottom: 28px;
+        }
+
+        .panel,
+        .orbital-card {
+          padding: var(--space-3);
+          border-radius: 24px;
+        }
+
+        h1 {
+          font-size: clamp(2.6rem, 16vw, 4rem);
+        }
+
+        .lead {
+          font-size: 0.98rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <article class="panel">
+          <p class="eyebrow">Velvet Orbit Studio</p>
+          <h1>고요한 질감 위에 선명한 첫 화면</h1>
+          <p class="lead">
+            한 장짜리 랜딩이지만, 색감과 간격과 질서를 통해 서비스의 무드를 바로 전달하는
+            실험용 웹입니다. 짧은 화면에서도 자연스럽게 내려 읽을 수 있도록 세로 흐름을
+            유지했습니다.
+          </p>
+          <div class="actions">
+            <a class="button" href="#details">Explore Mood</a>
+            <a class="ghost" href="mailto:studio@example.com">Contact</a>
+          </div>
+        </article>
+
+        <aside class="orbital-card" aria-label="Decorative overview">
+          <div class="orbit" aria-hidden="true"></div>
+          <div class="stats">
+            <div class="stat">
+              <strong>01</strong>
+              <span>Single file</span>
+            </div>
+            <div class="stat">
+              <strong>320px+</strong>
+              <span>Responsive</span>
+            </div>
+            <div class="stat">
+              <strong>AA</strong>
+              <span>Focus-visible</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="details" id="details">
+        <article>
+          <h2>Warm Palette</h2>
+          <p>부드러운 베이지 바탕에 테라코타 포인트를 얹어, 과하게 무겁지 않은 고급감을 만듭니다.</p>
+        </article>
+        <article>
+          <h2>Readable Flow</h2>
+          <p>카드 높이를 고정하지 않고 내용에 맞게 늘리며, 작은 모바일 화면에서도 스크롤이 막히지 않습니다.</p>
+        </article>
+        <article>
+          <h2>Focused Motion</h2>
+          <p>버튼에는 아주 짧은 상승 인터랙션만 남겨 과장되지 않은 반응성을 유지했습니다.</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
