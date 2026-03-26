@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cotor Atelier</title>
+    <style>
+      :root {
+        --bg: #f8f1e7;
+        --surface: rgba(255, 252, 247, 0.84);
+        --surface-strong: #fffaf2;
+        --text: #1e1a16;
+        --muted: #665d55;
+        --line: rgba(30, 26, 22, 0.12);
+        --accent: #d86f45;
+        --accent-deep: #7f3525;
+        --shadow: 0 24px 60px rgba(82, 53, 35, 0.15);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 999px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(216, 111, 69, 0.18), transparent 32%),
+          radial-gradient(circle at right 20%, rgba(127, 53, 37, 0.14), transparent 24%),
+          linear-gradient(180deg, #fbf5ee 0%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 24px 0 48px;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+        padding: 32px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        backdrop-filter: blur(16px);
+        box-shadow: var(--shadow);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -60px -80px auto;
+        width: 220px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: rgba(216, 111, 69, 0.16);
+        filter: blur(8px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        border-radius: var(--radius-sm);
+        border: 1px solid rgba(216, 111, 69, 0.28);
+        background: rgba(255, 255, 255, 0.62);
+        color: var(--accent-deep);
+        font-size: 0.92rem;
+      }
+
+      .hero h1 {
+        margin: 18px 0 14px;
+        font-size: clamp(2.9rem, 7vw, 5.8rem);
+        line-height: 0.92;
+        letter-spacing: -0.06em;
+      }
+
+      .hero p {
+        max-width: 34rem;
+        margin: 0 0 24px;
+        font-size: 1.08rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 20px;
+        border-radius: var(--radius-sm);
+        border: 1px solid transparent;
+        transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(216, 111, 69, 0.32);
+        outline-offset: 3px;
+      }
+
+      .button.primary {
+        background: var(--text);
+        color: #fffaf2;
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.65);
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .panel {
+        position: relative;
+        align-self: end;
+        padding: 22px;
+        border-radius: var(--radius-md);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(253, 245, 235, 0.92));
+        border: 1px solid rgba(216, 111, 69, 0.2);
+      }
+
+      .panel h2 {
+        margin: 0 0 12px;
+        font-size: 1.05rem;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .stat {
+        padding: 16px;
+        border-radius: 16px;
+        background: var(--surface-strong);
+        border: 1px solid rgba(30, 26, 22, 0.08);
+      }
+
+      .stat strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 1.7rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 22px;
+      }
+
+      .card {
+        padding: 22px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--line);
+        background: rgba(255, 252, 247, 0.72);
+        box-shadow: 0 18px 40px rgba(82, 53, 35, 0.08);
+      }
+
+      .card h3 {
+        margin: 0 0 10px;
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          width: min(100% - 20px, 1120px);
+          padding-top: 12px;
+        }
+
+        .hero {
+          padding: 22px;
+        }
+
+        .hero h1 {
+          font-size: clamp(2.6rem, 16vw, 4rem);
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <span class="eyebrow">Curated digital moodboard for quiet launches</span>
+          <h1>Small, warm, and unmistakably present.</h1>
+          <p>
+            Cotor Atelier is a compact showcase page built to feel polished without any
+            framework or build step. It keeps the layout breathable on desktop, readable
+            on mobile, and scrollable on short screens.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#collection">Explore collection</a>
+            <a class="button secondary" href="#notes">Read design notes</a>
+          </div>
+        </div>
+        <aside class="panel" aria-label="Launch metrics">
+          <h2>At a glance</h2>
+          <div class="stats">
+            <div class="stat">
+              <strong>01</strong>
+              <span>single-file landing page</span>
+            </div>
+            <div class="stat">
+              <strong>320px+</strong>
+              <span>responsive layout support</span>
+            </div>
+            <div class="stat">
+              <strong>0</strong>
+              <span>build dependencies required</span>
+            </div>
+            <div class="stat">
+              <strong>AA</strong>
+              <span>contrast-aware palette choices</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="collection" class="grid" aria-label="Highlights">
+        <article class="card">
+          <h3>Editorial Typography</h3>
+          <p>
+            A serif-driven headline system gives the page a distinct personality instead
+            of the usual default startup look.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Soft Material Depth</h3>
+          <p>
+            Borders, glass surfaces, and restrained shadows keep the composition elegant
+            without becoming visually noisy.
+          </p>
+        </article>
+        <article id="notes" class="card">
+          <h3>Mobile-Safe Flow</h3>
+          <p>
+            The body remains scrollable, cards stack vertically on narrow screens, and
+            action targets stay comfortably tappable.
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
