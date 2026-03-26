@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paper Garden</title>
+    <style>
+      :root {
+        --bg: #f4efe7;
+        --bg-soft: #fdf9f3;
+        --panel: rgba(255, 251, 245, 0.78);
+        --ink: #1f2430;
+        --muted: #5e6470;
+        --line: rgba(31, 36, 48, 0.1);
+        --accent: #d96941;
+        --accent-strong: #bb4f2a;
+        --accent-soft: rgba(217, 105, 65, 0.14);
+        --shadow: 0 24px 60px rgba(49, 38, 30, 0.12);
+        --radius-xl: 32px;
+        --radius-lg: 24px;
+        --radius-md: 18px;
+        --radius-sm: 14px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 20px;
+        --space-6: 24px;
+        --space-7: 32px;
+        --space-8: 40px;
+        --space-9: 56px;
+        --font-display: "Palatino Linotype", "Book Antiqua", "URW Palladio L", serif;
+        --font-ui: "Trebuchet MS", "Gill Sans", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        color-scheme: light;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        min-height: 100svh;
+        font-family: var(--font-ui);
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(255, 209, 166, 0.95), transparent 30%),
+          radial-gradient(circle at 85% 10%, rgba(255, 246, 196, 0.9), transparent 24%),
+          linear-gradient(135deg, var(--bg) 0%, #efe6d9 100%);
+        overflow-x: hidden;
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        inset: auto;
+        width: 280px;
+        height: 280px;
+        border-radius: 999px;
+        z-index: 0;
+        filter: blur(8px);
+        pointer-events: none;
+      }
+
+      body::before {
+        top: -80px;
+        right: -40px;
+        background: rgba(217, 105, 65, 0.14);
+      }
+
+      body::after {
+        bottom: -120px;
+        left: -60px;
+        background: rgba(120, 160, 126, 0.16);
+      }
+
+      a,
+      button {
+        color: inherit;
+      }
+
+      button,
+      .link-chip {
+        min-height: 44px;
+      }
+
+      button {
+        border: 0;
+        cursor: pointer;
+        font: inherit;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      code {
+        padding: 2px 6px;
+        border-radius: 999px;
+        background: rgba(31, 36, 48, 0.06);
+        font-family: "SFMono-Regular", "Menlo", monospace;
+        font-size: 0.92em;
+      }
+
+      :focus-visible {
+        outline: 3px solid rgba(217, 105, 65, 0.35);
+        outline-offset: 3px;
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: var(--space-7) var(--space-5) var(--space-9);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.18fr) minmax(290px, 0.82fr);
+        gap: var(--space-6);
+        align-items: stretch;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+      }
+
+      .hero-copy {
+        padding: var(--space-8);
+      }
+
+      .eyebrow,
+      .card-label {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.58);
+        border: 1px solid rgba(31, 36, 48, 0.08);
+        color: var(--muted);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 0.74rem;
+      }
+
+      h1 {
+        margin: var(--space-5) 0 var(--space-4);
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 8vw, 5.8rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      .pulse-word {
+        color: var(--accent-strong);
+        transition: color 180ms ease, opacity 180ms ease;
+      }
+
+      .lead {
+        max-width: 48ch;
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-7);
+      }
+
+      .primary-button,
+      .link-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        padding: 14px 18px;
+        border-radius: 999px;
+        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+
+      .primary-button {
+        background: var(--accent);
+        color: #fffaf6;
+        box-shadow: 0 14px 30px rgba(185, 79, 42, 0.25);
+      }
+
+      .primary-button:hover {
+        transform: translateY(-1px);
+        background: var(--accent-strong);
+      }
+
+      .link-chip {
+        border: 1px solid rgba(31, 36, 48, 0.12);
+        background: rgba(255, 255, 255, 0.54);
+        color: var(--ink);
+      }
+
+      .link-chip:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 22px rgba(31, 36, 48, 0.08);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-3);
+        margin-top: var(--space-8);
+      }
+
+      .stat {
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.52);
+        border: 1px solid rgba(31, 36, 48, 0.08);
+      }
+
+      .stat strong {
+        display: block;
+        margin-bottom: var(--space-1);
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+      }
+
+      .hero-aside {
+        padding: var(--space-6);
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .mood-board {
+        display: grid;
+        gap: var(--space-3);
+      }
+
+      .mood-item {
+        padding: var(--space-4);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(31, 36, 48, 0.08);
+      }
+
+      .mood-item strong {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: var(--space-1);
+      }
+
+      .mood-item p,
+      .feature-card p {
+        margin: 0;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-5);
+        margin-top: var(--space-6);
+      }
+
+      .feature-card {
+        padding: var(--space-6);
+      }
+
+      .feature-card h2 {
+        margin: var(--space-4) 0 var(--space-2);
+        font-size: 1.3rem;
+        font-family: var(--font-display);
+      }
+
+      .accent-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 8px var(--accent-soft);
+      }
+
+      .quote {
+        margin-top: var(--space-6);
+        padding: var(--space-7);
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      blockquote {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        line-height: 1.2;
+        letter-spacing: -0.03em;
+      }
+
+      .quote p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .reveal {
+        animation: rise 720ms ease both;
+      }
+
+      .reveal:nth-child(2) {
+        animation-delay: 120ms;
+      }
+
+      .reveal:nth-child(3) {
+        animation-delay: 220ms;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 920px) {
+        .hero,
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy,
+        .hero-aside,
+        .quote {
+          padding: var(--space-6);
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 560px) {
+        main {
+          padding: var(--space-5) var(--space-4) var(--space-8);
+        }
+
+        .hero-copy,
+        .hero-aside,
+        .feature-card,
+        .quote {
+          padding: var(--space-5);
+          border-radius: var(--radius-lg);
+        }
+
+        h1 {
+          font-size: clamp(2.6rem, 16vw, 4rem);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .reveal,
+        .pulse-word,
+        .primary-button,
+        .link-chip {
+          animation: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <article class="panel hero-copy reveal">
+          <span class="eyebrow">Tiny Web Showcase</span>
+          <h1>
+            오늘의 웹은
+            <span class="pulse-word" id="pulse-word">햇빛</span>
+            을 닮았습니다.
+          </h1>
+          <p class="lead">
+            Paper Garden은 작은 정적 페이지 하나만으로도 분위기, 계층, 반응형, 그리고
+            약간의 움직임을 모두 담을 수 있다는 걸 보여주기 위한 샘플 랜딩입니다.
+          </p>
+          <div class="action-row">
+            <button class="primary-button" id="shuffle" type="button">분위기 바꾸기</button>
+            <a class="link-chip" href="#ideas">섹션 내려보기</a>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong>1 file</strong>
+              최소한의 정적 구조로 완결된 한 장짜리 페이지
+            </div>
+            <div class="stat">
+              <strong>44px</strong>
+              모바일에서도 누르기 쉬운 인터랙션 크기
+            </div>
+            <div class="stat">
+              <strong>100svh</strong>
+              짧은 화면에서도 세로 스크롤이 막히지 않는 레이아웃
+            </div>
+          </div>
+        </article>
+
+        <aside class="panel hero-aside reveal">
+          <span class="eyebrow">Now Curating</span>
+          <div class="mood-board">
+            <div class="mood-item">
+              <strong>빛의 결</strong>
+              <p>부드러운 웜톤 배경과 반투명 패널로 가벼운 깊이를 만들었습니다.</p>
+            </div>
+            <div class="mood-item">
+              <strong>여유 있는 간격</strong>
+              <p>8px 기반 스케일로 카드와 버튼의 밀도를 일정하게 맞췄습니다.</p>
+            </div>
+            <div class="mood-item">
+              <strong>짧은 움직임</strong>
+              <p>페이지 로드 시에만 살짝 떠오르는 애니메이션을 넣고 과한 모션은 피했습니다.</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="feature-grid" id="ideas">
+        <article class="panel feature-card reveal">
+          <span class="card-label"><span class="accent-dot"></span>Scene 01</span>
+          <h2>한 장의 포스터 같은 첫 화면</h2>
+          <p>
+            큰 헤드라인과 넓은 여백으로 시작해서, 작은 저장소에서도 눈에 띄는 첫인상을
+            만들 수 있게 했습니다.
+          </p>
+        </article>
+        <article class="panel feature-card reveal">
+          <span class="card-label"><span class="accent-dot"></span>Scene 02</span>
+          <h2>짧은 뷰포트에서도 안전한 흐름</h2>
+          <p>
+            <code>overflow: hidden</code>을 피하고 가로축만 제한해서 모바일 브라우저에서도 자연스럽게
+            아래로 이어집니다.
+          </p>
+        </article>
+        <article class="panel feature-card reveal">
+          <span class="card-label"><span class="accent-dot"></span>Scene 03</span>
+          <h2>필요한 정도의 상호작용</h2>
+          <p>
+            버튼 하나로 페이지의 핵심 문구와 포인트 컬러를 바꿀 수 있게 해서 단조로움을
+            줄였습니다.
+          </p>
+        </article>
+      </section>
+
+      <section class="panel quote reveal">
+        <span class="eyebrow">One More Thing</span>
+        <blockquote>
+          “작아도 완성된 웹은 생각보다 훨씬 설득력이 있습니다.”
+        </blockquote>
+        <p>
+          그래서 이 페이지는 프레임워크 없이도 바로 열리고, 반응형으로 줄어들며, 짧은
+          화면에서 잘리는 대신 자연스럽게 스크롤됩니다.
+        </p>
+      </section>
+    </main>
+
+    <script>
+      const moods = [
+        { word: "햇빛", accent: "#d96941", strong: "#bb4f2a", soft: "rgba(217, 105, 65, 0.14)" },
+        { word: "산들바람", accent: "#5a8f7b", strong: "#3f6f5e", soft: "rgba(90, 143, 123, 0.14)" },
+        { word: "노을빛", accent: "#7a5ac9", strong: "#6145ab", soft: "rgba(122, 90, 201, 0.14)" },
+        { word: "초록잎", accent: "#8a9c43", strong: "#6e8030", soft: "rgba(138, 156, 67, 0.14)" }
+      ];
+
+      const button = document.getElementById("shuffle");
+      const pulseWord = document.getElementById("pulse-word");
+      let currentIndex = 0;
+
+      button.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % moods.length;
+        const next = moods[currentIndex];
+        pulseWord.style.opacity = "0.2";
+
+        window.setTimeout(() => {
+          document.documentElement.style.setProperty("--accent", next.accent);
+          document.documentElement.style.setProperty("--accent-strong", next.strong);
+          document.documentElement.style.setProperty("--accent-soft", next.soft);
+          pulseWord.textContent = next.word;
+          pulseWord.style.opacity = "1";
+        }, 120);
+      });
+    </script>
+  </body>
+</html>
