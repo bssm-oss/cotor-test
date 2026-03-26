@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stillwater</title>
+    <style>
+      :root {
+        --bg: #f5efe6;
+        --bg-accent: #dce8d8;
+        --panel: rgba(255, 252, 247, 0.84);
+        --text: #1f2f25;
+        --muted: #526357;
+        --line: rgba(31, 47, 37, 0.12);
+        --accent: #315d46;
+        --accent-strong: #1e3f30;
+        --shadow: 0 24px 80px rgba(38, 57, 47, 0.16);
+        --radius: 28px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        padding: 24px 0;
+        display: grid;
+        place-items: center;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.75), transparent 35%),
+          radial-gradient(circle at bottom right, rgba(49, 93, 70, 0.14), transparent 30%),
+          linear-gradient(145deg, var(--bg), var(--bg-accent));
+        color: var(--text);
+        font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+      }
+
+      .scene {
+        position: relative;
+        width: min(960px, calc(100vw - 32px));
+        padding: 24px;
+      }
+
+      .scene::before,
+      .scene::after {
+        content: "";
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(10px);
+        z-index: 0;
+      }
+
+      .scene::before {
+        width: 220px;
+        height: 220px;
+        top: -20px;
+        right: 40px;
+        background: rgba(255, 255, 255, 0.48);
+        animation: drift 12s ease-in-out infinite;
+      }
+
+      .scene::after {
+        width: 180px;
+        height: 180px;
+        bottom: -10px;
+        left: 20px;
+        background: rgba(49, 93, 70, 0.14);
+        animation: drift 16s ease-in-out infinite reverse;
+      }
+
+      .card {
+        position: relative;
+        z-index: 1;
+        padding: 48px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(49, 93, 70, 0.08);
+        color: var(--accent-strong);
+        font-size: 0.9rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 20px 0 16px;
+        max-width: 11ch;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+        font-size: clamp(3rem, 10vw, 5.8rem);
+        line-height: 0.95;
+        font-weight: 700;
+        letter-spacing: -0.05em;
+      }
+
+      p {
+        max-width: 560px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .button,
+      .ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 18px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        transition:
+          transform 160ms ease,
+          background-color 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease;
+      }
+
+      .button {
+        background: var(--accent);
+        color: #f7f4ef;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+        background: var(--accent-strong);
+      }
+
+      .ghost {
+        border-color: var(--line);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.42);
+      }
+
+      .ghost:hover {
+        transform: translateY(-1px);
+        border-color: rgba(31, 47, 37, 0.22);
+      }
+
+      .button:focus-visible,
+      .ghost:focus-visible {
+        outline: 3px solid rgba(49, 93, 70, 0.24);
+        outline-offset: 3px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 36px;
+      }
+
+      .stat {
+        padding: 18px;
+        border-radius: 22px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.42);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      @keyframes drift {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+        50% {
+          transform: translate3d(0, 12px, 0);
+        }
+      }
+
+      @media (max-width: 720px) {
+        body {
+          padding: 16px 0;
+        }
+
+        .scene {
+          padding: 16px;
+        }
+
+        .card {
+          padding: 28px;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="scene">
+      <section class="card">
+        <span class="eyebrow">A Small Beautiful Web</span>
+        <h1>Stillwater Studio</h1>
+        <p>
+          바쁜 화면 대신, 숨을 고르게 만드는 단 하나의 랜딩 페이지입니다.
+          따뜻한 배경, 부드러운 유리 질감, 또렷한 타이포그래피만으로도 충분히
+          보기 좋은 웹이 될 수 있다는 전제에 맞춰 가장 작게 만들었습니다.
+        </p>
+        <div class="actions">
+          <a class="button" href="#details">분위기 보기</a>
+          <a class="ghost" href="mailto:hello@stillwater.example">연락하기</a>
+        </div>
+        <div class="stats" id="details">
+          <article class="stat">
+            <strong>1 file</strong>
+            <span>외부 의존성 없이 바로 열리는 정적 페이지</span>
+          </article>
+          <article class="stat">
+            <strong>Soft glass</strong>
+            <span>연한 톤과 흐릿한 레이어로 만든 깊이감</span>
+          </article>
+          <article class="stat">
+            <strong>Responsive</strong>
+            <span>모바일과 데스크톱에서 모두 무리 없는 레이아웃</span>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
