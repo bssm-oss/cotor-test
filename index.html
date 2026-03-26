@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiet Orbit</title>
+    <style>
+      :root {
+        --bg: #f5efe3;
+        --ink: #17202a;
+        --muted: #5c6773;
+        --panel: rgba(255, 255, 255, 0.68);
+        --line: rgba(23, 32, 42, 0.1);
+        --accent: #d25f3e;
+        --accent-2: #2f6c63;
+        --shadow: 0 24px 60px rgba(38, 32, 24, 0.12);
+        --radius: 28px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(210, 95, 62, 0.2), transparent 28%),
+          radial-gradient(circle at right 20%, rgba(47, 108, 99, 0.18), transparent 24%),
+          linear-gradient(180deg, #f7f1e7 0%, var(--bg) 100%);
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        inset: auto;
+        width: 18rem;
+        height: 18rem;
+        border-radius: 50%;
+        filter: blur(18px);
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      body::before {
+        top: -4rem;
+        right: -4rem;
+        background: rgba(210, 95, 62, 0.12);
+      }
+
+      body::after {
+        left: -5rem;
+        bottom: -4rem;
+        background: rgba(47, 108, 99, 0.12);
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        width: min(1100px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 48px 0 72px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        gap: 24px;
+        align-items: stretch;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        backdrop-filter: blur(16px);
+        box-shadow: var(--shadow);
+      }
+
+      .intro {
+        padding: 48px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent-2);
+        background: rgba(47, 108, 99, 0.08);
+      }
+
+      h1 {
+        margin: 22px 0 16px;
+        font-size: clamp(3rem, 7vw, 6rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      .lead {
+        max-width: 34rem;
+        margin: 0 0 28px;
+        font-size: 1.08rem;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 14px 22px;
+        border-radius: 999px;
+        font-size: 0.98rem;
+        text-decoration: none;
+        transition: transform 180ms ease, background-color 180ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(47, 108, 99, 0.28);
+        outline-offset: 3px;
+      }
+
+      .button.primary {
+        color: #fff7f2;
+        background: var(--ink);
+      }
+
+      .button.secondary {
+        color: var(--ink);
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .visual {
+        position: relative;
+        overflow: clip;
+        min-height: 420px;
+        padding: 28px;
+      }
+
+      .planet {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #fdf0da, var(--accent) 55%, #88412a 100%);
+        box-shadow: inset -24px -20px 50px rgba(45, 16, 6, 0.28);
+      }
+
+      .planet.one {
+        top: 68px;
+        right: 42px;
+        width: 220px;
+        height: 220px;
+      }
+
+      .planet.two {
+        bottom: 34px;
+        left: -20px;
+        width: 140px;
+        height: 140px;
+        background: radial-gradient(circle at 35% 35%, #e7f0ed, var(--accent-2) 58%, #1d4d46 100%);
+      }
+
+      .orbit {
+        position: absolute;
+        inset: 34px;
+        border: 1px solid rgba(23, 32, 42, 0.12);
+        border-radius: 32px;
+      }
+
+      .note {
+        position: absolute;
+        padding: 16px 18px;
+        border-radius: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        background: rgba(255, 251, 245, 0.76);
+        box-shadow: 0 16px 36px rgba(40, 30, 20, 0.08);
+      }
+
+      .note strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 1.2rem;
+      }
+
+      .note.top {
+        top: 28px;
+        left: 28px;
+      }
+
+      .note.bottom {
+        right: 28px;
+        bottom: 26px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .mini {
+        padding: 24px;
+      }
+
+      .mini h2 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+      }
+
+      .mini p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      @media (max-width: 860px) {
+        main {
+          padding-top: 24px;
+        }
+
+        .hero,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .intro,
+        .visual,
+        .mini {
+          padding: 28px;
+        }
+
+        .visual {
+          min-height: 360px;
+        }
+
+        .planet.one {
+          right: 18px;
+          width: 180px;
+          height: 180px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        main {
+          width: min(100% - 20px, 1100px);
+          padding-bottom: 40px;
+        }
+
+        .intro,
+        .visual,
+        .mini {
+          padding: 22px;
+        }
+
+        h1 {
+          font-size: clamp(2.6rem, 16vw, 4rem);
+        }
+
+        .lead {
+          font-size: 1rem;
+          line-height: 1.7;
+        }
+
+        .note {
+          position: relative;
+          inset: auto;
+          margin-top: 14px;
+        }
+
+        .orbit {
+          inset: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <article class="card intro">
+          <div class="eyebrow">Quiet Orbit</div>
+          <h1>조용하지만 선명한 첫 화면.</h1>
+          <p class="lead">
+            아무 웹이나가 아니라, 작은 한 장짜리 랜딩이어도 분위기와 밀도를 갖춘 화면으로
+            만들었습니다. 긴 설명 없이도 시선이 머물고, 모바일에서도 자연스럽게 읽히도록
+            구성했습니다.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#details">분위기 보기</a>
+            <a class="button secondary" href="#notes">구성 읽기</a>
+          </div>
+        </article>
+
+        <aside class="card visual" aria-label="추상 장면">
+          <div class="orbit"></div>
+          <div class="planet one"></div>
+          <div class="planet two"></div>
+          <div class="note top">
+            <strong>Soft Glass</strong>
+            빛 번짐과 투명 패널로 한 장짜리 무드를 형성합니다.
+          </div>
+          <div class="note bottom">
+            <strong>Responsive Flow</strong>
+            작은 화면에서는 높이를 고정하지 않고 자연스럽게 아래로 흐릅니다.
+          </div>
+        </aside>
+      </section>
+
+      <section class="grid" id="details">
+        <article class="card mini">
+          <h2>따뜻한 색감</h2>
+          <p>베이지 바탕에 테라코타와 딥그린을 얹어 과하게 무겁지 않은 인상을 만들었습니다.</p>
+        </article>
+        <article class="card mini" id="notes">
+          <h2>짧은 카피</h2>
+          <p>텍스트는 길지 않게 유지하고, 타이포그래피와 여백으로 리듬을 만들었습니다.</p>
+        </article>
+        <article class="card mini">
+          <h2>모바일 우선 복구</h2>
+          <p>문서 전체 스크롤을 막지 않아 작은 기기에서도 콘텐츠가 잘리지 않고 끝까지 보입니다.</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
