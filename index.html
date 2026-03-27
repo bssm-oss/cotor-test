@@ -187,6 +187,82 @@
         padding: 0 var(--space-4);
       }
 
+      .board {
+        display: grid;
+        gap: var(--space-4);
+        padding: 0 clamp(32px, 5vw, 56px) clamp(32px, 5vw, 56px);
+      }
+
+      .board-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: var(--space-4);
+      }
+
+      .board-header h2,
+      .board-header p {
+        max-width: none;
+      }
+
+      .board-header h2 {
+        margin: 0 0 var(--space-2);
+        font-size: 1.35rem;
+      }
+
+      .summary {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .summary-chip,
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 0 var(--space-4);
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--surface-strong);
+        color: var(--accent-strong);
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+
+      .issue-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: var(--space-4);
+      }
+
+      .issue-card {
+        display: grid;
+        gap: var(--space-4);
+        padding: var(--space-5);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--surface-strong);
+      }
+
+      .issue-card h3,
+      .issue-card p {
+        margin: 0;
+      }
+
+      .issue-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+      }
+
+      .issue-card ul {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--muted);
+      }
+
       .status-text {
         min-height: 3.6em;
       }
@@ -244,11 +320,53 @@
             <button class="ghost" type="button" id="refresh-status">상태 새로고침</button>
           </article>
         </div>
+        <section class="board" aria-labelledby="workflow-title">
+          <div class="board-header">
+            <div>
+              <span class="eyebrow">Execution board</span>
+              <h2 id="workflow-title">병렬 처리 가능한 다음 웨이브 이슈 묶음</h2>
+              <p>
+                작게 쪼갠 이슈를 병렬 가능 여부와 함께 정리하고, 검토가 끝난 결과만 CEO에게 다음 웨이브 입력으로 넘깁니다.
+              </p>
+            </div>
+            <div class="summary" id="summary" aria-label="작업 요약"></div>
+          </div>
+          <div class="issue-list" id="issue-list" aria-label="브랜치 가능한 이슈 목록"></div>
+        </section>
       </section>
     </main>
     <script>
       const statusText = document.getElementById("status-text");
       const refreshStatusButton = document.getElementById("refresh-status");
+      const summary = document.getElementById("summary");
+      const issueList = document.getElementById("issue-list");
+
+      const issues = [
+        {
+          title: "API 응답 로그 표준화",
+          branch: "backend/log-response-shape",
+          status: "검토 완료",
+          parallelSafe: true,
+          handoff: "CEO 전달 대기",
+          outcome: "응답 필드 구조를 고정해 다른 작업과 충돌 없이 분기 가능합니다.",
+        },
+        {
+          title: "헬스체크 에러 코드 정리",
+          branch: "backend/health-error-codes",
+          status: "진행 중",
+          parallelSafe: true,
+          handoff: "병렬 실행",
+          outcome: "상태 코드 정책만 다뤄서 UI 변경과 안전하게 병렬 처리됩니다.",
+        },
+        {
+          title: "다음 웨이브 입력 정리",
+          branch: "ops/ceo-next-wave",
+          status: "검토 완료",
+          parallelSafe: false,
+          handoff: "CEO 전달 완료",
+          outcome: "검토된 결과와 남은 리스크를 CEO가 바로 재배분할 수 있게 정리했습니다.",
+        },
+      ];
 
       const updateStatus = () => {
         if (!statusText) {
@@ -258,7 +376,46 @@
         statusText.textContent = `페이지가 정상 동작 중입니다. 마지막 확인: ${new Date().toLocaleString("ko-KR")}`;
       };
 
+      const renderBoard = () => {
+        if (!summary || !issueList) {
+          return;
+        }
+
+        const parallelCount = issues.filter((issue) => issue.parallelSafe).length;
+        const reviewedCount = issues.filter((issue) => issue.status === "검토 완료").length;
+        const handoffCount = issues.filter((issue) => issue.handoff === "CEO 전달 완료").length;
+
+        summary.innerHTML = [
+          `전체 ${issues.length}건`,
+          `병렬 가능 ${parallelCount}건`,
+          `검토 완료 ${reviewedCount}건`,
+          `CEO 전달 ${handoffCount}건`,
+        ]
+          .map((label) => `<span class="summary-chip">${label}</span>`)
+          .join("");
+
+        issueList.innerHTML = issues
+          .map(
+            (issue) => `
+              <article class="issue-card">
+                <div>
+                  <h3>${issue.title}</h3>
+                </div>
+                <div class="issue-meta" aria-label="이슈 메타 정보">
+                  <span class="tag">${issue.branch}</span>
+                  <span class="tag">${issue.status}</span>
+                  <span class="tag">${issue.parallelSafe ? "병렬 가능" : "선행 검토 필요"}</span>
+                  <span class="tag">${issue.handoff}</span>
+                </div>
+                <p>${issue.outcome}</p>
+              </article>
+            `,
+          )
+          .join("");
+      };
+
       refreshStatusButton?.addEventListener("click", updateStatus);
+      renderBoard();
       updateStatus();
     </script>
   </body>
