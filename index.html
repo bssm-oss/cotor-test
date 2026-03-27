@@ -191,12 +191,66 @@
         min-height: 3.6em;
       }
 
+      .workflow-board {
+        display: grid;
+        gap: var(--space-4);
+        padding: 0 clamp(32px, 5vw, 56px) clamp(32px, 5vw, 56px);
+      }
+
+      .workflow-intro {
+        max-width: none;
+      }
+
+      .issue-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: var(--space-4);
+      }
+
+      .issue-card {
+        display: grid;
+        gap: var(--space-3);
+      }
+
+      .issue-card h3 {
+        margin: 0;
+        font-size: 1.02rem;
+      }
+
+      .issue-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 32px;
+        padding: 0 var(--space-3);
+        border-radius: 999px;
+        background: rgba(23, 105, 90, 0.1);
+        color: var(--accent-strong);
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+
+      .pill.reviewed {
+        background: rgba(15, 75, 65, 0.12);
+      }
+
+      .pill.handoff {
+        background: rgba(190, 128, 64, 0.16);
+        color: #7a4b12;
+      }
+
       @media (max-width: 820px) {
         main {
           padding: 24px 0;
         }
 
-        .grid {
+        .grid,
+        .issue-list {
           grid-template-columns: 1fr;
         }
       }
@@ -244,11 +298,48 @@
             <button class="ghost" type="button" id="refresh-status">상태 새로고침</button>
           </article>
         </div>
+        <div class="workflow-board" aria-labelledby="execution-loop-title">
+          <article class="card">
+            <span>Execution Loop</span>
+            <h2 id="execution-loop-title">다음 파동까지 이어지는 실행 보드</h2>
+            <p class="workflow-intro" id="execution-summary">
+              병렬 실행 가능한 이슈와 CEO 핸드오프 상태를 계산 중입니다.
+            </p>
+          </article>
+          <div class="issue-list" id="issue-board">
+            <article class="card issue-card" data-branchable="true" data-parallel="true" data-reviewed="false">
+              <div class="issue-meta">
+                <span class="pill">브랜치 가능</span>
+                <span class="pill">병렬 안전</span>
+              </div>
+              <h3>고객 피드백을 기능 가설 3건으로 정리</h3>
+              <p>리서치 정리 작업이라 다른 구현 이슈와 겹치지 않고 바로 분리할 수 있습니다.</p>
+            </article>
+            <article class="card issue-card" data-branchable="true" data-parallel="true" data-reviewed="true">
+              <div class="issue-meta">
+                <span class="pill">브랜치 가능</span>
+                <span class="pill reviewed">검토 완료</span>
+              </div>
+              <h3>다음 데모용 핵심 흐름 문구 다듬기</h3>
+              <p>메시지 품질을 높이는 독립 작업으로, 검토가 끝나 CEO에게 바로 넘길 수 있습니다.</p>
+            </article>
+            <article class="card issue-card" data-branchable="true" data-parallel="false" data-reviewed="true">
+              <div class="issue-meta">
+                <span class="pill">브랜치 가능</span>
+                <span class="pill handoff">CEO 핸드오프</span>
+              </div>
+              <h3>검토 결과를 다음 파동 결정 자료로 묶기</h3>
+              <p>앞선 작업의 리뷰 결과를 모아 다음 위임 사이클을 시작하는 패키지입니다.</p>
+            </article>
+          </div>
+        </div>
       </section>
     </main>
     <script>
       const statusText = document.getElementById("status-text");
       const refreshStatusButton = document.getElementById("refresh-status");
+      const executionSummary = document.getElementById("execution-summary");
+      const issueCards = Array.from(document.querySelectorAll(".issue-card"));
 
       const updateStatus = () => {
         if (!statusText) {
@@ -258,8 +349,21 @@
         statusText.textContent = `페이지가 정상 동작 중입니다. 마지막 확인: ${new Date().toLocaleString("ko-KR")}`;
       };
 
+      const updateExecutionSummary = () => {
+        if (!executionSummary || issueCards.length === 0) {
+          return;
+        }
+
+        const branchableCount = issueCards.filter((card) => card.dataset.branchable === "true").length;
+        const parallelCount = issueCards.filter((card) => card.dataset.parallel === "true").length;
+        const reviewedCount = issueCards.filter((card) => card.dataset.reviewed === "true").length;
+
+        executionSummary.textContent = `현재 ${branchableCount}개의 이슈가 브랜치 가능하고, ${parallelCount}개는 바로 병렬 실행할 수 있으며, ${reviewedCount}개는 CEO에게 다음 파동 결정을 위해 전달할 준비가 됐습니다.`;
+      };
+
       refreshStatusButton?.addEventListener("click", updateStatus);
       updateStatus();
+      updateExecutionSummary();
     </script>
   </body>
 </html>
