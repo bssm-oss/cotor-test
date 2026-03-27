@@ -3,11 +3,31 @@ Validation rerun: 2026-03-27
 Scope
 - Branch outcome for the goal "아무 웹이나 만드십시오"
 
+Validation command
+- `python3 - <<'PY'`
+- `from pathlib import Path`
+- `html = Path("index.html").read_text(encoding="utf-8")`
+- `checks = {`
+- `    "doctype": "<!DOCTYPE html>" in html,`
+- `    "lang": '<html lang="ko">' in html,`
+- `    "title": "<title>Test Web</title>" in html,`
+- `    "hero": "<h1>테스트용 웹 페이지</h1>" in html,`
+- `    "primary_action": 'href="#status"' in html,`
+- `    "status_section": 'id="status"' in html,`
+- `    "focus_visible": ":focus-visible" in html,`
+- `}`
+- `failed = [name for name, ok in checks.items() if not ok]`
+- `if failed:`
+- `    raise SystemExit(f"missing checks: {', '.join(failed)}")`
+- `print("Validated index.html:", ", ".join(checks))`
+- `PY`
+
 Result
 - Re-ran repository validation against the assigned branch.
 - The branch contains `index.html`, `README.md`, and `VALIDATION.md`.
-- `index.html` is a runnable static web deliverable with no dependency or build requirement.
-- The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page web artifact exists and has been handed back with an updated validation record.
+- The validation command confirms the static deliverable still includes the expected document shell, localized page content, primary action, status section, and visible keyboard focus styling.
+- `index.html` remains a runnable static web deliverable with no dependency or build requirement.
+- The branch outcome satisfies the original goal at the smallest complete scope: a usable single-page web artifact exists and has been handed back with a concrete validation record.
 
 Residual risk
 - Validation is still a lightweight smoke check rather than a full browser matrix or accessibility audit.
