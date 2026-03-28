@@ -326,6 +326,8 @@
         activity: "추천 장소는 함께 웃을 수 있는 원데이 클래스입니다.",
       };
 
+      const recommendationInputs = [moodSelect, paceSelect, vibeSelect].filter(Boolean);
+
       const updateRecommendation = () => {
         if (!moodSelect || !paceSelect || !vibeSelect || !resultText) {
           return;
@@ -341,6 +343,10 @@
       };
 
       generateMatchButton?.addEventListener("click", updateRecommendation);
+      recommendationInputs.forEach((input) => {
+        input.addEventListener("input", updateRecommendation);
+        input.addEventListener("change", updateRecommendation);
+      });
       updateRecommendation();
     </script>
   </body>
