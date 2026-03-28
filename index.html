@@ -307,6 +307,7 @@
       const vibeSelect = document.getElementById("vibe");
       const resultText = document.getElementById("result-text");
       const generateMatchButton = document.getElementById("generate-match");
+      const matchControls = [moodSelect, paceSelect, vibeSelect];
 
       const openingByMood = {
         calm: "부담 없이 서로의 하루 루틴부터 꺼내 보세요.",
@@ -341,6 +342,10 @@
       };
 
       generateMatchButton?.addEventListener("click", updateRecommendation);
+      matchControls.forEach((control) => {
+        control?.addEventListener("input", updateRecommendation);
+        control?.addEventListener("change", updateRecommendation);
+      });
       updateRecommendation();
     </script>
   </body>
