@@ -326,6 +326,8 @@
         activity: "추천 장소는 함께 웃을 수 있는 원데이 클래스입니다.",
       };
 
+      const liveInputs = [moodSelect, paceSelect, vibeSelect];
+
       const updateRecommendation = () => {
         if (!moodSelect || !paceSelect || !vibeSelect || !resultText) {
           return;
@@ -340,6 +342,10 @@
           `첫 메시지는 "오늘은 어떤 순간에 제일 많이 웃으셨어요?"로 시작해 보세요.`;
       };
 
+      liveInputs.forEach((input) => {
+        input?.addEventListener("input", updateRecommendation);
+        input?.addEventListener("change", updateRecommendation);
+      });
       generateMatchButton?.addEventListener("click", updateRecommendation);
       updateRecommendation();
     </script>
