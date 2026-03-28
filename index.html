@@ -307,6 +307,7 @@
       const vibeSelect = document.getElementById("vibe");
       const resultText = document.getElementById("result-text");
       const generateMatchButton = document.getElementById("generate-match");
+      const recommendationControls = [moodSelect, paceSelect, vibeSelect];
 
       const openingByMood = {
         calm: "부담 없이 서로의 하루 루틴부터 꺼내 보세요.",
@@ -340,6 +341,10 @@
           `첫 메시지는 "오늘은 어떤 순간에 제일 많이 웃으셨어요?"로 시작해 보세요.`;
       };
 
+      recommendationControls.forEach((control) => {
+        control?.addEventListener("input", updateRecommendation);
+        control?.addEventListener("change", updateRecommendation);
+      });
       generateMatchButton?.addEventListener("click", updateRecommendation);
       updateRecommendation();
     </script>
