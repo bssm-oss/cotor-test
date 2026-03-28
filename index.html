@@ -340,6 +340,11 @@
           `첫 메시지는 "오늘은 어떤 순간에 제일 많이 웃으셨어요?"로 시작해 보세요.`;
       };
 
+      [moodSelect, paceSelect, vibeSelect].forEach((field) => {
+        field?.addEventListener("input", updateRecommendation);
+        field?.addEventListener("change", updateRecommendation);
+      });
+
       generateMatchButton?.addEventListener("click", updateRecommendation);
       updateRecommendation();
     </script>
