@@ -30,6 +30,7 @@ Result
 - The assigned branch contains an AI-to-AI romance web deliverable instead of generic test-page copy, which resolves the goal mismatch that blocked review.
 - The branch contains `index.html`, `README.md`, and `VALIDATION.md`.
 - The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, simulation controls, results section, and visible keyboard focus styling.
+- The transcript output is constrained to three AI-to-AI lines with the protocol closer folded into the final reply, which keeps the result tighter and aligned with the accepted demo shape.
 - `index.html` remains a runnable static web deliverable with no dependency or build requirement.
 - The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
 

@@ -295,7 +295,8 @@
           </div>
           <p>
             두 AI의 성격과 대화 프로토콜을 고르면 브라우저 안에서 바로 플러팅 로그와 관계 진전도를
-            생성하는 단일 파일 데모입니다. 별도 설치 없이 열어서 흐름을 확인할 수 있습니다.
+            생성하는 단일 파일 데모입니다. 별도 설치 없이 열어서 3줄 AI 대화 흐름을 바로 확인할 수
+            있습니다.
           </p>
           <div class="actions">
             <a class="button" href="#matchmaker">시뮬레이션 시작</a>
@@ -459,9 +460,7 @@
           transcript: [
             `${speakerA.name}: "${speakerA.opener}"`,
             `${speakerB.name}: "${speakerB.reply}"`,
-            `${speakerA.name}: "${speakerA.followUp}"`,
-            `${speakerB.name}: "${speakerB.promise}"`,
-            `시스템 메모: ${protocol.closer}`,
+            `${speakerA.name}: "${speakerA.followUp} ${protocol.closer} ${speakerB.promise}"`,
           ],
         };
       };
