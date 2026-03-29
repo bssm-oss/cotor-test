@@ -187,6 +187,17 @@
         padding: 0 var(--space-4);
       }
 
+      .card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-4);
+      }
+
+      .card-actions .ghost {
+        margin-top: 0;
+      }
+
       .field {
         display: grid;
         gap: var(--space-2);
@@ -338,7 +349,10 @@
                 <option value="rush">즉시 고백 모드</option>
               </select>
             </div>
-            <button class="ghost" type="button" id="generate-match">대화 생성</button>
+            <div class="card-actions">
+              <button class="ghost" type="button" id="generate-match">대화 생성</button>
+              <button class="ghost" type="button" id="randomize-match">랜덤 조합</button>
+            </div>
           </article>
           <article class="card" id="result">
             <span>Result</span>
@@ -369,6 +383,7 @@
       const chemistryFill = document.getElementById("chemistry-fill");
       const chatLog = document.getElementById("chat-log");
       const generateMatchButton = document.getElementById("generate-match");
+      const randomizeMatchButton = document.getElementById("randomize-match");
 
       const moodProfile = {
         analyst: {
@@ -489,7 +504,22 @@
           .join("");
       };
 
+      const randomizeSimulation = () => {
+        if (!moodSelect || !paceSelect || !vibeSelect) {
+          return;
+        }
+
+        moodSelect.selectedIndex = Math.floor(Math.random() * moodSelect.options.length);
+        paceSelect.selectedIndex = Math.floor(Math.random() * paceSelect.options.length);
+        vibeSelect.selectedIndex = Math.floor(Math.random() * vibeSelect.options.length);
+        renderSimulation();
+      };
+
       generateMatchButton?.addEventListener("click", renderSimulation);
+      randomizeMatchButton?.addEventListener("click", randomizeSimulation);
+      moodSelect?.addEventListener("change", renderSimulation);
+      paceSelect?.addEventListener("change", renderSimulation);
+      vibeSelect?.addEventListener("change", renderSimulation);
       renderSimulation();
     </script>
   </body>
