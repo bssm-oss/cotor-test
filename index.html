@@ -369,15 +369,29 @@
             </p>
             <div class="meter" aria-label="관계 진전도">
               <div class="meter-label">
-                <span>케미 지수</span>
+                <span id="chemistry-label">케미 지수</span>
                 <span id="chemistry-score">0%</span>
               </div>
-              <div class="meter-track" aria-hidden="true">
+              <div
+                class="meter-track"
+                id="chemistry-track"
+                role="progressbar"
+                aria-labelledby="chemistry-label"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
                 <div class="meter-fill" id="chemistry-fill"></div>
               </div>
               <p class="meter-context" id="chemistry-context">대화 생성 전</p>
             </div>
-            <ul class="chat-log" id="chat-log" aria-label="AI 대화 로그">
+            <ul
+              class="chat-log"
+              id="chat-log"
+              aria-label="AI 대화 로그"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               <li class="chat-line">생성 버튼을 누르면 여기에 두 AI의 대화 로그가 표시됩니다.</li>
             </ul>
           </article>
@@ -390,6 +404,7 @@
       const vibeSelect = document.getElementById("vibe");
       const resultText = document.getElementById("result-text");
       const chemistryScore = document.getElementById("chemistry-score");
+      const chemistryTrack = document.getElementById("chemistry-track");
       const chemistryFill = document.getElementById("chemistry-fill");
       const chemistryContext = document.getElementById("chemistry-context");
       const chatLog = document.getElementById("chat-log");
@@ -488,6 +503,7 @@
           !vibeSelect ||
           !resultText ||
           !chemistryScore ||
+          !chemistryTrack ||
           !chemistryFill ||
           !chemistryContext ||
           !chatLog
@@ -506,6 +522,7 @@
 
         resultText.textContent = simulation.summary;
         chemistryScore.textContent = `${simulation.chemistry}%`;
+        chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
         chemistryFill.style.width = `${simulation.chemistry}%`;
         chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
         chatLog.replaceChildren(
