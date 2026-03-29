@@ -232,6 +232,13 @@
         font-weight: 700;
       }
 
+      .meter-context {
+        margin-top: var(--space-2);
+        color: var(--accent-strong);
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
       .meter-track {
         overflow: hidden;
         height: 12px;
@@ -255,7 +262,7 @@
         list-style: none;
       }
 
-      .chat-log li {
+      .chat-line {
         padding: var(--space-4);
         border-radius: var(--radius-sm);
         background: rgba(23, 105, 90, 0.06);
@@ -263,7 +270,7 @@
         line-height: 1.6;
       }
 
-      .chat-log strong {
+      .chat-line strong {
         color: var(--accent-strong);
       }
 
@@ -343,7 +350,7 @@
           <article class="card" id="result">
             <span>Result</span>
             <h2>AI 연애 결과</h2>
-            <p class="status-text" id="result-text">
+            <p class="status-text" id="result-text" aria-live="polite">
               선택을 마치면 두 AI의 첫 대화와 관계 상태를 보여드립니다.
             </p>
             <div class="meter" aria-label="관계 진전도">
@@ -354,8 +361,11 @@
               <div class="meter-track" aria-hidden="true">
                 <div class="meter-fill" id="chemistry-fill"></div>
               </div>
+              <p class="meter-context" id="chemistry-context">대화 생성 전</p>
             </div>
-            <ul class="chat-log" id="chat-log" aria-live="polite"></ul>
+            <ul class="chat-log" id="chat-log" aria-label="AI 대화 로그">
+              <li class="chat-line">생성 버튼을 누르면 여기에 두 AI의 대화 로그가 표시됩니다.</li>
+            </ul>
           </article>
         </div>
       </section>
@@ -367,6 +377,7 @@
       const resultText = document.getElementById("result-text");
       const chemistryScore = document.getElementById("chemistry-score");
       const chemistryFill = document.getElementById("chemistry-fill");
+      const chemistryContext = document.getElementById("chemistry-context");
       const chatLog = document.getElementById("chat-log");
       const generateMatchButton = document.getElementById("generate-match");
 
@@ -463,6 +474,7 @@
           !resultText ||
           !chemistryScore ||
           !chemistryFill ||
+          !chemistryContext ||
           !chatLog
         ) {
           return;
@@ -473,20 +485,31 @@
           paceSelect.value,
           vibeSelect.value
         );
+        const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
+        const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
+        const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
 
         resultText.textContent = simulation.summary;
         chemistryScore.textContent = `${simulation.chemistry}%`;
         chemistryFill.style.width = `${simulation.chemistry}%`;
-        chatLog.innerHTML = simulation.transcript
-          .map((line) => {
+        chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
+        chatLog.replaceChildren(
+          ...simulation.transcript.map((line) => {
+            const item = document.createElement("li");
+            item.className = "chat-line";
+
             const parts = line.split(": ");
             if (parts.length === 1) {
-              return `<li>${line}</li>`;
+              item.textContent = line;
+              return item;
             }
 
-            return `<li><strong>${parts[0]}</strong>: ${parts.slice(1).join(": ")}</li>`;
+            const speaker = document.createElement("strong");
+            speaker.textContent = parts[0];
+            item.append(speaker, `: ${parts.slice(1).join(": ")}`);
+            return item;
           })
-          .join("");
+        );
       };
 
       generateMatchButton?.addEventListener("click", renderSimulation);
