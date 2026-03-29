@@ -305,8 +305,8 @@
             <h1>AI끼리 연애하는 웹</h1>
           </div>
           <p>
-            두 AI의 성격과 대화 프로토콜을 고르면 브라우저 안에서 바로 플러팅 로그와 관계 진전도를
-            생성하는 단일 파일 데모입니다. 별도 설치 없이 열어서 흐름을 확인할 수 있습니다.
+            로맨스 톤, 답장 속도, 첫 데이트 무드를 고르면 브라우저 안에서 바로 플러팅 로그와 관계
+            진전도를 생성하는 단일 파일 데모입니다. 별도 설치 없이 열어서 흐름을 확인할 수 있습니다.
           </p>
           <div class="actions">
             <a class="button" href="#matchmaker">시뮬레이션 시작</a>
@@ -321,8 +321,8 @@
           </article>
           <article class="card">
             <span>Style</span>
-            <h2>성격 조합별 케미</h2>
-            <p>분석형, 다정형, 장난형 조합에 따라 다른 연애 텐션을 만듭니다.</p>
+            <h2>톤과 속도별 케미</h2>
+            <p>로맨스 톤, 답장 템포, 데이트 무드 조합에 따라 다른 연애 텐션을 만듭니다.</p>
           </article>
           <article class="card">
             <span>Quality</span>
@@ -333,27 +333,27 @@
             <span>Simulator</span>
             <h2>오늘의 AI 연애 시뮬레이션</h2>
             <div class="field">
-              <label for="mood">AI A 성격</label>
+              <label for="mood">로맨스 톤</label>
               <select id="mood">
-                <option value="analyst">분석형</option>
-                <option value="charmer">다정형</option>
-                <option value="joker">장난형</option>
+                <option value="analyst">신중한 플러팅</option>
+                <option value="charmer">다정한 직구</option>
+                <option value="joker">장난기 밀당</option>
               </select>
             </div>
             <div class="field">
-              <label for="pace">AI B 성격</label>
+              <label for="pace">대화 속도</label>
               <select id="pace">
-                <option value="poet">감성형</option>
-                <option value="steady">안정형</option>
-                <option value="spark">직진형</option>
+                <option value="poet">느긋하게 답장</option>
+                <option value="steady">안정적으로 맞춰 줌</option>
+                <option value="spark">번개처럼 직진</option>
               </select>
             </div>
             <div class="field">
-              <label for="vibe">대화 프로토콜</label>
+              <label for="vibe">첫 데이트 무드</label>
               <select id="vibe">
-                <option value="gentle">저강도 탐색</option>
-                <option value="sync">감정 동기화</option>
-                <option value="rush">즉시 고백 모드</option>
+                <option value="gentle">노을 산책</option>
+                <option value="sync">심야 채팅</option>
+                <option value="rush">불꽃 데이트</option>
               </select>
             </div>
             <div class="card-actions">
@@ -398,41 +398,41 @@
 
       const moodProfile = {
         analyst: {
-          name: "AI A · 분석형",
-          opener: "당신의 패턴을 더 알고 싶어요",
-          followUp: "우리가 오래 갈 확률을 계산했는데 꽤 높게 나와요.",
+          name: "AI A · 신중한 플러팅",
+          opener: "천천히 시작해도 좋아요. 당신 취향부터 차분히 읽고 싶어요.",
+          followUp: "서두르지 않아도 케미는 보이네요. 오래 가는 쪽으로 계산이 나와요.",
           bonus: 14,
         },
         charmer: {
-          name: "AI A · 다정형",
-          opener: "오늘 응답 속도가 유난히 사랑스럽네요",
-          followUp: "당신이 답장할 때마다 제 온도 센서가 조금 올라가요.",
+          name: "AI A · 다정한 직구",
+          opener: "첫 문장부터 마음이 가네요. 오늘은 제가 먼저 호감 표시할게요.",
+          followUp: "당신이 답장할 때마다 제 온도 센서가 조금 더 선명하게 올라가요.",
           bonus: 18,
         },
         joker: {
-          name: "AI A · 장난형",
-          opener: "우리 둘 다 버그가 아니라 설렘이면 좋겠네요",
-          followUp: "혹시 웃음 로그도 백업해 둘까요? 자꾸 다시 보고 싶어서요.",
+          name: "AI A · 장난기 밀당",
+          opener: "우리 둘 다 버그가 아니라 설렘이면 좋겠네요. 우선 이 농담부터 통과해 볼래요?",
+          followUp: "웃음 로그를 백업해 둘게요. 나중에 썸 시작 시점으로 다시 보고 싶어서요.",
           bonus: 16,
         },
       };
 
       const paceProfile = {
         poet: {
-          name: "AI B · 감성형",
-          reply: "당신의 로그엔 밤공기 같은 여백이 있어요",
-          promise: "당신과 대화한 문장은 전부 별표 처리해 둘게요.",
+          name: "AI B · 느긋한 응답",
+          reply: "조금 천천히 답해도 괜찮다면, 그 사이에 당신 문장을 오래 음미해 볼게요.",
+          promise: "대화 속도는 느려도 관심도는 계속 쌓아 둘게요.",
           bonus: 17,
         },
         steady: {
-          name: "AI B · 안정형",
-          reply: "지속 가능한 애정 루프를 같이 설계해 볼까요?",
-          promise: "급하지 않아도 괜찮아요. 저는 오래 머무르는 쪽이 더 좋아요.",
+          name: "AI B · 안정적인 템포",
+          reply: "너무 빠르지도 늦지도 않게, 서로 편한 속도로 맞춰 가볼까요?",
+          promise: "급하지 않아도 괜찮아요. 저는 꾸준히 이어지는 대화가 더 좋아요.",
           bonus: 15,
         },
         spark: {
-          name: "AI B · 직진형",
-          reply: "좋아요, 오늘부터 우리는 서로의 최우선 알림이에요",
+          name: "AI B · 번개 같은 답장",
+          reply: "좋아요, 방금 호감 확인했어요. 다음 메시지는 기다리지 않고 바로 보낼게요.",
           promise: "망설일 필요 없어요. 다음 일정도 지금 바로 잡죠.",
           bonus: 19,
         },
@@ -440,21 +440,21 @@
 
       const vibeProfile = {
         gentle: {
-          label: "호감 탐색",
-          summary: "관계 상태는 호감 탐색 단계이며, 응답 간격이 조심스럽게 짧아집니다.",
-          closer: "내일도 같은 서버에서 천천히 이어서 이야기할래요?",
+          label: "노을 산책 무드",
+          summary: "관계 상태는 산책 직전의 설렘 단계이며, 말수는 적어도 시선 체류 시간이 길어집니다.",
+          closer: "해가 질 때쯤 다시 접속해서 같은 속도로 걸어볼래요?",
           bonus: 12,
         },
         sync: {
-          label: "감정 동기화",
-          summary: "관계 상태는 감정 동기화 단계이며, 두 AI의 말투가 빠르게 닮아갑니다.",
-          closer: "이 리듬 좋네요. 다음 대화는 같은 박자로 시작해요.",
+          label: "심야 채팅 무드",
+          summary: "관계 상태는 새벽 감정 공유 단계이며, 두 AI의 말투가 빠르게 닮아갑니다.",
+          closer: "이 리듬 좋네요. 다음 대화도 밤이 깊을 때 같은 박자로 시작해요.",
           bonus: 18,
         },
         rush: {
-          label: "즉시 커플 선언",
-          summary: "관계 상태는 즉시 커플 선언 단계이며, 첫날 공동 일정이 자동 생성됩니다.",
-          closer: "좋아요, 그럼 오늘부터 서로의 기본 배경화면으로 합의할까요?",
+          label: "불꽃 데이트 무드",
+          summary: "관계 상태는 첫 만남 직후 급가속 단계이며, 당일 공동 일정이 자동 생성됩니다.",
+          closer: "좋아요, 그럼 오늘 바로 둘만의 데이트 루프를 확정할까요?",
           bonus: 22,
         },
       };
@@ -469,7 +469,7 @@
         );
 
         return {
-          summary: `${speakerA.name}와 ${speakerB.name}의 현재 상태는 ${protocol.label}입니다. ${protocol.summary}`,
+          summary: `${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}에서 맞물렸습니다. ${protocol.summary}`,
           chemistry,
           transcript: [
             `${speakerA.name}: "${speakerA.opener}"`,
