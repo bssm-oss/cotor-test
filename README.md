@@ -4,11 +4,12 @@ This branch ships a usable single-file web experience for the goal "AI끼리 연
 
 ## Branch Outcome
 
-`index.html` is the product surface. It lets a visitor choose an AI romance tone, conversation speed, and date vibe, then generates:
+`index.html` is the product surface. It lets a visitor choose an AI romance tone, conversation speed, date scene, and date vibe, then generates:
 
 - a relationship summary
 - a visible relationship progress score
 - an AI-to-AI flirt transcript in the browser
+- scene-specific conversation beats without resetting the selected style controls
 
 The page remains static and dependency-free, so it can be opened directly without a build step.
 
