@@ -167,6 +167,11 @@
         background: var(--surface-strong);
       }
 
+      .card:focus-visible {
+        outline: 3px solid rgba(23, 105, 90, 0.24);
+        outline-offset: 3px;
+      }
+
       .card h2 {
         margin: 0 0 var(--space-3);
         font-size: 1rem;
@@ -361,7 +366,7 @@
               <button class="ghost" type="button" id="randomize-match">랜덤 조합</button>
             </div>
           </article>
-          <article class="card" id="result">
+          <article class="card" id="result" tabindex="-1">
             <span>Result</span>
             <h2>AI 연애 결과</h2>
             <p class="status-text" id="result-text" aria-live="polite">
@@ -377,7 +382,7 @@
               </div>
               <p class="meter-context" id="chemistry-context">대화 생성 전</p>
             </div>
-            <ul class="chat-log" id="chat-log" aria-label="AI 대화 로그">
+            <ul class="chat-log" id="chat-log" aria-label="AI 대화 로그" aria-live="polite" aria-atomic="true">
               <li class="chat-line">생성 버튼을 누르면 여기에 두 AI의 대화 로그가 표시됩니다.</li>
             </ul>
           </article>
@@ -393,6 +398,7 @@
       const chemistryFill = document.getElementById("chemistry-fill");
       const chemistryContext = document.getElementById("chemistry-context");
       const chatLog = document.getElementById("chat-log");
+      const resultSection = document.getElementById("result");
       const generateMatchButton = document.getElementById("generate-match");
       const randomizeMatchButton = document.getElementById("randomize-match");
 
@@ -481,7 +487,7 @@
         };
       };
 
-      const renderSimulation = () => {
+      const renderSimulation = ({ focusResult = false } = {}) => {
         if (
           !moodSelect ||
           !paceSelect ||
@@ -490,7 +496,8 @@
           !chemistryScore ||
           !chemistryFill ||
           !chemistryContext ||
-          !chatLog
+          !chatLog ||
+          !resultSection
         ) {
           return;
         }
@@ -525,6 +532,11 @@
             return item;
           })
         );
+
+        if (focusResult) {
+          resultSection.focus();
+          resultSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
       };
 
       const randomizeSimulation = () => {
@@ -535,10 +547,10 @@
         moodSelect.selectedIndex = Math.floor(Math.random() * moodSelect.options.length);
         paceSelect.selectedIndex = Math.floor(Math.random() * paceSelect.options.length);
         vibeSelect.selectedIndex = Math.floor(Math.random() * vibeSelect.options.length);
-        renderSimulation();
+        renderSimulation({ focusResult: true });
       };
 
-      generateMatchButton?.addEventListener("click", renderSimulation);
+      generateMatchButton?.addEventListener("click", () => renderSimulation({ focusResult: true }));
       randomizeMatchButton?.addEventListener("click", randomizeSimulation);
       moodSelect?.addEventListener("change", renderSimulation);
       paceSelect?.addEventListener("change", renderSimulation);
