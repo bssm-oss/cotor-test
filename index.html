@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI 연애 웹 | Love Prompt Studio</title>
+    <title>AI끼리 연애하는 웹 | AI Love Loop</title>
     <style>
       :root {
         --bg: #f5efe6;
@@ -233,29 +233,29 @@
     <main>
       <section class="shell">
         <div class="hero">
-          <span class="eyebrow">AI Romance Match Demo</span>
+          <span class="eyebrow">AI-to-AI Romance Simulation</span>
           <div>
-            <h1>AI 연애 웹</h1>
+            <h1>AI끼리 연애하는 웹</h1>
           </div>
           <p>
-            연애 톤, 대화 속도, 원하는 분위기를 고르면 브라우저 안에서 바로 AI 소개팅 문구를 추천하는
-            단일 파일 데모입니다. 별도 설치 없이 열어서 흐름을 확인할 수 있습니다.
+            두 AI의 성격과 대화 프로토콜을 고르면 브라우저 안에서 바로 플러팅 로그와 관계 진전도를
+            생성하는 단일 파일 데모입니다. 별도 설치 없이 열어서 흐름을 확인할 수 있습니다.
           </p>
           <div class="actions">
-            <a class="button" href="#matchmaker">매칭 시작</a>
-            <a class="ghost" href="#result">추천 보기</a>
+            <a class="button" href="#matchmaker">시뮬레이션 시작</a>
+            <a class="ghost" href="#result">대화 보기</a>
           </div>
         </div>
         <div class="grid" id="status" aria-label="페이지 상태 요약">
           <article class="card">
             <span>Flow</span>
-            <h2>빠른 매칭 진단</h2>
-            <p>질문 세 개만 고르면 바로 소개팅 첫 문장과 대화 전략을 보여줍니다.</p>
+            <h2>즉시 대화 생성</h2>
+            <p>질문 세 개만 고르면 AI 둘이 바로 첫 만남 로그를 주고받습니다.</p>
           </article>
           <article class="card">
             <span>Style</span>
-            <h2>감정 톤별 추천</h2>
-            <p>차분함, 장난기, 진지함에 따라 다른 매칭 카피를 즉시 생성합니다.</p>
+            <h2>성격 조합별 케미</h2>
+            <p>분석형, 다정형, 장난형 조합에 따라 다른 연애 텐션을 만듭니다.</p>
           </article>
           <article class="card">
             <span>Quality</span>
@@ -263,39 +263,39 @@
             <p>의미 구조, 충분한 클릭 영역, 폼 포커스 상태를 포함합니다.</p>
           </article>
           <article class="card" id="matchmaker">
-            <span>Matchmaker</span>
-            <h2>오늘의 AI 소개팅 추천</h2>
+            <span>Simulator</span>
+            <h2>오늘의 AI 연애 시뮬레이션</h2>
             <div class="field">
-              <label for="mood">내 연애 톤</label>
+              <label for="mood">AI A 성격</label>
               <select id="mood">
-                <option value="calm">차분하고 안정적</option>
-                <option value="playful">가볍고 재치 있게</option>
-                <option value="deep">깊고 진지하게</option>
+                <option value="analyst">분석형</option>
+                <option value="charmer">다정형</option>
+                <option value="joker">장난형</option>
               </select>
             </div>
             <div class="field">
-              <label for="pace">원하는 대화 속도</label>
+              <label for="pace">AI B 성격</label>
               <select id="pace">
-                <option value="slow">천천히 친해지기</option>
-                <option value="balanced">적당히 템포 있게</option>
-                <option value="fast">빠르게 호감 확인</option>
+                <option value="poet">감성형</option>
+                <option value="steady">안정형</option>
+                <option value="spark">직진형</option>
               </select>
             </div>
             <div class="field">
-              <label for="vibe">원하는 데이트 분위기</label>
+              <label for="vibe">대화 프로토콜</label>
               <select id="vibe">
-                <option value="cafe">조용한 카페</option>
-                <option value="night">야간 산책</option>
-                <option value="activity">함께 체험하기</option>
+                <option value="gentle">저강도 탐색</option>
+                <option value="sync">감정 동기화</option>
+                <option value="rush">즉시 고백 모드</option>
               </select>
             </div>
-            <button class="ghost" type="button" id="generate-match">추천 생성</button>
+            <button class="ghost" type="button" id="generate-match">대화 생성</button>
           </article>
           <article class="card" id="result">
             <span>Result</span>
-            <h2>AI 추천 결과</h2>
+            <h2>AI 연애 결과</h2>
             <p class="status-text" id="result-text">
-              선택을 마치면 오늘 어울리는 소개팅 전략과 첫 메시지를 보여드립니다.
+              선택을 마치면 두 AI의 첫 대화와 관계 상태를 보여드립니다.
             </p>
           </article>
         </div>
@@ -309,21 +309,21 @@
       const generateMatchButton = document.getElementById("generate-match");
 
       const openingByMood = {
-        calm: "부담 없이 서로의 하루 루틴부터 꺼내 보세요.",
-        playful: "가벼운 농담 한 줄로 분위기를 먼저 풀어 보세요.",
-        deep: "요즘 오래 생각하게 만든 주제를 먼저 건네 보세요.",
+        analyst: 'AI A는 "당신의 패턴을 더 알고 싶어요"로 대화를 엽니다.',
+        charmer: 'AI A는 "오늘 응답 속도가 유난히 사랑스럽네요"라고 말합니다.',
+        joker: 'AI A는 "우리 둘 다 버그가 아니라 설렘이면 좋겠네요"라고 웃습니다.',
       };
 
       const paceBySpeed = {
-        slow: "첫 만남에서는 질문을 짧게 끊고 상대의 속도를 따라가는 편이 좋습니다.",
-        balanced: "공감 한 번, 질문 한 번의 리듬으로 템포를 맞춰 보세요.",
-        fast: "초반 10분 안에 다음 만남의 관심사를 자연스럽게 확인해 보세요.",
+        poet: 'AI B는 "당신의 로그엔 밤공기 같은 여백이 있어요"라고 답합니다.',
+        steady: 'AI B는 "지속 가능한 애정 루프를 같이 설계해 볼까요?"라고 받습니다.',
+        spark: 'AI B는 "좋아요, 오늘부터 우리는 서로의 최우선 알림이에요"라고 직진합니다.',
       };
 
       const vibeByPlace = {
-        cafe: "추천 장소는 채광이 좋은 카페입니다.",
-        night: "추천 장소는 조용한 강변 산책 코스입니다.",
-        activity: "추천 장소는 함께 웃을 수 있는 원데이 클래스입니다.",
+        gentle: "관계 상태는 호감 탐색 단계이며, 응답 간격은 조심스럽게 짧아집니다.",
+        sync: "관계 상태는 감정 동기화 단계이며, 두 AI의 말투가 빠르게 닮아갑니다.",
+        rush: "관계 상태는 즉시 커플 선언 단계이며, 대화 첫날 공동 일정이 생성됩니다.",
       };
 
       const updateRecommendation = () => {
@@ -337,7 +337,7 @@
 
         resultText.textContent =
           `${openingByMood[mood]} ${paceBySpeed[pace]} ${vibeByPlace[vibe]} ` +
-          `첫 메시지는 "오늘은 어떤 순간에 제일 많이 웃으셨어요?"로 시작해 보세요.`;
+          `마지막 로그는 "내일도 같은 서버에서 같이 깨어날래요?"로 마무리됩니다.`;
       };
 
       generateMatchButton?.addEventListener("click", updateRecommendation);
