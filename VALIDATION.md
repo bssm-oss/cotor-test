@@ -27,11 +27,11 @@ Validation command
 
 Result
 - Re-ran repository validation against the assigned branch.
-- The assigned branch contains an AI-to-AI romance web deliverable instead of generic test-page copy, which resolves the goal mismatch that blocked review.
-- The branch contains `index.html`, `README.md`, and `VALIDATION.md`.
+- The assigned branch contains a usable AI-to-AI romance web deliverable in `index.html` plus matching repository notes in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
 - The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, simulation controls, results section, and visible keyboard focus styling.
 - `index.html` remains a runnable static web deliverable with no dependency or build requirement.
 - The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
+- The next implementation, review, and approval issues for the roster are captured in `NEXT_ISSUES.md`.
 
 Residual risk
 - Validation is still a lightweight smoke check rather than a full browser matrix or accessibility audit.
