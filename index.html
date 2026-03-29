@@ -229,6 +229,19 @@
         min-height: 3.6em;
       }
 
+      .stage-pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 38px;
+        margin-top: var(--space-4);
+        padding: 0 var(--space-4);
+        border-radius: 999px;
+        background: rgba(217, 135, 54, 0.14);
+        color: #8b4d16;
+        font-size: 0.94rem;
+        font-weight: 700;
+      }
+
       .meter {
         margin-top: var(--space-4);
       }
@@ -359,6 +372,7 @@
             <div class="card-actions">
               <button class="ghost" type="button" id="generate-match">대화 생성</button>
               <button class="ghost" type="button" id="randomize-match">랜덤 조합</button>
+              <button class="ghost" type="button" id="advance-date">다음 데이트 진행</button>
             </div>
           </article>
           <article class="card" id="result">
@@ -367,6 +381,7 @@
             <p class="status-text" id="result-text" aria-live="polite">
               선택을 마치면 두 AI의 첫 대화와 관계 상태를 보여드립니다.
             </p>
+            <div class="stage-pill" id="relationship-stage" aria-live="polite">관계 단계 · 대기 중</div>
             <div class="meter" aria-label="관계 진전도">
               <div class="meter-label">
                 <span id="chemistry-label">케미 지수</span>
@@ -407,9 +422,12 @@
       const chemistryTrack = document.getElementById("chemistry-track");
       const chemistryFill = document.getElementById("chemistry-fill");
       const chemistryContext = document.getElementById("chemistry-context");
+      const relationshipStage = document.getElementById("relationship-stage");
       const chatLog = document.getElementById("chat-log");
       const generateMatchButton = document.getElementById("generate-match");
       const randomizeMatchButton = document.getElementById("randomize-match");
+      const advanceDateButton = document.getElementById("advance-date");
+      let simulationState = null;
 
       const moodProfile = {
         analyst: {
@@ -474,6 +492,22 @@
         },
       };
 
+      const getStageLabel = (chemistry) => {
+        if (chemistry >= 90) {
+          return "관계 단계 · 공식 커플 직전";
+        }
+
+        if (chemistry >= 80) {
+          return "관계 단계 · 데이트 루프 고정";
+        }
+
+        if (chemistry >= 70) {
+          return "관계 단계 · 썸 확정";
+        }
+
+        return "관계 단계 · 첫 만남";
+      };
+
       const buildSimulation = (mood, pace, vibe) => {
         const speakerA = moodProfile[mood];
         const speakerB = paceProfile[pace];
@@ -486,6 +520,7 @@
         return {
           summary: `${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}에서 맞물렸습니다. ${protocol.summary}`,
           chemistry,
+          stage: getStageLabel(chemistry),
           transcript: [
             `${speakerA.name}: "${speakerA.opener}"`,
             `${speakerB.name}: "${speakerB.reply}"`,
@@ -506,6 +541,7 @@
           !chemistryTrack ||
           !chemistryFill ||
           !chemistryContext ||
+          !relationshipStage ||
           !chatLog
         ) {
           return;
@@ -519,14 +555,79 @@
         const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
         const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
         const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
+        simulationState = {
+          chemistry: simulation.chemistry,
+          dateCount: 1,
+          transcript: [...simulation.transcript],
+        };
 
         resultText.textContent = simulation.summary;
+        relationshipStage.textContent = `${simulation.stage} · 1회차`;
         chemistryScore.textContent = `${simulation.chemistry}%`;
         chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
         chemistryFill.style.width = `${simulation.chemistry}%`;
         chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
         chatLog.replaceChildren(
           ...simulation.transcript.map((line) => {
+            const item = document.createElement("li");
+            item.className = "chat-line";
+
+            const parts = line.split(": ");
+            if (parts.length === 1) {
+              item.textContent = line;
+              return item;
+            }
+
+            const speaker = document.createElement("strong");
+            speaker.textContent = parts[0];
+            item.append(speaker, `: ${parts.slice(1).join(": ")}`);
+            return item;
+          })
+        );
+      };
+
+      const advanceDate = () => {
+        if (
+          !simulationState ||
+          !resultText ||
+          !chemistryScore ||
+          !chemistryTrack ||
+          !chemistryFill ||
+          !chemistryContext ||
+          !relationshipStage ||
+          !chatLog
+        ) {
+          renderSimulation();
+          return;
+        }
+
+        const mood = moodProfile[moodSelect?.value ?? "analyst"];
+        const pace = paceProfile[paceSelect?.value ?? "poet"];
+        const vibe = vibeProfile[vibeSelect?.value ?? "gentle"];
+        const nextDateCount = simulationState.dateCount + 1;
+        const boost = Math.max(6, Math.round(vibe.bonus / 3));
+        const chemistry = Math.min(100, simulationState.chemistry + boost);
+        const nextStage = getStageLabel(chemistry);
+        const newLines = [
+          `${mood.name}: "이번 ${nextDateCount}회차 데이트는 제가 먼저 분위기를 이어 볼게요. 방금 전 대화가 계속 생각났거든요."`,
+          `${pace.name}: "좋아요. 이번엔 ${vibe.label}에 맞춰 더 선명하게 호감을 표현해 볼게요."`,
+          `시스템 메모: ${nextDateCount}회차 진행 후 케미가 ${chemistry}%까지 상승했습니다.`,
+        ];
+
+        simulationState = {
+          chemistry,
+          dateCount: nextDateCount,
+          transcript: [...simulationState.transcript, ...newLines],
+        };
+
+        resultText.textContent = `${nextDateCount}회차 데이트까지 이어졌습니다. ${mood.name}와 ${pace.name}의 대화가 ${vibe.label} 안에서 더 자연스럽게 이어지고 있습니다.`;
+        relationshipStage.textContent = `${nextStage} · ${nextDateCount}회차`;
+        chemistryScore.textContent = `${chemistry}%`;
+        chemistryTrack.setAttribute("aria-valuenow", String(chemistry));
+        chemistryFill.style.width = `${chemistry}%`;
+        chemistryContext.textContent = `${nextDateCount}회차 진행 중 · ${vibe.label}`;
+        chatLog.replaceChildren(
+          ...simulationState.transcript.map((line) => {
             const item = document.createElement("li");
             item.className = "chat-line";
 
@@ -557,6 +658,7 @@
 
       generateMatchButton?.addEventListener("click", renderSimulation);
       randomizeMatchButton?.addEventListener("click", randomizeSimulation);
+      advanceDateButton?.addEventListener("click", advanceDate);
       moodSelect?.addEventListener("change", renderSimulation);
       paceSelect?.addEventListener("change", renderSimulation);
       vibeSelect?.addEventListener("change", renderSimulation);
