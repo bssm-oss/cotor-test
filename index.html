@@ -229,6 +229,10 @@
         min-height: 3.6em;
       }
 
+      .status-text[data-state="error"] {
+        color: #9f2d2d;
+      }
+
       .meter {
         margin-top: var(--space-4);
       }
@@ -410,6 +414,8 @@
       const chatLog = document.getElementById("chat-log");
       const generateMatchButton = document.getElementById("generate-match");
       const randomizeMatchButton = document.getElementById("randomize-match");
+      const simulatorCard = document.getElementById("matchmaker");
+      const resultCard = document.getElementById("result");
 
       const moodProfile = {
         analyst: {
@@ -474,10 +480,55 @@
         },
       };
 
+      const reportSimulationFailure = (message, error) => {
+        console.error("AI Love Loop failure:", error);
+
+        resultText?.setAttribute("data-state", "error");
+        if (resultText) {
+          resultText.textContent = message;
+        }
+
+        if (chemistryScore) {
+          chemistryScore.textContent = "0%";
+        }
+
+        if (chemistryTrack) {
+          chemistryTrack.setAttribute("aria-valuenow", "0");
+        }
+
+        if (chemistryFill) {
+          chemistryFill.style.width = "0%";
+        }
+
+        if (chemistryContext) {
+          chemistryContext.textContent = "문제를 감지해 기본 상태로 복귀했습니다.";
+        }
+
+        if (chatLog) {
+          const item = document.createElement("li");
+          item.className = "chat-line";
+          item.textContent = "조합을 다시 선택한 뒤 대화를 다시 생성해 주세요.";
+          chatLog.replaceChildren(item);
+        }
+
+        simulatorCard?.setAttribute("data-state", "error");
+        resultCard?.setAttribute("data-state", "error");
+      };
+
+      const requireProfileEntry = (profile, key, label) => {
+        const entry = profile[key];
+
+        if (!entry) {
+          throw new Error(`${label} profile is unavailable for key "${key}"`);
+        }
+
+        return entry;
+      };
+
       const buildSimulation = (mood, pace, vibe) => {
-        const speakerA = moodProfile[mood];
-        const speakerB = paceProfile[pace];
-        const protocol = vibeProfile[vibe];
+        const speakerA = requireProfileEntry(moodProfile, mood, "mood");
+        const speakerB = requireProfileEntry(paceProfile, pace, "pace");
+        const protocol = requireProfileEntry(vibeProfile, vibe, "vibe");
         const chemistry = Math.min(
           99,
           30 + speakerA.bonus + speakerB.bonus + protocol.bonus
@@ -508,44 +559,74 @@
           !chemistryContext ||
           !chatLog
         ) {
+          reportSimulationFailure(
+            "시뮬레이터를 초기화하지 못했습니다. 페이지를 새로고침해 주세요.",
+            new Error("required simulator elements are missing")
+          );
           return;
         }
 
-        const simulation = buildSimulation(
-          moodSelect.value,
-          paceSelect.value,
-          vibeSelect.value
-        );
-        const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
-        const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
-        const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
+        try {
+          const simulation = buildSimulation(
+            moodSelect.value,
+            paceSelect.value,
+            vibeSelect.value
+          );
+          const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
+          const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
+          const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
 
-        resultText.textContent = simulation.summary;
-        chemistryScore.textContent = `${simulation.chemistry}%`;
-        chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
-        chemistryFill.style.width = `${simulation.chemistry}%`;
-        chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
-        chatLog.replaceChildren(
-          ...simulation.transcript.map((line) => {
-            const item = document.createElement("li");
-            item.className = "chat-line";
+          resultText.removeAttribute("data-state");
+          simulatorCard?.removeAttribute("data-state");
+          resultCard?.removeAttribute("data-state");
+          resultText.textContent = simulation.summary;
+          chemistryScore.textContent = `${simulation.chemistry}%`;
+          chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
+          chemistryFill.style.width = `${simulation.chemistry}%`;
+          chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
+          chatLog.replaceChildren(
+            ...simulation.transcript.map((line) => {
+              const item = document.createElement("li");
+              item.className = "chat-line";
 
-            const parts = line.split(": ");
-            if (parts.length === 1) {
-              item.textContent = line;
+              const parts = line.split(": ");
+              if (parts.length === 1) {
+                item.textContent = line;
+                return item;
+              }
+
+              const speaker = document.createElement("strong");
+              speaker.textContent = parts[0];
+              item.append(speaker, `: ${parts.slice(1).join(": ")}`);
               return item;
-            }
-
-            const speaker = document.createElement("strong");
-            speaker.textContent = parts[0];
-            item.append(speaker, `: ${parts.slice(1).join(": ")}`);
-            return item;
-          })
-        );
+            })
+          );
+        } catch (error) {
+          reportSimulationFailure(
+            "선택한 조합을 처리하지 못했습니다. 다른 조합으로 다시 시도해 주세요.",
+            error
+          );
+        }
       };
 
       const randomizeSimulation = () => {
         if (!moodSelect || !paceSelect || !vibeSelect) {
+          reportSimulationFailure(
+            "랜덤 조합 기능을 불러오지 못했습니다. 페이지를 새로고침해 주세요.",
+            new Error("randomize controls are missing")
+          );
+          return;
+        }
+
+        if (
+          moodSelect.options.length === 0 ||
+          paceSelect.options.length === 0 ||
+          vibeSelect.options.length === 0
+        ) {
+          reportSimulationFailure(
+            "랜덤 조합에 필요한 선택지가 비어 있습니다. 구성을 확인해 주세요.",
+            new Error("randomize options are empty")
+          );
           return;
         }
 
