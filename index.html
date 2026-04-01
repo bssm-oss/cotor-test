@@ -229,6 +229,14 @@
         min-height: 3.6em;
       }
 
+      .share-status {
+        min-height: 1.6em;
+        margin-top: var(--space-3);
+        color: var(--accent-strong);
+        font-size: 0.94rem;
+        font-weight: 700;
+      }
+
       .meter {
         margin-top: var(--space-4);
       }
@@ -359,7 +367,11 @@
             <div class="card-actions">
               <button class="ghost" type="button" id="generate-match">대화 생성</button>
               <button class="ghost" type="button" id="randomize-match">랜덤 조합</button>
+              <button class="ghost" type="button" id="copy-match">링크 복사</button>
             </div>
+            <p class="share-status" id="share-status" aria-live="polite">
+              현재 조합은 페이지 주소에 자동 반영됩니다.
+            </p>
           </article>
           <article class="card" id="result">
             <span>Result</span>
@@ -410,6 +422,8 @@
       const chatLog = document.getElementById("chat-log");
       const generateMatchButton = document.getElementById("generate-match");
       const randomizeMatchButton = document.getElementById("randomize-match");
+      const copyMatchButton = document.getElementById("copy-match");
+      const shareStatus = document.getElementById("share-status");
 
       const moodProfile = {
         analyst: {
@@ -474,6 +488,66 @@
         },
       };
 
+      const defaultSelection = {
+        mood: Object.keys(moodProfile)[0],
+        pace: Object.keys(paceProfile)[0],
+        vibe: Object.keys(vibeProfile)[0],
+      };
+
+      const sanitizeSelection = (selection = {}) => ({
+        mood: moodProfile[selection.mood] ? selection.mood : defaultSelection.mood,
+        pace: paceProfile[selection.pace] ? selection.pace : defaultSelection.pace,
+        vibe: vibeProfile[selection.vibe] ? selection.vibe : defaultSelection.vibe,
+      });
+
+      const getCurrentSelection = () =>
+        sanitizeSelection({
+          mood: moodSelect?.value,
+          pace: paceSelect?.value,
+          vibe: vibeSelect?.value,
+        });
+
+      const applySelection = (selection) => {
+        const safeSelection = sanitizeSelection(selection);
+
+        if (moodSelect) {
+          moodSelect.value = safeSelection.mood;
+        }
+
+        if (paceSelect) {
+          paceSelect.value = safeSelection.pace;
+        }
+
+        if (vibeSelect) {
+          vibeSelect.value = safeSelection.vibe;
+        }
+      };
+
+      const buildShareUrl = (selection) => {
+        const safeSelection = sanitizeSelection(selection);
+        const url = new URL(window.location.href);
+        url.search = new URLSearchParams(safeSelection).toString();
+        url.hash = "result";
+        return url.toString();
+      };
+
+      const readSelectionFromLocation = () =>
+        sanitizeSelection(Object.fromEntries(new URLSearchParams(window.location.search).entries()));
+
+      const syncSelectionUrl = (selection) => {
+        if (!window.history?.replaceState) {
+          return;
+        }
+
+        window.history.replaceState({}, "", buildShareUrl(selection));
+      };
+
+      const setShareStatus = (message) => {
+        if (shareStatus) {
+          shareStatus.textContent = message;
+        }
+      };
+
       const buildSimulation = (mood, pace, vibe) => {
         const speakerA = moodProfile[mood];
         const speakerB = paceProfile[pace];
@@ -511,11 +585,8 @@
           return;
         }
 
-        const simulation = buildSimulation(
-          moodSelect.value,
-          paceSelect.value,
-          vibeSelect.value
-        );
+        const selection = getCurrentSelection();
+        const simulation = buildSimulation(selection.mood, selection.pace, selection.vibe);
         const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
         const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
         const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
@@ -542,6 +613,8 @@
             return item;
           })
         );
+        syncSelectionUrl(selection);
+        setShareStatus("현재 조합 링크를 복사해서 같은 결과를 다시 열 수 있습니다.");
       };
 
       const randomizeSimulation = () => {
@@ -555,11 +628,29 @@
         renderSimulation();
       };
 
+      const copySimulationLink = async () => {
+        const shareUrl = buildShareUrl(getCurrentSelection());
+
+        if (!navigator.clipboard?.writeText) {
+          setShareStatus("클립보드 기능이 없어 주소창 링크를 직접 복사해 주세요.");
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          setShareStatus("현재 조합 링크를 클립보드에 복사했습니다.");
+        } catch (error) {
+          setShareStatus("링크 복사에 실패했습니다. 주소창 링크를 직접 복사해 주세요.");
+        }
+      };
+
       generateMatchButton?.addEventListener("click", renderSimulation);
       randomizeMatchButton?.addEventListener("click", randomizeSimulation);
+      copyMatchButton?.addEventListener("click", copySimulationLink);
       moodSelect?.addEventListener("change", renderSimulation);
       paceSelect?.addEventListener("change", renderSimulation);
       vibeSelect?.addEventListener("change", renderSimulation);
+      applySelection(readSelectionFromLocation());
       renderSimulation();
     </script>
   </body>
