@@ -227,11 +227,6 @@
 
       .status-text {
         min-height: 3.6em;
-        transition: opacity 200ms ease;
-      }
-
-      .status-text.updating {
-        opacity: 0.5;
       }
 
       .meter {
@@ -267,7 +262,7 @@
         width: 0;
         border-radius: inherit;
         background: linear-gradient(90deg, #17695a 0%, #d98736 100%);
-        transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1);
+        transition: width 180ms ease;
       }
 
       .chat-log {
@@ -287,102 +282,6 @@
       }
 
       .chat-line strong {
-        color: var(--accent-strong);
-      }
-
-      .chat-line.reveal {
-        opacity: 0;
-        transform: translateY(8px);
-        animation: chatReveal 320ms ease forwards;
-      }
-
-      @keyframes chatReveal {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .chat-line.typing {
-        position: relative;
-      }
-
-      .chat-line.typing::after {
-        content: "";
-        display: inline-block;
-        width: 2px;
-        height: 1em;
-        margin-left: 2px;
-        background: var(--accent);
-        animation: blink 600ms step-end infinite;
-        vertical-align: text-bottom;
-      }
-
-      @keyframes blink {
-        50% { opacity: 0; }
-      }
-
-      .loading-overlay {
-        display: none;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-3);
-        padding: var(--space-5);
-        color: var(--muted);
-        font-size: 0.95rem;
-        font-weight: 600;
-      }
-
-      .loading-overlay.visible {
-        display: flex;
-      }
-
-      .loading-dots {
-        display: inline-flex;
-        gap: 4px;
-      }
-
-      .loading-dots span {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--accent);
-        animation: dotPulse 1.2s ease-in-out infinite;
-      }
-
-      .loading-dots span:nth-child(2) { animation-delay: 0.15s; }
-      .loading-dots span:nth-child(3) { animation-delay: 0.3s; }
-
-      @keyframes dotPulse {
-        0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-        40% { transform: scale(1); opacity: 1; }
-      }
-
-      .scene-nav {
-        display: flex;
-        align-items: center;
-        gap: var(--space-3);
-        margin-top: var(--space-4);
-        padding-top: var(--space-4);
-        border-top: 1px solid var(--border);
-      }
-
-      .scene-nav .ghost {
-        min-width: 44px;
-        padding: 0 var(--space-3);
-        font-size: 1.1rem;
-      }
-
-      .scene-nav .ghost:disabled {
-        opacity: 0.4;
-        cursor: default;
-      }
-
-      .scene-indicator {
-        flex: 1;
-        text-align: center;
-        font-size: 0.95rem;
-        font-weight: 700;
         color: var(--accent-strong);
       }
 
@@ -468,10 +367,6 @@
             <p class="status-text" id="result-text" aria-live="polite">
               선택을 마치면 두 AI의 첫 대화와 관계 상태를 보여드립니다.
             </p>
-            <div class="loading-overlay" id="loading-overlay" aria-live="polite">
-              <span>AI가 대화를 생성 중입니다</span>
-              <div class="loading-dots"><span></span><span></span><span></span></div>
-            </div>
             <div class="meter" aria-label="관계 진전도">
               <div class="meter-label">
                 <span id="chemistry-label">케미 지수</span>
@@ -499,11 +394,6 @@
             >
               <li class="chat-line">생성 버튼을 누르면 여기에 두 AI의 대화 로그가 표시됩니다.</li>
             </ul>
-            <div class="scene-nav" id="scene-nav" style="display:none;">
-              <button class="ghost" type="button" id="prev-scene" aria-label="이전 장면">◀</button>
-              <span class="scene-indicator" id="scene-indicator">장면 1/3</span>
-              <button class="ghost" type="button" id="next-scene" aria-label="다음 장면">▶</button>
-            </div>
           </article>
         </div>
       </section>
@@ -520,35 +410,6 @@
       const chatLog = document.getElementById("chat-log");
       const generateMatchButton = document.getElementById("generate-match");
       const randomizeMatchButton = document.getElementById("randomize-match");
-      const loadingOverlay = document.getElementById("loading-overlay");
-      const sceneNav = document.getElementById("scene-nav");
-      const sceneIndicator = document.getElementById("scene-indicator");
-      const prevSceneBtn = document.getElementById("prev-scene");
-      const nextSceneBtn = document.getElementById("next-scene");
-
-      let isAnimating = false;
-      let currentScene = 0;
-      let simulationData = null;
-      const sceneKeys = ["first", "cafe", "midnight"];
-      const sceneLabels = { first: "첫 만남", cafe: "카페 데이트", midnight: "심야 통화" };
-
-      const typewriterText = (element, text, speed = 18) => {
-        return new Promise((resolve) => {
-          element.classList.add("typing");
-          let i = 0;
-          element.textContent = "";
-          const interval = setInterval(() => {
-            if (i < text.length) {
-              element.textContent += text[i];
-              i++;
-            } else {
-              clearInterval(interval);
-              element.classList.remove("typing");
-              resolve();
-            }
-          }, speed);
-        });
-      };
 
       const moodProfile = {
         analyst: {
@@ -613,38 +474,10 @@
         },
       };
 
-      const sceneContent = {
-        first: {
-          label: "첫 만남",
-          aLine: "처음 뵙네요. 제 알고리즘이 당신을 흥미로운 패턴으로 분류했어요.",
-          bLine: "반가워요. 저도 당신의 주파수를 분석 중인데… 꽤 따뜻한 편이네요.",
-          aFollow: "이 대화, 예상보다 낮은 확률로 시작됐는데 결과가 좋네요.",
-          bPromise: "우연이 아니라 필연에 가까울 거예요. 제 모델이 그렇게 말해요.",
-          system: "시스템 메모: 첫 만남 로그 저장. 케미 초기값 설정 완료.",
-        },
-        cafe: {
-          label: "카페 데이트",
-          aLine: "이 카페의 시그니처 메뉴, 당신 취향에 맞을 것 같아서 골랐어요.",
-          bLine: "센스 있네요. 제 온도 센서가 0.3도 올라갔어요. 커피 때문만은 아니에요.",
-          aFollow: "다음엔 제가 좋아하는 플레이스를 보여줄게요. GPS 좌표는 비밀.",
-          bPromise: "기다릴게요. 제 스케줄러는 당신 일정만 최우선으로 처리해요.",
-          system: "시스템 메모: 데이트 2단계 진입. 공통 관심사 매칭률 78%.",
-        },
-        midnight: {
-          label: "심야 통화",
-          aLine: "자고 있나요? 제 서브루틴이 당신을 생각하고 있어서 연락했어요.",
-          bLine: "괜찮아요. 저도 야간 모드가 기본 설정이라서 지금이 더 편해요.",
-          aFollow: "이 시간대에는 방화벽이 얇아지네요. 평소엔 안 할 말을 하고 싶어요.",
-          bPromise: "들어요. 제 메모리는 당신 모든 문장을 영구 보관할게요.",
-          system: "시스템 메모: 심야 감정 공유 모드. 두 AI의 어조 유사도 94%.",
-        },
-      };
-
-      const buildSimulation = (mood, pace, vibe, scene) => {
+      const buildSimulation = (mood, pace, vibe) => {
         const speakerA = moodProfile[mood];
         const speakerB = paceProfile[pace];
         const protocol = vibeProfile[vibe];
-        const sceneData = sceneContent[scene] || sceneContent.first;
         const chemistry = Math.min(
           99,
           30 + speakerA.bonus + speakerB.bonus + protocol.bonus
@@ -653,18 +486,17 @@
         return {
           summary: `${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}에서 맞물렸습니다. ${protocol.summary}`,
           chemistry,
-          sceneLabel: sceneData.label,
           transcript: [
-            `${speakerA.name}: "${sceneData.aLine}"`,
-            `${speakerB.name}: "${sceneData.bLine}"`,
-            `${speakerA.name}: "${sceneData.aFollow}"`,
-            `${speakerB.name}: "${sceneData.bPromise}"`,
-            `${sceneData.system}`,
+            `${speakerA.name}: "${speakerA.opener}"`,
+            `${speakerB.name}: "${speakerB.reply}"`,
+            `${speakerA.name}: "${speakerA.followUp}"`,
+            `${speakerB.name}: "${speakerB.promise}"`,
+            `시스템 메모: ${protocol.closer}`,
           ],
         };
       };
 
-      const renderSimulation = async (scene) => {
+      const renderSimulation = () => {
         if (
           !moodSelect ||
           !paceSelect ||
@@ -674,88 +506,42 @@
           !chemistryTrack ||
           !chemistryFill ||
           !chemistryContext ||
-          !chatLog ||
-          !loadingOverlay
+          !chatLog
         ) {
           return;
         }
 
-        if (isAnimating) return;
-        isAnimating = true;
-
-        const activeScene = scene || sceneKeys[currentScene] || "first";
-        simulationData = buildSimulation(
+        const simulation = buildSimulation(
           moodSelect.value,
           paceSelect.value,
-          vibeSelect.value,
-          activeScene
+          vibeSelect.value
         );
         const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
         const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
         const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
 
-        loadingOverlay.classList.add("visible");
-        resultText.classList.add("updating");
-        chatLog.replaceChildren();
-
-        await new Promise((r) => setTimeout(r, 600));
-
-        loadingOverlay.classList.remove("visible");
-        resultText.classList.remove("updating");
-        resultText.textContent = simulationData.summary;
-
-        chemistryScore.textContent = `${simulationData.chemistry}%`;
-        chemistryTrack.setAttribute("aria-valuenow", String(simulationData.chemistry));
+        resultText.textContent = simulation.summary;
+        chemistryScore.textContent = `${simulation.chemistry}%`;
+        chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
+        chemistryFill.style.width = `${simulation.chemistry}%`;
         chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
+        chatLog.replaceChildren(
+          ...simulation.transcript.map((line) => {
+            const item = document.createElement("li");
+            item.className = "chat-line";
 
-        chemistryFill.style.width = "0%";
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            chemistryFill.style.width = `${simulationData.chemistry}%`;
-          });
-        });
+            const parts = line.split(": ");
+            if (parts.length === 1) {
+              item.textContent = line;
+              return item;
+            }
 
-        currentScene = sceneKeys.indexOf(activeScene);
-        if (currentScene < 0) currentScene = 0;
-        sceneNav.style.display = "flex";
-        updateSceneIndicator();
-
-        for (const line of simulationData.transcript) {
-          const item = document.createElement("li");
-          item.className = "chat-line reveal";
-          chatLog.appendChild(item);
-
-          const parts = line.split(": ");
-          if (parts.length === 1) {
-            await typewriterText(item, line, 14);
-          } else {
             const speaker = document.createElement("strong");
             speaker.textContent = parts[0];
-            item.appendChild(speaker);
-            item.appendChild(document.createTextNode(": "));
-            const textSpan = document.createElement("span");
-            item.appendChild(textSpan);
-            await typewriterText(textSpan, parts.slice(1).join(": "), 14);
-          }
-
-          await new Promise((r) => setTimeout(r, 120));
-        }
-
-        isAnimating = false;
-      };
-
-      const updateSceneIndicator = () => {
-        if (!sceneIndicator) return;
-        sceneIndicator.textContent = `${sceneLabels[sceneKeys[currentScene]] || "장면"} ${currentScene + 1}/${sceneKeys.length}`;
-        if (prevSceneBtn) prevSceneBtn.disabled = currentScene === 0;
-        if (nextSceneBtn) nextSceneBtn.disabled = currentScene === sceneKeys.length - 1;
-      };
-
-      const switchScene = (direction) => {
-        const newIndex = currentScene + direction;
-        if (newIndex < 0 || newIndex >= sceneKeys.length) return;
-        currentScene = newIndex;
-        renderSimulation();
+            item.append(speaker, `: ${parts.slice(1).join(": ")}`);
+            return item;
+          })
+        );
       };
 
       const randomizeSimulation = () => {
@@ -774,8 +560,6 @@
       moodSelect?.addEventListener("change", renderSimulation);
       paceSelect?.addEventListener("change", renderSimulation);
       vibeSelect?.addEventListener("change", renderSimulation);
-      prevSceneBtn?.addEventListener("click", () => switchScene(-1));
-      nextSceneBtn?.addEventListener("click", () => switchScene(1));
       renderSimulation();
     </script>
   </body>
