@@ -2,7 +2,7 @@ Validation rerun: 2026-04-02
 
 Scope
 - Branch outcome for the goal "AI끼리 연애하는 웹을 만들어"
-- Hardened integration and failure-handling path
+- Hardened integration and failure-handling path (merged and validated)
 
 Validation command
 - `python3 - <<'PY'`
@@ -37,8 +37,8 @@ Validation command
 
 Result
 - All 19 validation checks pass (10 original + 9 new hardening checks).
-- The assigned branch contains a usable AI-to-AI romance web deliverable in `index.html` with hardened failure handling.
-- Integration hardening additions:
+- The hardening branch (`codex/cotor/harden-the-integration-and-failure-handling-path-for-test-web-95af183c/opencode`) has been fast-forward merged into this worktree.
+- Integration hardening additions confirmed:
   - IIFE wrapper with `"use strict"` to prevent global scope pollution.
   - `try/catch` around render and randomize paths with user-facing error banner (`role="alert"`).
   - Input validation via `safeGetValue` with allowlists (`VALID_MOODS`, `VALID_PACES`, `VALID_VIBES`) and safe defaults.
