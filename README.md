@@ -12,6 +12,17 @@ This branch ships a usable single-file web experience for the goal "AI끼리 연
 
 The page remains static and dependency-free, so it can be opened directly without a build step.
 
+### Hardened Failure-Handling Path
+
+This iteration adds resilience to the integration layer:
+
+- **Error boundary UI** — visible error banner with retry button and `role="alert"` for screen readers
+- **Loading states** — animated spinner indicator with disabled button states during generation
+- **Try/catch wrappers** — `renderSimulation` and `randomizeSimulation` both catch errors and show user-facing messages
+- **Safe defaults** — `safeValue()` and `getFallbackProfile()` prevent crashes from missing or invalid selections
+- **Graceful reset** — `resetToDefaults()` restores initial state after errors
+- **Console error logging** — `console.error` captures root causes for debugging
+
 ## Next Issues
 
 The next implementation, review, and approval issues for the current roster are listed in `NEXT_ISSUES.md`.
