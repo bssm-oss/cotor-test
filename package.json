@@ -1,0 +1,11 @@
+{
+  "name": "kakaotalk-web-backend",
+  "version": "0.1.0",
+  "description": "Backend API server for KakaoTalk-like web messaging",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node server/index.test.js"
+  },
+  "type": "module"
+}
