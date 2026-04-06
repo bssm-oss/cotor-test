@@ -1,7 +1,7 @@
-Validation rerun: 2026-03-29
+Validation rerun: 2026-04-07
 
 Scope
-- Branch outcome for the goal "AI끼리 연애하는 웹을 만들어"
+- Branch outcome for the goal "test web"
 
 Validation command
 - `python3 - <<'PY'`
@@ -10,13 +10,13 @@ Validation command
 - `checks = {`
 - `    "doctype": "<!DOCTYPE html>" in html,`
 - `    "lang": '<html lang="ko">' in html,`
-- `    "title": "<title>AI끼리 연애하는 웹 | AI Love Loop</title>" in html,`
-- `    "hero": "<h1>AI끼리 연애하는 웹</h1>" in html,`
-- `    "primary_action": 'href="#matchmaker"' in html,`
-- `    "matchmaker_section": 'id="matchmaker"' in html,`
+- `    "title": "<title>test web | Test Pilot</title>" in html,`
+- `    "hero": "<h1>test web</h1>" in html,`
+- `    "primary_action": 'href="#builder"' in html,`
+- `    "builder_section": 'id="builder"' in html,`
 - `    "result_section": 'id="result"' in html,`
-- `    "generator_button": 'id="generate-match"' in html,`
-- `    "simulation_logic": "renderSimulation" in html,`
+- `    "generator_button": 'id="generate-brief"' in html,`
+- `    "brief_logic": "renderBrief" in html,`
 - `    "focus_visible": ":focus-visible" in html,`
 - `}`
 - `failed = [name for name, ok in checks.items() if not ok]`
@@ -27,13 +27,13 @@ Validation command
 
 Result
 - Re-ran repository validation against the assigned branch.
-- The assigned branch contains a usable AI-to-AI romance web deliverable in `index.html` plus matching repository notes in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
-- The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, simulation controls, results section, and visible keyboard focus styling.
+- The assigned branch contains a usable test scenario builder web deliverable in `index.html` plus matching repository notes in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
+- The validation command confirms the static deliverable includes the expected document shell, localized test scenario builder content, scenario controls, results section, and visible keyboard focus styling.
 - `index.html` remains a runnable static web deliverable with no dependency or build requirement.
-- The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
+- The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page test scenario builder exists and can generate an in-browser test brief without external services.
 - The next implementation, review, and approval issues for the roster are captured in `NEXT_ISSUES.md`.
 
 Residual risk
 - Validation is still a lightweight smoke check rather than a full browser matrix or accessibility audit.
 - The repository still lacks automated tests, so future regressions would not be caught automatically.
-- The recommendation behavior is deterministic client-side logic rather than a live AI system.
+- The scenario generation is deterministic client-side logic rather than a live test runner.
