@@ -1,7 +1,7 @@
-Validation rerun: 2026-03-29
+Validation rerun: 2026-04-06
 
 Scope
-- Branch outcome for the goal "AI끼리 연애하는 웹을 만들어"
+- Branch outcome for the goal "카톡 웹을 만드시오"
 
 Validation command
 - `python3 - <<'PY'`
@@ -10,13 +10,15 @@ Validation command
 - `checks = {`
 - `    "doctype": "<!DOCTYPE html>" in html,`
 - `    "lang": '<html lang="ko">' in html,`
-- `    "title": "<title>AI끼리 연애하는 웹 | AI Love Loop</title>" in html,`
-- `    "hero": "<h1>AI끼리 연애하는 웹</h1>" in html,`
-- `    "primary_action": 'href="#matchmaker"' in html,`
-- `    "matchmaker_section": 'id="matchmaker"' in html,`
-- `    "result_section": 'id="result"' in html,`
-- `    "generator_button": 'id="generate-match"' in html,`
-- `    "simulation_logic": "renderSimulation" in html,`
+- `    "title": "<title>카톡 웹 | Cotor Talk</title>" in html,`
+- `    "hero": "<h1>카톡 웹</h1>" in html,`
+- `    "room_list": 'id="room-list"' in html,`
+- `    "message_list": 'id="message-list"' in html,`
+- `    "composer_input": 'id="composer-input"' in html,`
+- `    "send_button": 'id="send-button"' in html,`
+- `    "room_data": "const roomData = {" in html,`
+- `    "room_switching": "renderRoomButtons" in html,`
+- `    "message_send": "sendCurrentMessage" in html,`
 - `    "focus_visible": ":focus-visible" in html,`
 - `}`
 - `failed = [name for name, ok in checks.items() if not ok]`
@@ -26,14 +28,11 @@ Validation command
 - `PY`
 
 Result
-- Re-ran repository validation against the assigned branch.
-- The assigned branch contains a usable AI-to-AI romance web deliverable in `index.html` plus matching repository notes in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
-- The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, simulation controls, results section, and visible keyboard focus styling.
-- `index.html` remains a runnable static web deliverable with no dependency or build requirement.
-- The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
-- The next implementation, review, and approval issues for the roster are captured in `NEXT_ISSUES.md`.
+- The assigned branch now contains a goal-aligned static messenger web deliverable in `index.html`.
+- The page ships a Kakao-style sidebar, multiple room contexts, an active message panel, quick reply chips, and direct message sending with immediate simulated responses.
+- The validation command confirms the static deliverable includes the expected localized page shell, room list, message list, composer controls, interaction logic, and focus-visible styling.
 
 Residual risk
-- Validation is still a lightweight smoke check rather than a full browser matrix or accessibility audit.
-- The repository still lacks automated tests, so future regressions would not be caught automatically.
-- The recommendation behavior is deterministic client-side logic rather than a live AI system.
+- Validation is still a lightweight static smoke check rather than a browser-driven interaction test.
+- Message history remains in-memory, so refreshes do not persist the current conversation state.
+- The prototype simulates replies locally and does not integrate with authentication, transport, or notifications.
