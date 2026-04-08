@@ -1,4 +1,4 @@
-Validation rerun: 2026-03-29
+Validation rerun: 2026-04-01
 
 Scope
 - Branch outcome for the goal "AI끼리 연애하는 웹을 만들어"
@@ -25,15 +25,15 @@ Validation command
 - `print("Validated index.html:", ", ".join(checks))`
 - `PY`
 
-Result
-- Re-ran repository validation against the assigned branch.
-- The assigned branch contains a usable AI-to-AI romance web deliverable in `index.html` plus matching repository notes in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
-- The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, simulation controls, results section, and visible keyboard focus styling.
-- `index.html` remains a runnable static web deliverable with no dependency or build requirement.
-- The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
-- The next implementation, review, and approval issues for the roster are captured in `NEXT_ISSUES.md`.
+Validation evidence
+- Re-ran repository validation against the assigned branch on 2026-04-01.
+- The smoke check passed and printed `Validated index.html: doctype, lang, title, hero, primary_action, matchmaker_section, result_section, generator_button, simulation_logic, focus_visible`.
+- The passing output proves the branch still ships the expected static document shell, Korean AI-to-AI dating page copy, simulation trigger, results region, and visible keyboard focus styling in `index.html`.
+- `index.html` remains a runnable static web deliverable with no dependency install or build step.
+- The assigned branch still satisfies the narrow branch outcome: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
+- Supporting branch notes remain present in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
 
 Residual risk
-- Validation is still a lightweight smoke check rather than a full browser matrix or accessibility audit.
-- The repository still lacks automated tests, so future regressions would not be caught automatically.
-- The recommendation behavior is deterministic client-side logic rather than a live AI system.
+- Validation coverage is still a lightweight source-level smoke check rather than a full browser rendering, interaction, or accessibility audit.
+- The repository still lacks automated regression tests, so future content or behavior drift in `index.html` would not be caught automatically.
+- The simulation remains deterministic client-side logic rather than a live AI integration, so the experience can appear repetitive under repeated use.
