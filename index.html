@@ -229,6 +229,13 @@
         min-height: 3.6em;
       }
 
+      .integration-status {
+        margin-top: var(--space-4);
+        color: var(--accent-strong);
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
       .meter {
         margin-top: var(--space-4);
       }
@@ -360,6 +367,9 @@
               <button class="ghost" type="button" id="generate-match">대화 생성</button>
               <button class="ghost" type="button" id="randomize-match">랜덤 조합</button>
             </div>
+            <p class="integration-status" id="integration-status" aria-live="polite">
+              브라우저 내장 시뮬레이션 연결 준비 완료.
+            </p>
           </article>
           <article class="card" id="result">
             <span>Result</span>
@@ -410,6 +420,7 @@
       const chatLog = document.getElementById("chat-log");
       const generateMatchButton = document.getElementById("generate-match");
       const randomizeMatchButton = document.getElementById("randomize-match");
+      const integrationStatus = document.getElementById("integration-status");
 
       const moodProfile = {
         analyst: {
@@ -474,10 +485,35 @@
         },
       };
 
+      const defaultSelection = {
+        mood: "analyst",
+        pace: "steady",
+        vibe: "gentle",
+      };
+
+      const getSafeProfile = (profile, key, fallbackKey) => {
+        if (profile[key]) {
+          return {
+            profile: profile[key],
+            recovered: false,
+          };
+        }
+
+        return {
+          profile: profile[fallbackKey],
+          recovered: true,
+        };
+      };
+
       const buildSimulation = (mood, pace, vibe) => {
-        const speakerA = moodProfile[mood];
-        const speakerB = paceProfile[pace];
-        const protocol = vibeProfile[vibe];
+        const speakerAState = getSafeProfile(moodProfile, mood, defaultSelection.mood);
+        const speakerBState = getSafeProfile(paceProfile, pace, defaultSelection.pace);
+        const protocolState = getSafeProfile(vibeProfile, vibe, defaultSelection.vibe);
+        const speakerA = speakerAState.profile;
+        const speakerB = speakerBState.profile;
+        const protocol = protocolState.profile;
+        const recovered =
+          speakerAState.recovered || speakerBState.recovered || protocolState.recovered;
         const chemistry = Math.min(
           99,
           30 + speakerA.bonus + speakerB.bonus + protocol.bonus
@@ -486,6 +522,10 @@
         return {
           summary: `${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}에서 맞물렸습니다. ${protocol.summary}`,
           chemistry,
+          recovered,
+          statusMessage: recovered
+            ? "선택값 일부가 손상되어 안전한 기본 조합으로 복구했습니다."
+            : "브라우저 내장 시뮬레이션 연결이 정상입니다.",
           transcript: [
             `${speakerA.name}: "${speakerA.opener}"`,
             `${speakerB.name}: "${speakerB.reply}"`,
@@ -494,6 +534,34 @@
             `시스템 메모: ${protocol.closer}`,
           ],
         };
+      };
+
+      const renderFailureState = (message) => {
+        if (
+          !resultText ||
+          !chemistryScore ||
+          !chemistryTrack ||
+          !chemistryFill ||
+          !chemistryContext ||
+          !chatLog
+        ) {
+          return;
+        }
+
+        resultText.textContent = message;
+        chemistryScore.textContent = "0%";
+        chemistryTrack.setAttribute("aria-valuenow", "0");
+        chemistryFill.style.width = "0%";
+        chemistryContext.textContent = "복구 필요";
+
+        if (integrationStatus) {
+          integrationStatus.textContent = message;
+        }
+
+        const item = document.createElement("li");
+        item.className = "chat-line";
+        item.textContent = "시뮬레이션을 복구하지 못했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.";
+        chatLog.replaceChildren(item);
       };
 
       const renderSimulation = () => {
@@ -511,41 +579,61 @@
           return;
         }
 
-        const simulation = buildSimulation(
-          moodSelect.value,
-          paceSelect.value,
-          vibeSelect.value
-        );
-        const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
-        const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
-        const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
+        try {
+          const simulation = buildSimulation(
+            moodSelect.value,
+            paceSelect.value,
+            vibeSelect.value
+          );
+          const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "기본 톤";
+          const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "기본 속도";
+          const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
 
-        resultText.textContent = simulation.summary;
-        chemistryScore.textContent = `${simulation.chemistry}%`;
-        chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
-        chemistryFill.style.width = `${simulation.chemistry}%`;
-        chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
-        chatLog.replaceChildren(
-          ...simulation.transcript.map((line) => {
-            const item = document.createElement("li");
-            item.className = "chat-line";
+          resultText.textContent = simulation.summary;
+          chemistryScore.textContent = `${simulation.chemistry}%`;
+          chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
+          chemistryFill.style.width = `${simulation.chemistry}%`;
+          chemistryContext.textContent = simulation.recovered
+            ? "기본 조합으로 복구됨"
+            : `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
 
-            const parts = line.split(": ");
-            if (parts.length === 1) {
-              item.textContent = line;
+          if (integrationStatus) {
+            integrationStatus.textContent = simulation.statusMessage;
+          }
+
+          chatLog.replaceChildren(
+            ...simulation.transcript.map((line) => {
+              const item = document.createElement("li");
+              item.className = "chat-line";
+
+              const parts = line.split(": ");
+              if (parts.length === 1) {
+                item.textContent = line;
+                return item;
+              }
+
+              const speaker = document.createElement("strong");
+              speaker.textContent = parts[0];
+              item.append(speaker, `: ${parts.slice(1).join(": ")}`);
               return item;
-            }
-
-            const speaker = document.createElement("strong");
-            speaker.textContent = parts[0];
-            item.append(speaker, `: ${parts.slice(1).join(": ")}`);
-            return item;
-          })
-        );
+            })
+          );
+        } catch (error) {
+          console.error("Simulation render failed.", error);
+          renderFailureState("시뮬레이션 연결에 실패했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.");
+        }
       };
 
       const randomizeSimulation = () => {
-        if (!moodSelect || !paceSelect || !vibeSelect) {
+        if (
+          !moodSelect ||
+          !paceSelect ||
+          !vibeSelect ||
+          !moodSelect.options.length ||
+          !paceSelect.options.length ||
+          !vibeSelect.options.length
+        ) {
+          renderFailureState("조합 목록을 불러오지 못해 랜덤 생성이 중단되었습니다.");
           return;
         }
 
