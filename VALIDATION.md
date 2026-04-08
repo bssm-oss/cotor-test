@@ -1,7 +1,8 @@
-Validation rerun: 2026-03-29
+Validation rerun: 2026-04-02
 
 Scope
 - Branch outcome for the goal "AI끼리 연애하는 웹을 만들어"
+- Hardened integration and failure-handling path (merged and validated)
 
 Validation command
 - `python3 - <<'PY'`
@@ -18,6 +19,15 @@ Validation command
 - `    "generator_button": 'id="generate-match"' in html,`
 - `    "simulation_logic": "renderSimulation" in html,`
 - `    "focus_visible": ":focus-visible" in html,`
+- `    "noscript_fallback": "<noscript>" in html,`
+- `    "error_banner": 'id="error-banner"' in html,`
+- `    "error_role_alert": 'role="alert"' in html,`
+- `    "reset_error_button": 'id="reset-error"' in html,`
+- `    "iife_wrapper": '(function ()' in html,`
+- `    "use_strict": '"use strict"' in html,`
+- `    "try_catch_render": "try {" in html and "catch (err)" in html,`
+- `    "input_validation": "VALID_MOODS" in html and "safeGetValue" in html,`
+- `    "console_error_logging": 'console.error("[AI Love Loop]' in html,`
 - `}`
 - `failed = [name for name, ok in checks.items() if not ok]`
 - `if failed:`
@@ -26,14 +36,19 @@ Validation command
 - `PY`
 
 Result
-- Re-ran repository validation against the assigned branch.
-- The assigned branch contains a usable AI-to-AI romance web deliverable in `index.html` plus matching repository notes in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
-- The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, simulation controls, results section, and visible keyboard focus styling.
-- `index.html` remains a runnable static web deliverable with no dependency or build requirement.
-- The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
-- The next implementation, review, and approval issues for the roster are captured in `NEXT_ISSUES.md`.
+- All 19 validation checks pass (10 original + 9 new hardening checks).
+- The hardening branch (`codex/cotor/harden-the-integration-and-failure-handling-path-for-test-web-95af183c/opencode`) has been fast-forward merged into this worktree.
+- Integration hardening additions confirmed:
+  - IIFE wrapper with `"use strict"` to prevent global scope pollution.
+  - `try/catch` around render and randomize paths with user-facing error banner (`role="alert"`).
+  - Input validation via `safeGetValue` with allowlists (`VALID_MOODS`, `VALID_PACES`, `VALID_VIBES`) and safe defaults.
+  - Error recovery flow: visible error banner with "다시 시도" reset button.
+  - `<noscript>` fallback with Korean-language message for JS-disabled browsers.
+  - Structured `console.error` logging with `[AI Love Loop]` prefix for debugging.
+  - Defensive `buildSimulation` throws on invalid config instead of silently producing broken output.
 
 Residual risk
-- Validation is still a lightweight smoke check rather than a full browser matrix or accessibility audit.
-- The repository still lacks automated tests, so future regressions would not be caught automatically.
+- Validation remains a lightweight static smoke check rather than a full browser matrix or accessibility audit.
+- No automated unit or integration tests — regressions would not be caught automatically.
 - The recommendation behavior is deterministic client-side logic rather than a live AI system.
+- Error banner has not been visually verified in a real browser (only static HTML validation).
