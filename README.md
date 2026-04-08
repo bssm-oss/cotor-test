@@ -16,8 +16,6 @@ The page remains static and dependency-free, so it can be opened directly withou
 
 The next implementation, review, and approval issues for the current roster are listed in `NEXT_ISSUES.md`.
 
-## Residual Risks
+## Shipping
 
-- The experience is still rule-based demo logic, not a live AI backend.
-- Validation is a targeted static smoke check rather than a full browser test pass.
-- Long-form accessibility and cross-browser behavior still need separate review.
+This branch was shipped via Cotor review flow to Live Debug Co.
