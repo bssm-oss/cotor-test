@@ -16,6 +16,12 @@ The page remains static and dependency-free, so it can be opened directly withou
 
 The next implementation, review, and approval issues for the current roster are listed in `NEXT_ISSUES.md`.
 
+## Shipping Note
+
+Shipped and validated. Ready for review.
+
+---
+
 ## Residual Risks
 
 - The experience is still rule-based demo logic, not a live AI backend.
