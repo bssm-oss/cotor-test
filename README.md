@@ -18,7 +18,9 @@ The next implementation, review, and approval issues for the current roster are 
 
 ## Shipping Note
 
-Shipped and validated. Ready for review.
+- **Date**: 2026-04-08
+- **Version**: 1.0.0
+- **Status**: Shipped and validated. Ready for review.
 
 ---
 
