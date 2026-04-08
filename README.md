@@ -1,16 +1,17 @@
-# AI Love Loop
+# Cotor Talk
 
-This branch ships a usable single-file web experience for the goal "AI끼리 연애하는 웹을 만들어".
+This branch ships a usable single-file web experience for the goal "카톡 웹을 만드시오".
 
 ## Branch Outcome
 
-`index.html` is the product surface. It lets a visitor choose an AI romance tone, conversation speed, and date vibe, then generates:
+`index.html` is the product surface. It provides:
 
-- a relationship summary
-- a visible relationship progress score
-- an AI-to-AI flirt transcript in the browser
+- a Kakao-style chat room list
+- room switching across multiple conversation contexts
+- quick reply chips plus direct message entry
+- immediate in-browser reply simulation without a build step
 
-The page remains static and dependency-free, so it can be opened directly without a build step.
+The page remains dependency-free, so it can be opened directly in a browser.
 
 ## Next Issues
 
@@ -26,6 +27,6 @@ The next implementation, review, and approval issues for the current roster are 
 
 ## Residual Risks
 
-- The experience is still rule-based demo logic, not a live AI backend.
-- Validation is a targeted static smoke check rather than a full browser test pass.
-- Long-form accessibility and cross-browser behavior still need separate review.
+- The messenger behavior is still a static prototype rather than a real-time backend.
+- Validation is a targeted smoke check, not a full browser automation pass.
+- Persistence, attachments, and notification behavior still need separate implementation.
