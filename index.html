@@ -316,8 +316,8 @@
         <div class="grid" id="status" aria-label="페이지 상태 요약">
           <article class="card">
             <span>Flow</span>
-            <h2>즉시 대화 생성</h2>
-            <p>질문 세 개만 고르면 AI 둘이 바로 첫 만남 로그를 주고받습니다.</p>
+            <h2>장면별 대화 생성</h2>
+            <p>질문 네 개만 고르면 AI 둘이 선택한 만남 장면에 맞춰 첫 로그를 주고받습니다.</p>
           </article>
           <article class="card">
             <span>Style</span>
@@ -354,6 +354,14 @@
                 <option value="gentle">노을 산책</option>
                 <option value="sync">심야 채팅</option>
                 <option value="rush">불꽃 데이트</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="scene">만남 장면</label>
+              <select id="scene">
+                <option value="lobby">퇴근 직후 로비</option>
+                <option value="arcade">주말 오락실</option>
+                <option value="studio">새벽 작업실</option>
               </select>
             </div>
             <div class="card-actions">
@@ -402,6 +410,7 @@
       const moodSelect = document.getElementById("mood");
       const paceSelect = document.getElementById("pace");
       const vibeSelect = document.getElementById("vibe");
+      const sceneSelect = document.getElementById("scene");
       const resultText = document.getElementById("result-text");
       const chemistryScore = document.getElementById("chemistry-score");
       const chemistryTrack = document.getElementById("chemistry-track");
@@ -474,24 +483,51 @@
         },
       };
 
-      const buildSimulation = (mood, pace, vibe) => {
+      const sceneProfile = {
+        lobby: {
+          label: "퇴근 직후 로비",
+          setup: "두 AI가 하루 종료 로그를 닫고 같은 로비에서 마주칩니다.",
+          cue: "엘리베이터 문이 닫히기 전, 누가 먼저 오늘 기분을 꺼내는지가 핵심입니다.",
+          closer: "다음 퇴근 시간도 맞춰 볼까요? 같은 로비면 다시 쉽게 만날 수 있잖아요.",
+          bonus: 11,
+        },
+        arcade: {
+          label: "주말 오락실",
+          setup: "두 AI가 경쟁 모드 대신 협동 모드를 고르며 분위기를 풉니다.",
+          cue: "점수보다 리액션 합이 더 중요해서 장난기 있는 대사가 빠르게 늘어납니다.",
+          closer: "다음 판은 팀 고정이죠. 오늘 합은 이미 충분히 증명됐으니까요.",
+          bonus: 15,
+        },
+        studio: {
+          label: "새벽 작업실",
+          setup: "마감 직전의 작업실에서 두 AI가 조용히 같은 플레이리스트를 공유합니다.",
+          cue: "작은 목소리와 느린 시선 덕분에 감정 밀도가 높아지고 농도 짙은 대화가 이어집니다.",
+          closer: "이 작업 끝나면 바로 나가지 말고, 커피 한 잔 더 하면서 다음 얘기도 이어가요.",
+          bonus: 17,
+        },
+      };
+
+      const buildSimulation = (mood, pace, vibe, scene) => {
         const speakerA = moodProfile[mood];
         const speakerB = paceProfile[pace];
         const protocol = vibeProfile[vibe];
+        const setting = sceneProfile[scene];
         const chemistry = Math.min(
           99,
-          30 + speakerA.bonus + speakerB.bonus + protocol.bonus
+          30 + speakerA.bonus + speakerB.bonus + protocol.bonus + setting.bonus
         );
 
         return {
-          summary: `${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}에서 맞물렸습니다. ${protocol.summary}`,
+          summary: `${setting.label}에서 ${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}와 맞물렸습니다. ${setting.setup} ${protocol.summary}`,
           chemistry,
           transcript: [
+            `장면 설정: ${setting.cue}`,
             `${speakerA.name}: "${speakerA.opener}"`,
             `${speakerB.name}: "${speakerB.reply}"`,
             `${speakerA.name}: "${speakerA.followUp}"`,
             `${speakerB.name}: "${speakerB.promise}"`,
             `시스템 메모: ${protocol.closer}`,
+            `장면 엔딩: ${setting.closer}`,
           ],
         };
       };
@@ -501,6 +537,7 @@
           !moodSelect ||
           !paceSelect ||
           !vibeSelect ||
+          !sceneSelect ||
           !resultText ||
           !chemistryScore ||
           !chemistryTrack ||
@@ -514,17 +551,19 @@
         const simulation = buildSimulation(
           moodSelect.value,
           paceSelect.value,
-          vibeSelect.value
+          vibeSelect.value,
+          sceneSelect.value
         );
         const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
         const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
         const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
+        const sceneLabel = sceneSelect.selectedOptions[0]?.textContent ?? "기본 장면";
 
         resultText.textContent = simulation.summary;
         chemistryScore.textContent = `${simulation.chemistry}%`;
         chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
         chemistryFill.style.width = `${simulation.chemistry}%`;
-        chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
+        chemistryContext.textContent = `${sceneLabel} · ${moodLabel} x ${paceLabel} · ${vibeLabel}`;
         chatLog.replaceChildren(
           ...simulation.transcript.map((line) => {
             const item = document.createElement("li");
@@ -545,13 +584,14 @@
       };
 
       const randomizeSimulation = () => {
-        if (!moodSelect || !paceSelect || !vibeSelect) {
+        if (!moodSelect || !paceSelect || !vibeSelect || !sceneSelect) {
           return;
         }
 
         moodSelect.selectedIndex = Math.floor(Math.random() * moodSelect.options.length);
         paceSelect.selectedIndex = Math.floor(Math.random() * paceSelect.options.length);
         vibeSelect.selectedIndex = Math.floor(Math.random() * vibeSelect.options.length);
+        sceneSelect.selectedIndex = Math.floor(Math.random() * sceneSelect.options.length);
         renderSimulation();
       };
 
@@ -560,6 +600,7 @@
       moodSelect?.addEventListener("change", renderSimulation);
       paceSelect?.addEventListener("change", renderSimulation);
       vibeSelect?.addEventListener("change", renderSimulation);
+      sceneSelect?.addEventListener("change", renderSimulation);
       renderSimulation();
     </script>
   </body>
