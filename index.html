@@ -229,6 +229,11 @@
         min-height: 3.6em;
       }
 
+      .status-text.is-error,
+      .meter-context.is-error {
+        color: #9f3c10;
+      }
+
       .meter {
         margin-top: var(--space-4);
       }
@@ -474,10 +479,33 @@
         },
       };
 
+      const resetSimulationView = (message, context) => {
+        resultText.textContent = message;
+        resultText.classList.toggle("is-error", Boolean(context));
+        chemistryScore.textContent = "0%";
+        chemistryTrack.setAttribute("aria-valuenow", "0");
+        chemistryFill.style.width = "0%";
+        chemistryContext.textContent = context || "대화 생성 전";
+        chemistryContext.classList.toggle("is-error", Boolean(context));
+        chatLog.replaceChildren(
+          Object.assign(document.createElement("li"), {
+            className: "chat-line",
+            textContent: context
+              ? "입력 조합을 다시 확인한 뒤 시뮬레이션을 다시 시도해 주세요."
+              : "생성 버튼을 누르면 여기에 두 AI의 대화 로그가 표시됩니다.",
+          })
+        );
+      };
+
       const buildSimulation = (mood, pace, vibe) => {
         const speakerA = moodProfile[mood];
         const speakerB = paceProfile[pace];
         const protocol = vibeProfile[vibe];
+
+        if (!speakerA || !speakerB || !protocol) {
+          throw new Error("invalid simulation selection");
+        }
+
         const chemistry = Math.min(
           99,
           30 + speakerA.bonus + speakerB.bonus + protocol.bonus
@@ -511,37 +539,47 @@
           return;
         }
 
-        const simulation = buildSimulation(
-          moodSelect.value,
-          paceSelect.value,
-          vibeSelect.value
-        );
-        const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
-        const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
-        const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
+        try {
+          const simulation = buildSimulation(
+            moodSelect.value,
+            paceSelect.value,
+            vibeSelect.value
+          );
+          const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
+          const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
+          const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
 
-        resultText.textContent = simulation.summary;
-        chemistryScore.textContent = `${simulation.chemistry}%`;
-        chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
-        chemistryFill.style.width = `${simulation.chemistry}%`;
-        chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
-        chatLog.replaceChildren(
-          ...simulation.transcript.map((line) => {
-            const item = document.createElement("li");
-            item.className = "chat-line";
+          resultText.textContent = simulation.summary;
+          resultText.classList.remove("is-error");
+          chemistryScore.textContent = `${simulation.chemistry}%`;
+          chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
+          chemistryFill.style.width = `${simulation.chemistry}%`;
+          chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
+          chemistryContext.classList.remove("is-error");
+          chatLog.replaceChildren(
+            ...simulation.transcript.map((line) => {
+              const item = document.createElement("li");
+              item.className = "chat-line";
 
-            const parts = line.split(": ");
-            if (parts.length === 1) {
-              item.textContent = line;
+              const parts = line.split(": ");
+              if (parts.length === 1) {
+                item.textContent = line;
+                return item;
+              }
+
+              const speaker = document.createElement("strong");
+              speaker.textContent = parts[0];
+              item.append(speaker, `: ${parts.slice(1).join(": ")}`);
               return item;
-            }
-
-            const speaker = document.createElement("strong");
-            speaker.textContent = parts[0];
-            item.append(speaker, `: ${parts.slice(1).join(": ")}`);
-            return item;
-          })
-        );
+            })
+          );
+        } catch (error) {
+          resetSimulationView(
+            "현재 선택 조합으로는 시뮬레이션을 생성할 수 없습니다.",
+            "입력값 확인 필요"
+          );
+          console.error(error);
+        }
       };
 
       const randomizeSimulation = () => {
