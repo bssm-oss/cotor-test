@@ -198,6 +198,14 @@
         margin-top: 0;
       }
 
+      .share-status {
+        min-height: 1.6em;
+        margin-top: var(--space-3);
+        color: var(--accent-strong);
+        font-size: 0.94rem;
+        font-weight: 700;
+      }
+
       .field {
         display: grid;
         gap: var(--space-2);
@@ -394,6 +402,12 @@
             >
               <li class="chat-line">생성 버튼을 누르면 여기에 두 AI의 대화 로그가 표시됩니다.</li>
             </ul>
+            <div class="card-actions">
+              <button class="ghost" type="button" id="copy-link">현재 조합 링크 복사</button>
+            </div>
+            <p class="share-status" id="share-status" aria-live="polite">
+              현재 조합은 이 페이지 주소에 자동으로 반영됩니다.
+            </p>
           </article>
         </div>
       </section>
@@ -410,6 +424,8 @@
       const chatLog = document.getElementById("chat-log");
       const generateMatchButton = document.getElementById("generate-match");
       const randomizeMatchButton = document.getElementById("randomize-match");
+      const copyLinkButton = document.getElementById("copy-link");
+      const shareStatus = document.getElementById("share-status");
 
       const moodProfile = {
         analyst: {
@@ -474,6 +490,60 @@
         },
       };
 
+      const stateFields = [
+        ["mood", moodSelect],
+        ["pace", paceSelect],
+        ["vibe", vibeSelect],
+      ];
+
+      const hasOptionValue = (select, value) =>
+        Boolean(select && Array.from(select.options).some((option) => option.value === value));
+
+      const buildShareUrl = () => {
+        if (typeof window === "undefined" || !window.location) {
+          return "";
+        }
+
+        const url = new URL(window.location.href);
+
+        stateFields.forEach(([key, select]) => {
+          if (select) {
+            url.searchParams.set(key, select.value);
+          }
+        });
+
+        return url.toString();
+      };
+
+      const syncUrlToSelection = () => {
+        if (
+          typeof window === "undefined" ||
+          !window.location ||
+          typeof history === "undefined" ||
+          typeof history.replaceState !== "function"
+        ) {
+          return;
+        }
+
+        history.replaceState(null, "", buildShareUrl());
+      };
+
+      const restoreSelectionFromUrl = () => {
+        if (typeof window === "undefined" || !window.location) {
+          return;
+        }
+
+        const url = new URL(window.location.href);
+
+        stateFields.forEach(([key, select]) => {
+          const value = url.searchParams.get(key);
+
+          if (hasOptionValue(select, value)) {
+            select.value = value;
+          }
+        });
+      };
+
       const buildSimulation = (mood, pace, vibe) => {
         const speakerA = moodProfile[mood];
         const speakerB = paceProfile[pace];
@@ -525,6 +595,9 @@
         chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
         chemistryFill.style.width = `${simulation.chemistry}%`;
         chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
+        if (shareStatus) {
+          shareStatus.textContent = "현재 조합은 이 페이지 주소에 자동으로 반영됩니다.";
+        }
         chatLog.replaceChildren(
           ...simulation.transcript.map((line) => {
             const item = document.createElement("li");
@@ -542,6 +615,7 @@
             return item;
           })
         );
+        syncUrlToSelection();
       };
 
       const randomizeSimulation = () => {
@@ -555,8 +629,34 @@
         renderSimulation();
       };
 
+      const copyShareLink = async () => {
+        const shareUrl = buildShareUrl();
+
+        if (!shareUrl || !shareStatus) {
+          return;
+        }
+
+        if (
+          typeof navigator !== "undefined" &&
+          navigator.clipboard &&
+          typeof navigator.clipboard.writeText === "function"
+        ) {
+          try {
+            await navigator.clipboard.writeText(shareUrl);
+            shareStatus.textContent = "현재 조합 링크를 클립보드에 복사했습니다.";
+            return;
+          } catch (error) {
+            // Fall through to manual copy guidance.
+          }
+        }
+
+        shareStatus.textContent = `자동 복사에 실패했습니다. 이 링크를 직접 복사하세요: ${shareUrl}`;
+      };
+
+      restoreSelectionFromUrl();
       generateMatchButton?.addEventListener("click", renderSimulation);
       randomizeMatchButton?.addEventListener("click", randomizeSimulation);
+      copyLinkButton?.addEventListener("click", copyShareLink);
       moodSelect?.addEventListener("change", renderSimulation);
       paceSelect?.addEventListener("change", renderSimulation);
       vibeSelect?.addEventListener("change", renderSimulation);
