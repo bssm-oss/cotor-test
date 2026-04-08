@@ -1,5 +1,7 @@
 # AI Love Loop
 
+> 🚀 Shipping: Ready for review
+
 This branch ships a usable single-file web experience for the goal "AI끼리 연애하는 웹을 만들어".
 
 ## Branch Outcome
