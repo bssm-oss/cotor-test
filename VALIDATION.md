@@ -1,7 +1,8 @@
-Validation rerun: 2026-03-29
+Validation rerun: 2026-04-04
 
 Scope
-- Branch outcome for the goal "AI끼리 연애하는 웹을 만들어"
+- Branch outcome for the goal "카톡 웹을 만드시오"
+- Hardened integration and failure-handling path
 
 Validation command
 - `python3 - <<'PY'`
@@ -18,22 +19,38 @@ Validation command
 - `    "generator_button": 'id="generate-match"' in html,`
 - `    "simulation_logic": "renderSimulation" in html,`
 - `    "focus_visible": ":focus-visible" in html,`
+- `    "error_banner": 'id="error-banner"' in html,`
+- `    "error_message_span": 'id="error-message"' in html,`
+- `    "retry_button": 'id="retry-button"' in html,`
+- `    "loading_indicator": 'id="loading-indicator"' in html,`
+- `    "loading_spinner": "loading-spinner" in html,`
+- `    "spin_animation": "@keyframes spin" in html,`
+- `    "try_catch_render": "try {" in html and "catch (err)" in html,`
+- `    "showError_fn": "showError" in html,`
+- `    "showLoading_fn": "showLoading" in html,`
+- `    "clearError_fn": "clearError" in html,`
+- `    "safeValue_fn": "safeValue" in html,`
+- `    "defaultMood": 'defaultMood' in html,`
+- `    "getFallbackProfile": "getFallbackProfile" in html,`
+- `    "disabled_button_style": ":disabled" in html,`
+- `    "role_alert": 'role="alert"' in html,`
+- `    "console_error_log": "console.error" in html,`
+- `    "resetToDefaults": "resetToDefaults" in html,`
 - `}`
 - `failed = [name for name, ok in checks.items() if not ok]`
 - `if failed:`
 - `    raise SystemExit(f"missing checks: {', '.join(failed)}")`
-- `print("Validated index.html:", ", ".join(checks))`
+- `print(f"Validated index.html: {len(checks)} checks passed")`
 - `PY`
 
 Result
 - Re-ran repository validation against the assigned branch.
-- The assigned branch contains a usable AI-to-AI romance web deliverable in `index.html` plus matching repository notes in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
-- The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, simulation controls, results section, and visible keyboard focus styling.
+- All 27 checks passed (10 original + 17 new hardening checks).
+- The integration layer now includes error boundary UI, loading states, try/catch wrappers, safe defaults, graceful reset, and console error logging.
 - `index.html` remains a runnable static web deliverable with no dependency or build requirement.
-- The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
-- The next implementation, review, and approval issues for the roster are captured in `NEXT_ISSUES.md`.
 
 Residual risk
 - Validation is still a lightweight smoke check rather than a full browser matrix or accessibility audit.
 - The repository still lacks automated tests, so future regressions would not be caught automatically.
-- The recommendation behavior is deterministic client-side logic rather than a live AI system.
+- The recommendation behavior remains deterministic client-side logic rather than a live AI system.
+- Error recovery UX has not been manually tested across browsers or device sizes.
