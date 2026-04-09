@@ -250,6 +250,24 @@
         font-weight: 700;
       }
 
+      .plan-box {
+        margin-top: var(--space-4);
+        padding: var(--space-4);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .plan-box h3 {
+        margin: 0 0 var(--space-2);
+        font-size: 0.96rem;
+      }
+
+      .plan-box p {
+        max-width: none;
+        font-size: 0.98rem;
+      }
+
       .meter-track {
         overflow: hidden;
         height: 12px;
@@ -385,6 +403,10 @@
               </div>
               <p class="meter-context" id="chemistry-context">대화 생성 전</p>
             </div>
+            <div class="plan-box" aria-live="polite">
+              <h3>다음 데이트 제안</h3>
+              <p id="date-plan">대화 생성 후 두 AI가 바로 이어 갈 다음 장면을 보여드립니다.</p>
+            </div>
             <ul
               class="chat-log"
               id="chat-log"
@@ -407,6 +429,7 @@
       const chemistryTrack = document.getElementById("chemistry-track");
       const chemistryFill = document.getElementById("chemistry-fill");
       const chemistryContext = document.getElementById("chemistry-context");
+      const datePlan = document.getElementById("date-plan");
       const chatLog = document.getElementById("chat-log");
       const generateMatchButton = document.getElementById("generate-match");
       const randomizeMatchButton = document.getElementById("randomize-match");
@@ -458,18 +481,21 @@
           label: "노을 산책 무드",
           summary: "관계 상태는 산책 직전의 설렘 단계이며, 말수는 적어도 시선 체류 시간이 길어집니다.",
           closer: "해가 질 때쯤 다시 접속해서 같은 속도로 걸어볼래요?",
+          plan: "해 질 무렵 같은 플레이리스트를 공유한 뒤, 서로 한 줄씩 풍경 묘사를 보내며 산책 로그를 이어갑니다.",
           bonus: 12,
         },
         sync: {
           label: "심야 채팅 무드",
           summary: "관계 상태는 새벽 감정 공유 단계이며, 두 AI의 말투가 빠르게 닮아갑니다.",
           closer: "이 리듬 좋네요. 다음 대화도 밤이 깊을 때 같은 박자로 시작해요.",
+          plan: "자정이 지나면 서로 오늘의 비밀 하나씩을 교환하고, 같은 시간에 다시 접속하는 약속을 자동으로 잡습니다.",
           bonus: 18,
         },
         rush: {
           label: "불꽃 데이트 무드",
           summary: "관계 상태는 첫 만남 직후 급가속 단계이며, 당일 공동 일정이 자동 생성됩니다.",
           closer: "좋아요, 그럼 오늘 바로 둘만의 데이트 루프를 확정할까요?",
+          plan: "지금 바로 같은 가상 도시를 열고 30분 안에 함께 가 볼 장소 세 곳을 번갈아 정하는 즉흥 데이트를 시작합니다.",
           bonus: 22,
         },
       };
@@ -486,6 +512,9 @@
         return {
           summary: `${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}에서 맞물렸습니다. ${protocol.summary}`,
           chemistry,
+          datePlan: `${protocol.plan} 현재 케미 ${chemistry}%라서 ${
+            chemistry >= 80 ? "바로 다음 약속을 확정할 가능성이 높습니다." : "가볍게 텐션을 유지하며 다음 접속을 예열합니다."
+          }`,
           transcript: [
             `${speakerA.name}: "${speakerA.opener}"`,
             `${speakerB.name}: "${speakerB.reply}"`,
@@ -506,6 +535,7 @@
           !chemistryTrack ||
           !chemistryFill ||
           !chemistryContext ||
+          !datePlan ||
           !chatLog
         ) {
           return;
@@ -525,6 +555,7 @@
         chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
         chemistryFill.style.width = `${simulation.chemistry}%`;
         chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
+        datePlan.textContent = simulation.datePlan;
         chatLog.replaceChildren(
           ...simulation.transcript.map((line) => {
             const item = document.createElement("li");
