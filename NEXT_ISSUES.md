@@ -1,16 +1,16 @@
 # Next Issues
 
 1. Implementation issue
-   - Title: UX Builder implement multi-scene AI romance simulation follow-up
-   - Scope: Add at least one more date scene, preserve the single-file delivery, and let users switch between scenes without losing the current style.
-   - Expected outcome: The static web experience offers more than one AI-to-AI dating scenario while staying lightweight.
+   - Title: Add persistent state and error boundaries to the AI romance simulator
+   - Scope: Persist user selections (mood, pace, vibe, scene) across page reloads via `localStorage`, add a visible error boundary for script failures, and handle edge cases where DOM elements are missing gracefully.
+   - Expected outcome: The simulator survives page refresh without losing user context and degrades gracefully on partial DOM failures.
 
 2. Review issue
-   - Title: QA review multi-scene AI romance simulation follow-up
-   - Scope: Verify the new scene switcher, transcript updates, keyboard flow, and responsive layout on the static page.
-   - Expected outcome: QA confirms the added scene flow does not regress usability or accessibility basics.
+   - Title: QA review persistent state and error boundary hardening
+   - Scope: Verify localStorage persistence across reloads, confirm error boundary renders a fallback UI when JS errors occur, and validate that missing DOM elements do not crash the page.
+   - Expected outcome: QA confirms the resilience improvements work as intended without regressing the existing simulation flow.
 
 3. Approval issue
-   - Title: CEO approve multi-scene AI romance simulation follow-up
-   - Scope: Review the UX/QA evidence for the expanded AI dating experience and decide whether to ship the next iteration.
-   - Expected outcome: Approval is based on a visible product delta rather than placeholder documentation.
+   - Title: CEO approve persistent state and error boundary hardening
+   - Scope: Review the QA evidence for the resilience improvements and decide whether to ship or continue hardening (e.g., add offline support, service worker, or additional scenes).
+   - Expected outcome: Approval decision based on demonstrated reliability gains rather than placeholder documentation.
