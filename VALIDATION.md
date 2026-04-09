@@ -1,39 +1,28 @@
-Validation rerun: 2026-03-29
+Validation rerun: 2026-04-04
 
 Scope
-- Branch outcome for the goal "AI끼리 연애하는 웹을 만들어"
+- Branch outcome for the goal "카톡 웹을 만드시오"
 
-Validation command
-- `python3 - <<'PY'`
-- `from pathlib import Path`
-- `html = Path("index.html").read_text(encoding="utf-8")`
-- `checks = {`
-- `    "doctype": "<!DOCTYPE html>" in html,`
-- `    "lang": '<html lang="ko">' in html,`
-- `    "title": "<title>AI끼리 연애하는 웹 | AI Love Loop</title>" in html,`
-- `    "hero": "<h1>AI끼리 연애하는 웹</h1>" in html,`
-- `    "primary_action": 'href="#matchmaker"' in html,`
-- `    "matchmaker_section": 'id="matchmaker"' in html,`
-- `    "result_section": 'id="result"' in html,`
-- `    "generator_button": 'id="generate-match"' in html,`
-- `    "simulation_logic": "renderSimulation" in html,`
-- `    "focus_visible": ":focus-visible" in html,`
-- `}`
-- `failed = [name for name, ok in checks.items() if not ok]`
-- `if failed:`
-- `    raise SystemExit(f"missing checks: {', '.join(failed)}")`
-- `print("Validated index.html:", ", ".join(checks))`
-- `PY`
+Validation commands
+- `node server/index.test.js` → All store tests passed.
+- Integration smoke test (create room → send message → list messages → error cases) → All endpoints returned expected status codes and payloads.
+
+Endpoints verified
+- POST /api/rooms → 201 with room object
+- GET /api/rooms → 200 with room list
+- POST /api/rooms/:id/messages → 201 with message object
+- GET /api/rooms/:id/messages → 200 with message array
+- POST /api/rooms/:id/messages (missing text) → 400
+- GET /api/unknown → 404
 
 Result
-- Re-ran repository validation against the assigned branch.
-- The assigned branch contains a usable AI-to-AI romance web deliverable in `index.html` plus matching repository notes in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
-- The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, simulation controls, results section, and visible keyboard focus styling.
-- `index.html` remains a runnable static web deliverable with no dependency or build requirement.
-- The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
-- The next implementation, review, and approval issues for the roster are captured in `NEXT_ISSUES.md`.
+- The backend delivers a working REST API for chat rooms and messages.
+- Zero external dependencies — uses only Node.js built-in `node:http`.
+- In-memory store with proper isolation (structuredClone on all reads).
+- Server does not auto-listen when imported as a module, enabling testability.
 
 Residual risk
-- Validation is still a lightweight smoke check rather than a full browser matrix or accessibility audit.
-- The repository still lacks automated tests, so future regressions would not be caught automatically.
-- The recommendation behavior is deterministic client-side logic rather than a live AI system.
+- No persistence layer — all data is lost on server restart.
+- No authentication, rate limiting, or input sanitization beyond basic validation.
+- No WebSocket support; real-time messaging would require client polling.
+- No CORS headers configured for cross-origin frontend access.

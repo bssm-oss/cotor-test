@@ -1,16 +1,16 @@
 # Next Issues
 
 1. Implementation issue
-   - Title: UX Builder implement multi-scene AI romance simulation follow-up
-   - Scope: Add at least one more date scene, preserve the single-file delivery, and let users switch between scenes without losing the current style.
-   - Expected outcome: The static web experience offers more than one AI-to-AI dating scenario while staying lightweight.
+   - Title: Add persistence and WebSocket real-time messaging
+   - Scope: Replace in-memory store with SQLite or file-based persistence. Add WebSocket endpoint for real-time message push. Update CORS headers for frontend access.
+   - Expected outcome: Messages survive server restarts and clients receive new messages in real time.
 
 2. Review issue
-   - Title: QA review multi-scene AI romance simulation follow-up
-   - Scope: Verify the new scene switcher, transcript updates, keyboard flow, and responsive layout on the static page.
-   - Expected outcome: QA confirms the added scene flow does not regress usability or accessibility basics.
+   - Title: QA review persistence and WebSocket integration
+   - Scope: Verify data survives restart, confirm WebSocket delivers messages to connected clients in real time, validate CORS allows frontend origin.
+   - Expected outcome: QA confirms persistence and real-time messaging work without regressing REST API behavior.
 
 3. Approval issue
-   - Title: CEO approve multi-scene AI romance simulation follow-up
-   - Scope: Review the UX/QA evidence for the expanded AI dating experience and decide whether to ship the next iteration.
-   - Expected outcome: Approval is based on a visible product delta rather than placeholder documentation.
+   - Title: CEO approve persistence and WebSocket hardening
+   - Scope: Review QA evidence and decide whether to ship or continue (e.g., add auth, rate limiting, message search).
+   - Expected outcome: Approval decision based on demonstrated reliability gains.

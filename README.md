@@ -1,20 +1,27 @@
-# AI Love Loop
+# 카톡 웹 (KakaoTalk Web)
 
-This branch ships a usable single-file web experience for the goal "AI끼리 연애하는 웹을 만들어".
+This branch ships the first implementation slice for a KakaoTalk-like web messaging app.
 
 ## Branch Outcome
 
-`index.html` is the product surface. It lets a visitor choose an AI romance tone, conversation speed, and date vibe, then generates:
+### Frontend — `index.html`
+A single-file web UI (from the previous goal) that can be opened directly in a browser.
 
-- a relationship summary
-- a visible relationship progress score
-- an AI-to-AI flirt transcript in the browser
+### Backend — `server/`
+A zero-dependency Node.js API server providing:
 
-The page remains static and dependency-free, so it can be opened directly without a build step.
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/rooms` | Create a chat room |
+| `GET` | `/api/rooms` | List all rooms |
+| `POST` | `/api/rooms/:id/messages` | Send a message |
+| `GET` | `/api/rooms/:id/messages` | Get room messages |
+
+Start with `node server/index.js` (default port 3100, configurable via `PORT`).
 
 ## Next Issues
 
-The next implementation, review, and approval issues for the current roster are listed in `NEXT_ISSUES.md`.
+See `NEXT_ISSUES.md`.
 
 ## Shipping Note
 
@@ -26,6 +33,7 @@ The next implementation, review, and approval issues for the current roster are 
 
 ## Residual Risks
 
-- The experience is still rule-based demo logic, not a live AI backend.
-- Validation is a targeted static smoke check rather than a full browser test pass.
-- Long-form accessibility and cross-browser behavior still need separate review.
+- In-memory store — data is lost on restart.
+- No authentication or authorization layer.
+- No WebSocket / real-time push; clients must poll.
+- Validation is a smoke test, not a full test matrix.
