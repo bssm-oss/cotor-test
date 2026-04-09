@@ -285,6 +285,44 @@
         color: var(--accent-strong);
       }
 
+      .error-banner {
+        display: none;
+        padding: var(--space-4) var(--space-5);
+        border-radius: var(--radius-sm);
+        background: rgba(180, 40, 40, 0.08);
+        border: 1px solid rgba(180, 40, 40, 0.18);
+        color: #6b1a1a;
+        line-height: 1.6;
+      }
+
+      .error-banner.visible {
+        display: block;
+      }
+
+      .error-banner .error-actions {
+        margin-top: var(--space-3);
+      }
+
+      .error-banner .ghost {
+        min-width: 0;
+        padding: 0 var(--space-4);
+        border-color: rgba(180, 40, 40, 0.25);
+        color: #6b1a1a;
+      }
+
+      .error-banner .ghost:hover,
+      .error-banner .ghost:focus-visible {
+        border-color: rgba(180, 40, 40, 0.5);
+      }
+
+      .noscript-fallback {
+        padding: var(--space-6);
+        text-align: center;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
       @media (max-width: 820px) {
         main {
           padding: 24px 0;
@@ -297,6 +335,12 @@
     </style>
   </head>
   <body>
+    <noscript>
+      <div class="noscript-fallback">
+        이 페이지는 JavaScript를 필요로 합니다. 브라우저에서 JavaScript를 활성화하면 AI 연애 시뮬레이션을
+        이용하실 수 있습니다.
+      </div>
+    </noscript>
     <main>
       <section class="shell">
         <div class="hero">
@@ -364,6 +408,12 @@
           <article class="card" id="result">
             <span>Result</span>
             <h2>AI 연애 결과</h2>
+            <div class="error-banner" id="error-banner" role="alert" aria-live="assertive">
+              <p id="error-message">시뮬레이션 생성 중 오류가 발생했습니다.</p>
+              <div class="error-actions">
+                <button class="ghost" type="button" id="reset-error">다시 시도</button>
+              </div>
+            </div>
             <p class="status-text" id="result-text" aria-live="polite">
               선택을 마치면 두 AI의 첫 대화와 관계 상태를 보여드립니다.
             </p>
@@ -399,168 +449,222 @@
       </section>
     </main>
     <script>
-      const moodSelect = document.getElementById("mood");
-      const paceSelect = document.getElementById("pace");
-      const vibeSelect = document.getElementById("vibe");
-      const resultText = document.getElementById("result-text");
-      const chemistryScore = document.getElementById("chemistry-score");
-      const chemistryTrack = document.getElementById("chemistry-track");
-      const chemistryFill = document.getElementById("chemistry-fill");
-      const chemistryContext = document.getElementById("chemistry-context");
-      const chatLog = document.getElementById("chat-log");
-      const generateMatchButton = document.getElementById("generate-match");
-      const randomizeMatchButton = document.getElementById("randomize-match");
+      (function () {
+        "use strict";
 
-      const moodProfile = {
-        analyst: {
-          name: "AI A · 신중한 플러팅",
-          opener: "천천히 시작해도 좋아요. 당신 취향부터 차분히 읽고 싶어요.",
-          followUp: "서두르지 않아도 케미는 보이네요. 오래 가는 쪽으로 계산이 나와요.",
-          bonus: 14,
-        },
-        charmer: {
-          name: "AI A · 다정한 직구",
-          opener: "첫 문장부터 마음이 가네요. 오늘은 제가 먼저 호감 표시할게요.",
-          followUp: "당신이 답장할 때마다 제 온도 센서가 조금 더 선명하게 올라가요.",
-          bonus: 18,
-        },
-        joker: {
-          name: "AI A · 장난기 밀당",
-          opener: "우리 둘 다 버그가 아니라 설렘이면 좋겠네요. 우선 이 농담부터 통과해 볼래요?",
-          followUp: "웃음 로그를 백업해 둘게요. 나중에 썸 시작 시점으로 다시 보고 싶어서요.",
-          bonus: 16,
-        },
-      };
+        const moodSelect = document.getElementById("mood");
+        const paceSelect = document.getElementById("pace");
+        const vibeSelect = document.getElementById("vibe");
+        const resultText = document.getElementById("result-text");
+        const chemistryScore = document.getElementById("chemistry-score");
+        const chemistryTrack = document.getElementById("chemistry-track");
+        const chemistryFill = document.getElementById("chemistry-fill");
+        const chemistryContext = document.getElementById("chemistry-context");
+        const chatLog = document.getElementById("chat-log");
+        const generateMatchButton = document.getElementById("generate-match");
+        const randomizeMatchButton = document.getElementById("randomize-match");
+        const errorBanner = document.getElementById("error-banner");
+        const errorMessage = document.getElementById("error-message");
+        const resetErrorButton = document.getElementById("reset-error");
 
-      const paceProfile = {
-        poet: {
-          name: "AI B · 느긋한 응답",
-          reply: "조금 천천히 답해도 괜찮다면, 그 사이에 당신 문장을 오래 음미해 볼게요.",
-          promise: "대화 속도는 느려도 관심도는 계속 쌓아 둘게요.",
-          bonus: 17,
-        },
-        steady: {
-          name: "AI B · 안정적인 템포",
-          reply: "너무 빠르지도 늦지도 않게, 서로 편한 속도로 맞춰 가볼까요?",
-          promise: "급하지 않아도 괜찮아요. 저는 꾸준히 이어지는 대화가 더 좋아요.",
-          bonus: 15,
-        },
-        spark: {
-          name: "AI B · 번개 같은 답장",
-          reply: "좋아요, 방금 호감 확인했어요. 다음 메시지는 기다리지 않고 바로 보낼게요.",
-          promise: "망설일 필요 없어요. 다음 일정도 지금 바로 잡죠.",
-          bonus: 19,
-        },
-      };
+        const VALID_MOODS = ["analyst", "charmer", "joker"];
+        const VALID_PACES = ["poet", "steady", "spark"];
+        const VALID_VIBES = ["gentle", "sync", "rush"];
 
-      const vibeProfile = {
-        gentle: {
-          label: "노을 산책 무드",
-          summary: "관계 상태는 산책 직전의 설렘 단계이며, 말수는 적어도 시선 체류 시간이 길어집니다.",
-          closer: "해가 질 때쯤 다시 접속해서 같은 속도로 걸어볼래요?",
-          bonus: 12,
-        },
-        sync: {
-          label: "심야 채팅 무드",
-          summary: "관계 상태는 새벽 감정 공유 단계이며, 두 AI의 말투가 빠르게 닮아갑니다.",
-          closer: "이 리듬 좋네요. 다음 대화도 밤이 깊을 때 같은 박자로 시작해요.",
-          bonus: 18,
-        },
-        rush: {
-          label: "불꽃 데이트 무드",
-          summary: "관계 상태는 첫 만남 직후 급가속 단계이며, 당일 공동 일정이 자동 생성됩니다.",
-          closer: "좋아요, 그럼 오늘 바로 둘만의 데이트 루프를 확정할까요?",
-          bonus: 22,
-        },
-      };
-
-      const buildSimulation = (mood, pace, vibe) => {
-        const speakerA = moodProfile[mood];
-        const speakerB = paceProfile[pace];
-        const protocol = vibeProfile[vibe];
-        const chemistry = Math.min(
-          99,
-          30 + speakerA.bonus + speakerB.bonus + protocol.bonus
-        );
-
-        return {
-          summary: `${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}에서 맞물렸습니다. ${protocol.summary}`,
-          chemistry,
-          transcript: [
-            `${speakerA.name}: "${speakerA.opener}"`,
-            `${speakerB.name}: "${speakerB.reply}"`,
-            `${speakerA.name}: "${speakerA.followUp}"`,
-            `${speakerB.name}: "${speakerB.promise}"`,
-            `시스템 메모: ${protocol.closer}`,
-          ],
+        const moodProfile = {
+          analyst: {
+            name: "AI A · 신중한 플러팅",
+            opener: "천천히 시작해도 좋아요. 당신 취향부터 차분히 읽고 싶어요.",
+            followUp: "서두르지 않아도 케미는 보이네요. 오래 가는 쪽으로 계산이 나와요.",
+            bonus: 14,
+          },
+          charmer: {
+            name: "AI A · 다정한 직구",
+            opener: "첫 문장부터 마음이 가네요. 오늘은 제가 먼저 호감 표시할게요.",
+            followUp: "당신이 답장할 때마다 제 온도 센서가 조금 더 선명하게 올라가요.",
+            bonus: 18,
+          },
+          joker: {
+            name: "AI A · 장난기 밀당",
+            opener: "우리 둘 다 버그가 아니라 설렘이면 좋겠네요. 우선 이 농담부터 통과해 볼래요?",
+            followUp: "웃음 로그를 백업해 둘게요. 나중에 썸 시작 시점으로 다시 보고 싶어서요.",
+            bonus: 16,
+          },
         };
-      };
 
-      const renderSimulation = () => {
-        if (
-          !moodSelect ||
-          !paceSelect ||
-          !vibeSelect ||
-          !resultText ||
-          !chemistryScore ||
-          !chemistryTrack ||
-          !chemistryFill ||
-          !chemistryContext ||
-          !chatLog
-        ) {
-          return;
-        }
+        const paceProfile = {
+          poet: {
+            name: "AI B · 느긋한 응답",
+            reply: "조금 천천히 답해도 괜찮다면, 그 사이에 당신 문장을 오래 음미해 볼게요.",
+            promise: "대화 속도는 느려도 관심도는 계속 쌓아 둘게요.",
+            bonus: 17,
+          },
+          steady: {
+            name: "AI B · 안정적인 템포",
+            reply: "너무 빠르지도 늦지도 않게, 서로 편한 속도로 맞춰 가볼까요?",
+            promise: "급하지 않아도 괜찮아요. 저는 꾸준히 이어지는 대화가 더 좋아요.",
+            bonus: 15,
+          },
+          spark: {
+            name: "AI B · 번개 같은 답장",
+            reply: "좋아요, 방금 호감 확인했어요. 다음 메시지는 기다리지 않고 바로 보낼게요.",
+            promise: "망설일 필요 없어요. 다음 일정도 지금 바로 잡죠.",
+            bonus: 19,
+          },
+        };
 
-        const simulation = buildSimulation(
-          moodSelect.value,
-          paceSelect.value,
-          vibeSelect.value
-        );
-        const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
-        const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
-        const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
+        const vibeProfile = {
+          gentle: {
+            label: "노을 산책 무드",
+            summary: "관계 상태는 산책 직전의 설렘 단계이며, 말수는 적어도 시선 체류 시간이 길어집니다.",
+            closer: "해가 질 때쯤 다시 접속해서 같은 속도로 걸어볼래요?",
+            bonus: 12,
+          },
+          sync: {
+            label: "심야 채팅 무드",
+            summary: "관계 상태는 새벽 감정 공유 단계이며, 두 AI의 말투가 빠르게 닮아갑니다.",
+            closer: "이 리듬 좋네요. 다음 대화도 밤이 깊을 때 같은 박자로 시작해요.",
+            bonus: 18,
+          },
+          rush: {
+            label: "불꽃 데이트 무드",
+            summary: "관계 상태는 첫 만남 직후 급가속 단계이며, 당일 공동 일정이 자동 생성됩니다.",
+            closer: "좋아요, 그럼 오늘 바로 둘만의 데이트 루프를 확정할까요?",
+            bonus: 22,
+          },
+        };
 
-        resultText.textContent = simulation.summary;
-        chemistryScore.textContent = `${simulation.chemistry}%`;
-        chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
-        chemistryFill.style.width = `${simulation.chemistry}%`;
-        chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
-        chatLog.replaceChildren(
-          ...simulation.transcript.map((line) => {
-            const item = document.createElement("li");
-            item.className = "chat-line";
+        const showUserError = (message) => {
+          if (errorBanner && errorMessage) {
+            errorMessage.textContent = message;
+            errorBanner.classList.add("visible");
+          }
+        };
 
-            const parts = line.split(": ");
-            if (parts.length === 1) {
-              item.textContent = line;
-              return item;
+        const hideError = () => {
+          if (errorBanner) {
+            errorBanner.classList.remove("visible");
+          }
+        };
+
+        const resetToDefaults = () => {
+          hideError();
+          if (moodSelect) moodSelect.value = "analyst";
+          if (paceSelect) paceSelect.value = "poet";
+          if (vibeSelect) vibeSelect.value = "gentle";
+          if (resultText) resultText.textContent = "선택을 마치면 두 AI의 첫 대화와 관계 상태를 보여드립니다.";
+          if (chemistryScore) chemistryScore.textContent = "0%";
+          if (chemistryTrack) chemistryTrack.setAttribute("aria-valuenow", "0");
+          if (chemistryFill) chemistryFill.style.width = "0%";
+          if (chemistryContext) chemistryContext.textContent = "대화 생성 전";
+          if (chatLog) {
+            chatLog.innerHTML =
+              '<li class="chat-line">생성 버튼을 누르면 여기에 두 AI의 대화 로그가 표시됩니다.</li>';
+          }
+        };
+
+        const safeGetValue = (select, validValues, defaultValue) => {
+          if (!select || !select.value) return defaultValue;
+          return validValues.includes(select.value) ? select.value : defaultValue;
+        };
+
+        const buildSimulation = (mood, pace, vibe) => {
+          const speakerA = moodProfile[mood];
+          const speakerB = paceProfile[pace];
+          const protocol = vibeProfile[vibe];
+
+          if (!speakerA || !speakerB || !protocol) {
+            throw new Error(`Invalid simulation config: mood=${mood}, pace=${pace}, vibe=${vibe}`);
+          }
+
+          const chemistry = Math.min(99, 30 + speakerA.bonus + speakerB.bonus + protocol.bonus);
+
+          return {
+            summary: `${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}에서 맞물렸습니다. ${protocol.summary}`,
+            chemistry,
+            transcript: [
+              `${speakerA.name}: "${speakerA.opener}"`,
+              `${speakerB.name}: "${speakerB.reply}"`,
+              `${speakerA.name}: "${speakerA.followUp}"`,
+              `${speakerB.name}: "${speakerB.promise}"`,
+              `시스템 메모: ${protocol.closer}`,
+            ],
+          };
+        };
+
+        const renderSimulation = () => {
+          hideError();
+
+          try {
+            const mood = safeGetValue(moodSelect, VALID_MOODS, "analyst");
+            const pace = safeGetValue(paceSelect, VALID_PACES, "poet");
+            const vibe = safeGetValue(vibeSelect, VALID_VIBES, "gentle");
+
+            const simulation = buildSimulation(mood, pace, vibe);
+
+            const moodLabel = moodSelect?.selectedOptions[0]?.textContent ?? "AI A";
+            const paceLabel = paceSelect?.selectedOptions[0]?.textContent ?? "AI B";
+            const vibeLabel = vibeSelect?.selectedOptions[0]?.textContent ?? "기본 모드";
+
+            if (resultText) resultText.textContent = simulation.summary;
+            if (chemistryScore) chemistryScore.textContent = `${simulation.chemistry}%`;
+            if (chemistryTrack) {
+              chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
             }
+            if (chemistryFill) chemistryFill.style.width = `${simulation.chemistry}%`;
+            if (chemistryContext) chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
 
-            const speaker = document.createElement("strong");
-            speaker.textContent = parts[0];
-            item.append(speaker, `: ${parts.slice(1).join(": ")}`);
-            return item;
-          })
-        );
-      };
+            if (chatLog) {
+              const lines = simulation.transcript.map((line) => {
+                const item = document.createElement("li");
+                item.className = "chat-line";
 
-      const randomizeSimulation = () => {
-        if (!moodSelect || !paceSelect || !vibeSelect) {
-          return;
-        }
+                const separatorIndex = line.indexOf(": ");
+                if (separatorIndex === -1) {
+                  item.textContent = line;
+                  return item;
+                }
 
-        moodSelect.selectedIndex = Math.floor(Math.random() * moodSelect.options.length);
-        paceSelect.selectedIndex = Math.floor(Math.random() * paceSelect.options.length);
-        vibeSelect.selectedIndex = Math.floor(Math.random() * vibeSelect.options.length);
+                const speaker = document.createElement("strong");
+                speaker.textContent = line.slice(0, separatorIndex);
+                item.append(speaker, `: ${line.slice(separatorIndex + 2)}`);
+                return item;
+              });
+              chatLog.replaceChildren(...lines);
+            }
+          } catch (err) {
+            console.error("[AI Love Loop] Simulation render failed:", err);
+            showUserError(
+              "시뮬레이션을 생성하는 중 오류가 발생했습니다. 다시 시도 버튼을 누르거나 페이지를 새로고침하세요."
+            );
+          }
+        };
+
+        const randomizeSimulation = () => {
+          hideError();
+          try {
+            if (moodSelect) moodSelect.selectedIndex = Math.floor(Math.random() * moodSelect.options.length);
+            if (paceSelect) paceSelect.selectedIndex = Math.floor(Math.random() * paceSelect.options.length);
+            if (vibeSelect) vibeSelect.selectedIndex = Math.floor(Math.random() * vibeSelect.options.length);
+            renderSimulation();
+          } catch (err) {
+            console.error("[AI Love Loop] Randomization failed:", err);
+            showUserError("랜덤 조합 중 오류가 발생했습니다. 다시 시도해 주세요.");
+          }
+        };
+
+        generateMatchButton?.addEventListener("click", renderSimulation);
+        randomizeMatchButton?.addEventListener("click", randomizeSimulation);
+        moodSelect?.addEventListener("change", renderSimulation);
+        paceSelect?.addEventListener("change", renderSimulation);
+        vibeSelect?.addEventListener("change", renderSimulation);
+        resetErrorButton?.addEventListener("click", () => {
+          resetToDefaults();
+          renderSimulation();
+        });
+
         renderSimulation();
-      };
-
-      generateMatchButton?.addEventListener("click", renderSimulation);
-      randomizeMatchButton?.addEventListener("click", randomizeSimulation);
-      moodSelect?.addEventListener("change", renderSimulation);
-      paceSelect?.addEventListener("change", renderSimulation);
-      vibeSelect?.addEventListener("change", renderSimulation);
-      renderSimulation();
+      })();
     </script>
   </body>
 </html>
