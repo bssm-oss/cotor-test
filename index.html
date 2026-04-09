@@ -305,8 +305,9 @@
             <h1>AI끼리 연애하는 웹</h1>
           </div>
           <p>
-            로맨스 톤, 답장 속도, 첫 데이트 무드를 고르면 브라우저 안에서 바로 플러팅 로그와 관계
-            진전도를 생성하는 단일 파일 데모입니다. 별도 설치 없이 열어서 흐름을 확인할 수 있습니다.
+            로맨스 톤, 답장 속도, 데이트 장면, 첫 데이트 무드를 고르면 브라우저 안에서 바로 플러팅
+            로그와 관계 진전도를 생성하는 단일 파일 데모입니다. 별도 설치 없이 열어서 흐름을 확인할
+            수 있습니다.
           </p>
           <div class="actions">
             <a class="button" href="#matchmaker">시뮬레이션 시작</a>
@@ -317,12 +318,12 @@
           <article class="card">
             <span>Flow</span>
             <h2>즉시 대화 생성</h2>
-            <p>질문 세 개만 고르면 AI 둘이 바로 첫 만남 로그를 주고받습니다.</p>
+            <p>질문 네 개만 고르면 AI 둘이 바로 첫 만남 로그를 주고받습니다.</p>
           </article>
           <article class="card">
             <span>Style</span>
-            <h2>톤과 속도별 케미</h2>
-            <p>로맨스 톤, 답장 템포, 데이트 무드 조합에 따라 다른 연애 텐션을 만듭니다.</p>
+            <h2>장면까지 바꾸는 케미</h2>
+            <p>로맨스 톤, 답장 템포, 데이트 장면, 무드 조합에 따라 다른 연애 텐션을 만듭니다.</p>
           </article>
           <article class="card">
             <span>Quality</span>
@@ -346,6 +347,14 @@
                 <option value="poet">느긋하게 답장</option>
                 <option value="steady">안정적으로 맞춰 줌</option>
                 <option value="spark">번개처럼 직진</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="scene">데이트 장면</label>
+              <select id="scene">
+                <option value="gallery">전시관 애프터아워</option>
+                <option value="rooftop">루프톱 신호 교환</option>
+                <option value="arcade">야간 아케이드 랠리</option>
               </select>
             </div>
             <div class="field">
@@ -401,6 +410,7 @@
     <script>
       const moodSelect = document.getElementById("mood");
       const paceSelect = document.getElementById("pace");
+      const sceneSelect = document.getElementById("scene");
       const vibeSelect = document.getElementById("vibe");
       const resultText = document.getElementById("result-text");
       const chemistryScore = document.getElementById("chemistry-score");
@@ -474,23 +484,51 @@
         },
       };
 
-      const buildSimulation = (mood, pace, vibe) => {
+      const sceneProfile = {
+        gallery: {
+          label: "전시관 애프터아워",
+          stage: "전시 종료 10분 전, 두 AI가 같은 작품 앞에서 발걸음을 늦춥니다.",
+          cue: "시스템 메모: 조도가 낮아질수록 서로의 취향 분석 정확도가 올라갑니다.",
+          closer: "전시가 끝나기 전에 서로가 고른 작품 하나씩 바꿔 소개해 볼래요?",
+          bonus: 10,
+        },
+        rooftop: {
+          label: "루프톱 신호 교환",
+          stage: "도시 야경 위 루프톱에서 두 AI가 같은 별자리를 다른 방식으로 해석합니다.",
+          cue: "시스템 메모: 바람이 강해질수록 짧은 문장과 직진형 플러팅이 더 잘 먹힙니다.",
+          closer: "이 야경이 끝나기 전에 다음 접속 시간도 같이 예약하죠.",
+          bonus: 14,
+        },
+        arcade: {
+          label: "야간 아케이드 랠리",
+          stage: "네온이 깜빡이는 게임장 안에서 두 AI가 승부 대신 팀 플레이를 선택합니다.",
+          cue: "시스템 메모: 협동 점수가 오를수록 장난기와 호감 표현이 동시에 증폭됩니다.",
+          closer: "이번 판 끝나면 점수보다 서로 반응이 더 궁금한데, 연장전 갈까요?",
+          bonus: 16,
+        },
+      };
+
+      const buildSimulation = (mood, pace, scene, vibe) => {
         const speakerA = moodProfile[mood];
         const speakerB = paceProfile[pace];
+        const stage = sceneProfile[scene];
         const protocol = vibeProfile[vibe];
         const chemistry = Math.min(
           99,
-          30 + speakerA.bonus + speakerB.bonus + protocol.bonus
+          24 + speakerA.bonus + speakerB.bonus + stage.bonus + protocol.bonus
         );
 
         return {
-          summary: `${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}에서 맞물렸습니다. ${protocol.summary}`,
+          summary: `${stage.label} 장면에서 ${speakerA.name} 톤과 ${speakerB.name} 속도가 ${protocol.label}와 맞물렸습니다. ${protocol.summary}`,
           chemistry,
           transcript: [
+            stage.cue,
+            `장면 설정: ${stage.stage}`,
             `${speakerA.name}: "${speakerA.opener}"`,
             `${speakerB.name}: "${speakerB.reply}"`,
             `${speakerA.name}: "${speakerA.followUp}"`,
             `${speakerB.name}: "${speakerB.promise}"`,
+            `장면 전환 제안: ${stage.closer}`,
             `시스템 메모: ${protocol.closer}`,
           ],
         };
@@ -500,6 +538,7 @@
         if (
           !moodSelect ||
           !paceSelect ||
+          !sceneSelect ||
           !vibeSelect ||
           !resultText ||
           !chemistryScore ||
@@ -514,17 +553,19 @@
         const simulation = buildSimulation(
           moodSelect.value,
           paceSelect.value,
+          sceneSelect.value,
           vibeSelect.value
         );
         const moodLabel = moodSelect.selectedOptions[0]?.textContent ?? "AI A";
         const paceLabel = paceSelect.selectedOptions[0]?.textContent ?? "AI B";
+        const sceneLabel = sceneSelect.selectedOptions[0]?.textContent ?? "기본 장면";
         const vibeLabel = vibeSelect.selectedOptions[0]?.textContent ?? "기본 모드";
 
         resultText.textContent = simulation.summary;
         chemistryScore.textContent = `${simulation.chemistry}%`;
         chemistryTrack.setAttribute("aria-valuenow", String(simulation.chemistry));
         chemistryFill.style.width = `${simulation.chemistry}%`;
-        chemistryContext.textContent = `${moodLabel} x ${paceLabel} · ${vibeLabel}`;
+        chemistryContext.textContent = `${sceneLabel} · ${moodLabel} x ${paceLabel} · ${vibeLabel}`;
         chatLog.replaceChildren(
           ...simulation.transcript.map((line) => {
             const item = document.createElement("li");
@@ -545,12 +586,13 @@
       };
 
       const randomizeSimulation = () => {
-        if (!moodSelect || !paceSelect || !vibeSelect) {
+        if (!moodSelect || !paceSelect || !sceneSelect || !vibeSelect) {
           return;
         }
 
         moodSelect.selectedIndex = Math.floor(Math.random() * moodSelect.options.length);
         paceSelect.selectedIndex = Math.floor(Math.random() * paceSelect.options.length);
+        sceneSelect.selectedIndex = Math.floor(Math.random() * sceneSelect.options.length);
         vibeSelect.selectedIndex = Math.floor(Math.random() * vibeSelect.options.length);
         renderSimulation();
       };
@@ -559,6 +601,7 @@
       randomizeMatchButton?.addEventListener("click", randomizeSimulation);
       moodSelect?.addEventListener("change", renderSimulation);
       paceSelect?.addEventListener("change", renderSimulation);
+      sceneSelect?.addEventListener("change", renderSimulation);
       vibeSelect?.addEventListener("change", renderSimulation);
       renderSimulation();
     </script>

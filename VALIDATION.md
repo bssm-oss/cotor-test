@@ -1,4 +1,4 @@
-Validation rerun: 2026-03-29
+Validation rerun: 2026-03-30
 
 Scope
 - Branch outcome for the goal "AI끼리 연애하는 웹을 만들어"
@@ -16,6 +16,8 @@ Validation command
 - `    "matchmaker_section": 'id="matchmaker"' in html,`
 - `    "result_section": 'id="result"' in html,`
 - `    "generator_button": 'id="generate-match"' in html,`
+- `    "scene_selector": 'id="scene"' in html,`
+- `    "scene_profile_logic": "const sceneProfile" in html,`
 - `    "simulation_logic": "renderSimulation" in html,`
 - `    "focus_visible": ":focus-visible" in html,`
 - `}`
@@ -28,9 +30,9 @@ Validation command
 Result
 - Re-ran repository validation against the assigned branch.
 - The assigned branch contains a usable AI-to-AI romance web deliverable in `index.html` plus matching repository notes in `README.md`, `VALIDATION.md`, and `NEXT_ISSUES.md`.
-- The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, simulation controls, results section, and visible keyboard focus styling.
+- The validation command confirms the static deliverable includes the expected document shell, localized AI-to-AI dating page content, the new scene selector, scene-aware simulation logic, results section, and visible keyboard focus styling.
 - `index.html` remains a runnable static web deliverable with no dependency or build requirement.
-- The branch outcome now satisfies the original goal at the smallest complete scope: a usable single-page AI romance demo exists and can generate an in-browser conversation simulation without external services.
+- The branch outcome now extends the original goal with a second improvement cycle at the smallest complete scope: the single-page AI romance demo can switch date scenes without dropping the selected style controls.
 - The next implementation, review, and approval issues for the roster are captured in `NEXT_ISSUES.md`.
 
 Residual risk
